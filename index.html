@@ -419,7 +419,7 @@
   </div>
 </div>
 
-<script>
+<script charset="UTF-8">
 // ════════════════════════════════════════════════════════════════════
 // 海关编码数据库：产品名 → 中国HS编码 + 美国HTS编码
 // US HTS: 10位码（进口美国用）| HS: 6位国际通用
@@ -945,9 +945,9 @@ const productMap = [
   // 护肤品/化妆品
   {patterns:['cosmetic','skincare','化妆','护肤','facial mask','面膜','cream','lotion','serum'], certIds:['fda-cosmetic','label-cosmetic'], hs:'3304'},
   // 儿童产品
-  {patterns:['baby product','婴儿','宝宝','奶瓶','婴儿水杯','baby bottle','pacifier'], certIds:['cpc','tracking-label','fda-food','prop65'], hs:'6111'},
-  {patterns:['toy','玩具','儿童玩具','积木','娃娃','毛绒玩具','hobby model'], certIds:['cpc','astm-f963','tracking-label'], hs:'9503'},
-  {patterns:['children clothing','童装','儿童服装','kids clothing'], certIds:['cpc','flammable-textile','tracking-label','ftc-textile'], hs:'6111'},
+  {patterns:['baby product','婴儿','宝宝','奶瓶','婴儿水杯','baby bottle','pacifier'], certIds:['cpc-cert','tracking-label','fda-food','prop65'], hs:'6111'},
+  {patterns:['toy','玩具','儿童玩具','积木','娃娃','毛绒玩具','hobby model'], certIds:['cpc-cert','astm-f963','tracking-label'], hs:'9503'},
+  {patterns:['children clothing','童装','儿童服装','kids clothing'], certIds:['cpc-cert','flammable-textile','tracking-label','ftc-textile'], hs:'6111'},
   // 食品接触
   {patterns:['cutting board','砧板','切菜板'], certIds:['fda-food','prop65'], hs:'4419'},
   {patterns:['silicone spatula','硅胶铲','硅胶刮刀'], certIds:['fda-food','prop65'], hs:'3924'},
@@ -980,10 +980,10 @@ const productMap = [
   {patterns:['tire','轮胎'], certIds:['dot'], hs:'4011'},
   {patterns:['car charger','车充','车载充电器'], certIds:['fcc','ul'], hs:'8504'},
   // 儿童大件
-  {patterns:['baby carrier','婴儿背带','婴儿腰凳'], certIds:['cpc','tracking-label'], hs:'6111'},
-  {patterns:['stroller','婴儿车','推车','婴儿推车'], certIds:['cpc','tracking-label'], hs:'8712'},
-  {patterns:['crib','婴儿床','bassinet','摇篮'], certIds:['cpc','tracking-label'], hs:'9403'},
-  {patterns:['children helmet','儿童头盔'], certIds:['gcc-cert','cpc','tracking-label'], hs:'6506'},
+  {patterns:['baby carrier','婴儿背带','婴儿腰凳'], certIds:['cpc-cert','tracking-label'], hs:'6111'},
+  {patterns:['stroller','婴儿车','推车','婴儿推车'], certIds:['cpc-cert','tracking-label'], hs:'8712'},
+  {patterns:['crib','婴儿床','bassinet','摇篮'], certIds:['cpc-cert','tracking-label'], hs:'9403'},
+  {patterns:['children helmet','儿童头盔'], certIds:['gcc-cert','cpc-cert','tracking-label'], hs:'6506'},
   // 电子/数码
   {patterns:['smart watch','智能手表','smart band','手环'], certIds:['fcc','ul'], hs:'9102'},
   {patterns:['drone','无人机'], certIds:['fcc','ul'], hs:'8802'},
