@@ -382,8 +382,56 @@
       margin-top: 10px;
       border-left: 3px solid #fbc02d;
     }
+
+    /* HS Code Suggestion Banner */
+    .hs-suggest-banner {
+      background: linear-gradient(135deg, #e8f5e9 0%, #e0f2f1 100%);
+      border: 2px solid #00897b; border-radius: 14px;
+      padding: 16px 20px; margin-bottom: 16px;
+    }
+    .hs-suggest-title { font-size: 1rem; font-weight: 700; color: #00695c; margin-bottom: 4px; }
+    .hs-suggest-desc { font-size: 0.78rem; color: #888; margin-bottom: 10px; }
+    .hs-suggest-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .hs-suggest-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 14px; background: #00695c; color: white;
+      border-radius: 20px; font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+      font-family: Consolas, monospace; letter-spacing: 0.5px;
+    }
+    .hs-suggest-chip:hover { background: #004d40; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+    .hs-suggest-chip small {
+      font-weight: 400; font-size: 0.72rem; opacity: 0.85;
+      font-family: -apple-system, sans-serif; max-width: 80px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;
+    }
+
     @media (max-width: 600px) {
       .hs-code-card-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+
+
+    /* HS Code Suggestion Banner */
+    .hs-suggest-banner {
+      background: linear-gradient(135deg, #e8f5e9 0%, #e0f2f1 100%);
+      border: 2px solid #00897b; border-radius: 14px;
+      padding: 16px 20px; margin-bottom: 16px;
+    }
+    .hs-suggest-title { font-size: 1rem; font-weight: 700; color: #00695c; margin-bottom: 4px; }
+    .hs-suggest-desc { font-size: 0.78rem; color: #888; margin-bottom: 10px; }
+    .hs-suggest-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .hs-suggest-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 14px; background: #00695c; color: white;
+      border-radius: 20px; font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+      font-family: Consolas, monospace; letter-spacing: 0.5px;
+    }
+    .hs-suggest-chip:hover { background: #004d40; transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+    .hs-suggest-chip small {
+      font-weight: 400; font-size: 0.72rem; opacity: 0.85;
+      font-family: -apple-system, sans-serif; max-width: 80px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block;
     }
 
     @media (max-width: 600px) {
@@ -1462,6 +1510,117 @@
       if (certs.length === 0) {
         container.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><h3>未找到匹配结果</h3><p>试试其他关键词，如：蓝牙耳机、儿童玩具、LED灯</p></div>';
         return;
+      // Auto-detect relevant HS codes from matched certs and keywords
+      const hsCandidates = new Set();
+      const certToHs = {
+        'fcc':['8517','8471'],'ul':['8504'],'fcc-light':['9405'],'ul-lighting':['9405'],
+        'energy-star':['9405','8418'],'doe':['8504','8418'],
+        'cpc':['9503'],'astm-f963':['9503'],'tracking-label':['9503'],
+        'fda-cosmetic':['3304'],'label-cosmetic':['3304'],
+        'fda-food':['3924','7013','6911'],'prop65':['3924'],
+        'fda-medical':['9018'],'ul-medical':['9018'],
+        'ftc-textile':['61','62','63'],'flammable-textile':['61'],
+        'cpsc-general':['9503','9403','9401'],'package-label':['4819'],
+        'astm-general':['9403','9401'],'dot':['4011'],'carb':['8408'],
+        'iso13485':['9018'],'epa-pesticide':['3808'],
+      };
+      for (const cert of certs) {
+        (certToHs[cert.id] || []).forEach(h => hsCandidates.add(h));
+      }
+      // Product keyword to HS mapping
+      const q = query.toLowerCase();
+      const kwMap = [
+        ['toys','9503'],['toy','9503'],['doll','9503'],['rc car','9503'],
+        ['电子产品','8471'],['电脑','8471'],['laptop','8471'],
+        ['手机','8517'],['手机壳','8517'],
+        ['bluetooth','8517'],['earbud','8517'],
+        ['led','9405'],['lamp','9405'],['light','9405'],['灯','9405'],
+        ['台灯','9405'],['desk lamp','9405'],
+        ['lighting','9405'],
+        ['charger','8504'],['充电','8504'],['adapter','8504'],
+        ['power bank','8507'],['充电宝','8507'],['battery pack','8507'],
+        ['refrigerator','8418'],['冰箱','8418'],['freezer','8418'],
+        ['ac','8415'],['air conditioner','8415'],['空调','8415'],
+        ['washing','8450'],['washer','8450'],['洗衣机','8450'],
+        ['food contact','3924'],['食品接触','3924'],['炊具','3924'],
+        ['cosmetic','3304'],['skincare','3304'],['护肤品','3304'],
+        ['化妆','3304'],['面膜','3304'],['facial mask','3304'],
+        ['medical','9018'],['医疗器械','9018'],['医疗','9018'],
+        ['massage','9019'],['按摩','9019'],['热敷','9019'],
+        ['sunglasses','9004'],['眼镜','9004'],
+        ['clothing','61'],['衣服','61'],['服装','61'],['textile','61'],
+        ['shoes','64'],['footwear','64'],['鞋子','64'],
+        ['bicycle','8712'],['bike','8712'],['自行车','8712'],
+        ['tire','4011'],['轮胎','4011'],['wheel','4011'],
+        ['pesticide','3808'],['驱蚊','3808'],['驱虫','3808'],
+        ['baby','8715'],['婴儿','8715'],['stroller','8715'],
+        ['furniture','9403'],['家具','9403'],['shelf','9403'],
+        ['chair','9401'],['椅子','9401'],['办公椅','9401'],
+        ['bedding','9404'],['床上用品','9404'],['mattress','9404'],
+        ['speaker','8518'],['音箱','8518'],['audio','8518'],
+        ['purifier','8421'],['净水','8421'],['空气净化','8421'],
+        ['battery','8507'],['电池','8507'],['锂电池','8507'],
+        ['electric blanket','6301'],['电热毯','6301'],
+        ['backpack','4202'],['bag','4202'],['背包','4202'],['行李箱','4202'],
+        ['yoga','9506'],['瑜伽','9506'],['resistance band','9506'],
+        ['curtain','6303'],['窗帘','6303'],['bath curtain','6303'],
+        ['rug','5701'],['carpet','5701'],['地毯','5701'],
+        ['jewelry','7113'],['珠宝','7113'],['首饰','7113'],
+        ['watch','9102'],['手表','9102'],['clock','9105'],
+        ['humidifier','8509'],['加湿器','8509'],['diffuser','8509'],
+        ['kitchen','8516'],['kettle','8516'],['咖啡机','8516'],
+        ['blender','8509'],['搅拌机','8509'],['榨汁','8509'],
+        ['air fryer','8516'],['空气炸锅','8516'],
+        ['pressure cooker','8516'],['高压锅','8516'],
+        ['rice cooker','8516'],['电饭煲','8516'],
+        ['hair dryer','8516'],['吹风机','8516'],
+        ['straightener','8516'],['直发器','8516'],['卷发棒','8516'],
+        ['shaver','8510'],['剃须','8510'],['epilator','8510'],
+        ['blood pressure','9018'],['血压计','9018'],
+        ['glucose','9018'],['血糖仪','9018'],
+        ['thermometer','9025'],['体温计','9025'],
+        ['bandage','3005'],['创可贴','3005'],
+        ['first aid','3005'],['急救','3005'],
+        ['flashlight','8513'],['手电','8513'],['torch','8513'],
+        ['desk chair','9401'],['gaming chair','9401'],
+        ['picture frame','9704'],['相框','9704'],
+        ['pillow','9404'],['枕头','9404'],
+        ['towel','6302'],['浴巾','6302'],['毛巾','6302'],
+        ['tissue','4803'],['纸巾','4803'],['wet wipe','4803'],
+        ['toothbrush','9603'],['牙刷','9603'],
+        ['comb','9603'],['梳子','9603'],['hairbrush','9603'],
+        ['detergent','3402'],['洗衣液','3402'],['洗洁精','3402'],
+        ['sunscreen','3304'],['防晒','3304'],['防晒霜','3304'],
+        ['lotion','3304'],['身体乳','3304'],['沐浴露','3304'],
+        ['lip balm','3304'],['润唇膏','3304'],
+        ['shaving cream','3304'],['剃须膏','3304'],
+        ['insect repellent','3808'],['insecticide','3808'],
+        ['pet','4202'],['宠物','4202'],
+        ['n95','9020'],['口罩','9020'],['face mask','9020'],
+        ['heel','6402'],['shoe','6402'],['鞋','6402'],
+        ['helmet','6506'],['头盔','6506'],['bicycle helmet','6506'],
+        ['fishing','9507'],['钓鱼','9507'],['fish','9507'],
+        ['camping','9506'],['帐篷','9506'],['露营','9506'],
+        ['hiking','4202'],['登山','4202'],['outdoor','9506'],
+        ['treadmill','9506'],['跑步机','9506'],
+        ['fitness','9506'],['健身','9506'],['sports','9506'],
+        ['sunglasses','9004'],['太阳镜','9004'],
+        ['smart watch','9102'],['智能手表','9102'],
+        ['smart band','9102'],['band','9102'],['手环','9102'],
+        ['drone','8802'],['无人机','8802'],
+        ['glucose','9018'],['血糖','9018'],
+        ['neck massager','9019'],['颈部按摩','9019'],
+        ['foot massager','9019'],['足部按摩','9019'],['足浴盆','9019'],
+        ['tens','9018'],['经皮','9018'],
+        ['epilator','8510'],['脱毛','8510'],['ipl','8510'],
+      ];
+      for (const [kw, hs] of kwMap) {
+        if (q.includes(kw) || kw.includes(q) || (q.length > 3 && kw.includes(q))) {
+          hsCandidates.add(hs);
+        }
+      }
+      const suggestedHs = [...hsCandidates].slice(0, 8);
+
       }
 
       // 构建分类标签
@@ -1490,7 +1649,18 @@
       }
       gridHtml += '</div>';
 
-      container.innerHTML = catHtml + noteHtml + gridHtml;
+
+      // HS code suggestion banner
+      let hsBannerHtml = '';
+      if (suggestedHs.length > 0) {
+        const chipHtml = suggestedHs.map(code => {
+          const entry = hsDBMap[code];
+          const name = entry ? entry.name : '';
+          return '<span class="hs-suggest-chip" onclick="document.getElementById(\'hsInput\').value=\'' + code + '\';document.getElementById(\'hsInput\').scrollIntoView({behavior:\'smooth\',block:\'center\'});searchHs();">' + code + '<small>' + name + '</small></span>';
+        }).join('');
+        hsBannerHtml = '<div class="hs-suggest-banner"><div class="hs-suggest-title">&#30456;&#20851;&#28023;&#20851;&#32534;&#30721;&#65288;HS Code&#65289;</div><div class="hs-suggest-desc">&#28857;&#20987;&#32534;&#21495;&#21487;&#30452;&#25509;&#26597;&#35810;&#32654;&#22269;&#36827;&#21475;&#35748;&#35777;&#35201;&#27714;</div><div class="hs-suggest-chips">' + chipHtml + '</div></div>';
+      }
+      container.innerHTML = hsBannerHtml + catHtml + noteHtml + gridHtml;
     }
 
     function showDetail(certId) {
@@ -1693,7 +1863,11 @@
       { hs: '2106', name: '膳食补充剂', usChapter: '21', certIds: ['fda-dietary','fda-facility'], products: '维生素、矿物质、蛋白粉、益生菌、代餐', note: '膳食补充剂需FDA设施注册；DSHEA合规' },
       { hs: '2202', name: '饮料/瓶装水', usChapter: '22', certIds: ['fda-beverage'], products: '瓶装水、饮料、功能饮料、果汁', note: 'FDA饮料设施注册；瓶装水需EPA Safe Drinking Water' },
       { hs: '2309', name: '宠物食品', usChapter: '23', certIds: ['fda-petfood'], products: '狗粮、猫粮、宠物零食', note: 'FDA宠物食品设施注册（2009 FD&C Act）' },
-    ];
+    ]
+    // hsDBMap for O(1) lookup by HS code
+    const hsDBMap = {};
+    for (const entry of hsDB) { hsDBMap[entry.hs] = entry; }
+;
 
     // ═══════════════════════════════════════════════════════════════════════
     // HS 编码查询函数
