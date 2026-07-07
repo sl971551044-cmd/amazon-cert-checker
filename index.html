@@ -409,7 +409,10 @@
   </div>
 
   <script>
-
+// ═══════════════════════════════════════════════════════════════
+    // 认证数据库
+    // level: required=强制必需 | conditional=特定产品强制 | recommended=强烈推荐 | optional=可选
+    // ═══════════════════════════════════════════════════════════════
     const certDB = {
       electronics: {
         name: '电子产品',
@@ -1096,21 +1099,135 @@
       }
     };
 
+    // ═══════════════════════════════════════════════════════════════
+    // 产品映射表：常见产品直接映射到认证ID列表
+    // ═══════════════════════════════════════════════════════════════
+    const productMap = [
+      { patterns: ['heating pad','hot pad','加热垫','热敷垫','暖垫','理疗垫'], certIds: ['fda-medical','ul','fcc'] },
+      { patterns: ['power bank','充电宝','移动电源','battery pack'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['bluetooth speaker','蓝牙音箱','无线音箱','蓝牙音响'], certIds: ['fcc','ul'] },
+      { patterns: ['led lamp','led light','led bulb','led灯','灯泡','led台灯'], certIds: ['ul-lighting','fcc-light'] },
+      { patterns: ['smart light','智能灯','智能灯具','smart bulb'], certIds: ['ul-lighting','fcc-light','fcc-light'] },
+      { patterns: ['wireless charger','无线充电器','无线充'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['massage','按摩器','按摩仪','massager'], certIds: ['fda-medical','ul','fcc'] },
+      { patterns: ['electric toothbrush','电动牙刷'], certIds: ['fcc','ul'] },
+      { patterns: ['lithium battery','锂电池'], certIds: ['fcc','ul'] },
+      { patterns: ['night light','夜灯','小夜灯'], certIds: ['ul-lighting','fcc-light'] },
+      { patterns: ['cosmetic','skincare','化妆','护肤','facial mask','面膜'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['baby bottle','奶瓶','baby cup','婴儿水杯'], certIds: ['fda-food','prop65'] },
+      { patterns: ['silicone spatula','硅胶铲','硅胶刮刀'], certIds: ['fda-food','prop65'] },
+      { patterns: ['cutting board','砧板','切菜板'], certIds: ['fda-food','prop65'] },
+      { patterns: ['air purifier','空气净化器','净化器'], certIds: ['fcc','ul','energy-star'] },
+      { patterns: ['vacuum cleaner','吸尘器','扫地机器人'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['water bottle','水杯','水壶','保温杯','thermos'], certIds: ['fda-food','prop65'] },
+      { patterns: ['pet product','宠物','狗','猫','pet feeder'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['office chair','办公椅','椅子'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['furniture','家具','table','desk','柜子'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['smart watch','智能手表','smart band','手环'], certIds: ['fcc','ul'] },
+      { patterns: ['drone','无人机','drone'], certIds: ['fcc','ul'] },
+      { patterns: ['medical mask','口罩','face mask'], certIds: ['fda-medical','package-label'] },
+      // ── 40+ 扩充产品映射 ──
+      { patterns: ['nose strip','鼻贴','痘痘贴','acne patch','pore strip','黑头贴'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['baby carrier','婴儿背带','背带','腰凳'], certIds: ['cpc','astm-f963','tracking-label'] },
+      { patterns: ['bicycle','bike','自行车','单车'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['bicycle helmet','自行车头盔','骑行头盔'], certIds: ['cpsc-general','cpc','astm-f963'] },
+      { patterns: ['bicycle pump','打气筒','充气泵'], certIds: ['fcc','cpsc-general'] },
+      { patterns: ['lighter','打火机','zippo'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['knee pad','护膝','knee brace','护具'], certIds: ['cpsc-general','fcc'] },
+      { patterns: ['waist trainer','减肥腰带','收腹带','束腰'], certIds: ['fda-medical','fcc','prop65'] },
+      { patterns: ['sports gear','运动护具','护腕','护肘','护踝'], certIds: ['cpsc-general'] },
+      { patterns: ['stroller','婴儿车','童车','推车'], certIds: ['cpc','astm-f963','tracking-label'] },
+      { patterns: ['crib','婴儿床','儿童床','摇篮'], certIds: ['cpc','astm-f963','tracking-label'] },
+      { patterns: ['diaper bag','妈咪包','尿布包'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['baby high chair','餐椅','儿童餐椅','婴儿餐椅'], certIds: ['cpc','astm-f963'] },
+      { patterns: ['car seat','安全座椅','儿童安全座椅','car safety seat'], certIds: ['cpc','astm-f963','tracking-label'] },
+      { patterns: ['baby monitor','婴儿监护仪','婴儿监控器'], certIds: ['fcc','ul','fda-medical'] },
+      { patterns: ['humidifier','加湿器','超声波加湿器'], certIds: ['fcc','ul','prop65'] },
+      { patterns: ['diffuser','香薰机','精油扩散器','aromatherapy'], certIds: ['fcc','ul','fda-cosmetic'] },
+      { patterns: ['electric kettle','电热水壶','电水壶','热水壶'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['coffee maker','咖啡机','espresso'], certIds: ['fcc','ul','doe','energy-star'] },
+      { patterns: ['blender','搅拌机','破壁机','榨汁机','juicer'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['toaster','烤面包机','吐司炉'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['microwave','微波炉'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['air fryer','空气炸锅','无油炸锅'], certIds: ['fcc','ul','doe','prop65'] },
+      { patterns: ['pressure cooker','高压锅','电压力锅','instant pot'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['rice cooker','电饭煲','电饭锅'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['hair dryer','吹风机','吹风机','hair dryer'], certIds: ['fcc','ul'] },
+      { patterns: ['straightener','直发器','直发板','卷发棒','curling iron'], certIds: ['fcc','ul','prop65'] },
+      { patterns: ['electric shaver','电动剃须刀','剃须刀'], certIds: ['fcc','ul'] },
+      { patterns: ['epilator','脱毛仪','女士脱毛器'], certIds: ['fcc','ul','fda-medical'] },
+      { patterns: ['neck massager','颈椎按摩仪','颈部按摩器'], certIds: ['fda-medical','fcc','ul'] },
+      { patterns: ['eye massager','眼部按摩仪','眼部按摩器'], certIds: ['fda-medical','fcc','ul'] },
+      { patterns: ['foot massager','足部按摩仪','足浴盆','脚部按摩器'], certIds: ['fda-medical','fcc','ul'] },
+      { patterns: ['tens machine','tens unit','经皮神经电刺激','止痛仪'], certIds: ['fda-medical','fcc'] },
+      { patterns: ['blood pressure monitor','血压计','血压仪'], certIds: ['fda-medical','fcc','ul-medical'] },
+      { patterns: ['blood glucose meter','血糖仪','血糖试纸'], certIds: ['fda-medical','fcc','ul-medical'] },
+      { patterns: ['thermometer','体温计','耳温枪','额温枪'], certIds: ['fda-medical','fcc'] },
+      { patterns: ['yoga mat','瑜伽垫','瑜伽垫子'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['resistance band','弹力带','拉力带','阻力带'], certIds: ['cpsc-general'] },
+      { patterns: ['treadmill','跑步机','健身车','椭圆机'], certIds: ['fcc','ul','cpsc-general'] },
+      { patterns: ['fishing gear','钓鱼装备','鱼竿','渔具'], certIds: ['cpsc-general'] },
+      { patterns: ['camping gear','露营装备','帐篷','睡袋'], certIds: ['cpsc-general'] },
+      { patterns: ['hiking backpack','登山包','户外背包','徒步背包'], certIds: ['cpsc-general'] },
+      { patterns: ['umbrella','雨伞','遮阳伞'], certIds: ['cpsc-general'] },
+      { patterns: ['suitcase','行李箱','旅行箱','拉杆箱'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['backpack','背包','学生背包','双肩包'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['handbag','手提包','单肩包','女包'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['watch','手表','钟表','smart watch'], certIds: ['fcc','cpsc-general'] },
+      { patterns: ['sunglasses','太阳镜','墨镜','眼镜'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['glasses','眼镜','眼镜框','镜片'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['lithium ion battery','锂离子电池','18650电池'], certIds: ['fcc','ul','dot'] },
+      { patterns: ['charger','充电器','充电线','充电头','usb charger'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['cable','数据线','充电线','usb cable','type-c'], certIds: ['fcc'] },
+      { patterns: ['desk lamp','台灯','led台灯','工作灯','task light'], certIds: ['ul-lighting','fcc-light','energy-star'] },
+      { patterns: ['bedside lamp','床头灯','夜灯','bedside light'], certIds: ['ul-lighting','fcc-light'] },
+      { patterns: ['string light','灯串','装饰灯','节日灯','fairy light'], certIds: ['ul-lighting','fcc-light'] },
+      { patterns: ['tape','胶带','绝缘胶带','封箱胶带','masking tape'], certIds: ['cpsc-general'] },
+      { patterns: ['bicycle lock','自行车锁','车锁','u lock'], certIds: ['cpsc-general'] },
+      { patterns: ['pet bed','宠物床','猫窝','狗窝'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['pet toy','宠物玩具','猫玩具','狗玩具'], certIds: ['cpsc-general','astm-f963'] },
+      { patterns: ['pet collar','宠物项圈','狗项圈','猫项圈'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['insect repellent','驱蚊','驱虫','灭蚊灯'], certIds: ['epa-pesticide','fda-cosmetic'] },
+      { patterns: ['sunscreen','防晒','防晒霜','sunblock'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['body lotion','身体乳','润肤乳','沐浴露','body wash'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['lip balm','润唇膏','唇膏','lip care'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['shaving cream','剃须膏','刮胡膏'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['detergent','洗洁精','洗衣液','清洁剂','detergent'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['cleaning cloth','清洁布','抹布','超细纤维布'], certIds: ['cpsc-general'] },
+      { patterns: ['hairbrush','梳子','发梳','hair comb'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['comb','梳子','发梳'], certIds: ['cpsc-general'] },
+      { patterns: ['toothbrush','牙刷','儿童牙刷'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['cotton swab','棉签','棉花棒','化妆棉'], certIds: ['fda-cosmetic'] },
+      { patterns: ['tissue','纸巾','面巾纸','湿巾','wet wipe'], certIds: ['cpsc-general'] },
+      { patterns: ['bandage','绷带','创可贴','创口贴','band-aid'], certIds: ['fda-medical'] },
+      { patterns: ['first aid kit','急救包','急救箱'], certIds: ['fda-medical','cpsc-general'] },
+      { patterns: ['flashlight','手电筒','手电','led flashlight'], certIds: ['fcc','ul'] },
+      { patterns: ['electric blanket','电热毯','电毯'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['desk chair','办公椅','电脑椅','gaming chair'], certIds: ['cpsc-general'] },
+      { patterns: ['picture frame','相框','画框','装饰画'], certIds: ['cpsc-general'] },
+      { patterns: ['rug','地毯','地垫','脚垫','门垫'], certIds: ['ftc-textile','flammable-textile'] },
+      { patterns: ['towel','毛巾','浴巾','hand towel'], certIds: ['ftc-textile'] },
+      { patterns: ['pillow','枕头','枕芯','靠垫'], certIds: ['ftc-textile','prop65'] },
+      { patterns: ['curtain','窗帘','浴帘','shower curtain'], certIds: ['ftc-textile','flammable-textile'] },
+      { patterns: ['bicycle tire','自行车轮胎','车胎','bike tire'], certIds: ['dot','cpsc-general'] },
+      { patterns: ['bicycle helmet','骑行头盔'], certIds: ['cpsc-general','cpc','astm-f963'] }
+    ];
 
+    // ═══════════════════════════════════════════════════════════════
+    // 搜索核心函数
+    // ═══════════════════════════════════════════════════════════════
     function search() {
       const query = document.getElementById('searchInput').value.trim();
       if (!query) return;
       displayResults(query);
     }
 
-
-
     function quickSearch(term) {
       document.getElementById('searchInput').value = term;
       search();
     }
 
-
+    // 按ID查找认证对象
     function findCertById(id) {
       for (const cat of Object.values(certDB)) {
         for (const cert of cat.certs) {
@@ -1120,7 +1237,7 @@
       return null;
     }
 
-
+    // 获取某认证所在的分类
     function getCertCategory(id) {
       for (const [key, cat] of Object.entries(certDB)) {
         for (const cert of cat.certs) {
@@ -1130,7 +1247,7 @@
       return null;
     }
 
-
+    // 搜索：产品映射表优先 → 分类关键词匹配 → fallback通用
     function searchProducts(query) {
       const q = query.toLowerCase().trim();
       // 把查询词拆成单词（英文分词），用于模糊匹配
@@ -1239,12 +1356,9 @@
       };
     }
 
-
-
     function displayResults(query) {
       const container = document.getElementById('results');
       container.classList.add('show');
-      document.getElementById('hsResult').classList.remove('show');
 
       const result = searchProducts(query);
       const certs = result.certs;
@@ -1282,8 +1396,6 @@
 
       container.innerHTML = catHtml + noteHtml + gridHtml;
     }
-
-
 
     function showDetail(certId) {
       const cert = findCertById(certId);
@@ -1336,23 +1448,20 @@
       document.body.style.overflow = 'hidden';
     }
 
-
-
     function closeModal() {
       document.getElementById('modal').classList.remove('show');
       document.body.style.overflow = '';
     }
 
-document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeModal();
     });
 
     // ═══════════════════════════════════════════════════════════════════════
-        // 格式：hsCode 前缀 | certIds 认证ID列表 | products 示例品名
+    // 格式：hsCode 前缀 | certIds 认证ID列表 | products 示例品名
     // ═══════════════════════════════════════════════════════════════════════
 
     // ═══════════════════════════════════════════════════════════════════════
-        // ═══════════════════════════════════════════════════════════════════════
-
+    // ═══════════════════════════════════════════════════════════════════════
 </body>
 </html>
