@@ -279,6 +279,113 @@
     .level-tag.conditional { background: #e3f2fd; color: #1565c0; }
     .level-tag.optional { background: #e8f5e9; color: #2e7d32; }
 
+
+    /* HS Code Section */
+    .hs-box {
+      background: white;
+      border-radius: 20px;
+      padding: 24px 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      border-top: 4px solid #00897b;
+    }
+    .hs-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .hs-icon { font-size: 2rem; }
+    .hs-title { font-size: 1.15rem; font-weight: 700; color: #00695c; }
+    .hs-subtitle { font-size: 0.85rem; color: #888; margin-top: 2px; }
+    .hs-btn {
+      background: linear-gradient(135deg, #00897b 0%, #00695c 100%) !important;
+    }
+    .hs-btn:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 20px rgba(0,137,123,0.4) !important;
+    }
+    .hs-hint { font-size: 0.82rem; color: #888; margin-top: 8px; }
+    .hs-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      background: #e0f2f1;
+      color: #00695c;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      margin: 0 3px;
+      transition: background 0.2s;
+    }
+    .hs-tag:hover { background: #00897b; color: white; }
+    .hs-result { margin-top: 16px; display: none; }
+    .hs-result.show { display: block; }
+    .hs-code-card {
+      border: 2px solid #b2dfdb;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      background: #f1f8f7;
+    }
+    .hs-code-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .hs-code-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      background: #00695c;
+      color: white;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+    .hs-us-rate {
+      font-size: 0.82rem;
+      color: #888;
+    }
+    .hs-desc { color: #444; font-size: 0.9rem; margin-bottom: 10px; line-height: 1.5; }
+    .hs-products { font-size: 0.82rem; color: #888; margin-bottom: 12px; }
+    .hs-products strong { color: #00695c; }
+    .hs-cert-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .hs-cert-chip {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .hs-cert-chip.required { background: #ffebee; color: #c62828; border-color: #ef9a9a; }
+    .hs-cert-chip.recommended { background: #fff3e0; color: #e65100; border-color: #ffcc80; }
+    .hs-cert-chip.conditional { background: #e3f2fd; color: #1565c0; border-color: #90caf9; }
+    .hs-cert-chip.optional { background: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
+    .hs-cert-chip:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+    .hs-empty {
+      text-align: center;
+      padding: 30px;
+      color: #888;
+      font-size: 0.95rem;
+    }
+    .hs-empty .icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .hs-level-note {
+      font-size: 0.8rem;
+      color: #666;
+      padding: 8px 14px;
+      background: #fffde7;
+      border-radius: 8px;
+      margin-top: 10px;
+      border-left: 3px solid #fbc02d;
+    }
+    @media (max-width: 600px) {
+      .hs-code-card-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+
     @media (max-width: 600px) {
       header h1 { font-size: 1.8rem; }
       .input-group { flex-direction: column; }
@@ -312,7 +419,26 @@
       </div>
     </div>
 
-    <div class="results" id="results">
+    
+    <!-- HS Code 编码查询 -->
+    <div class="hs-box">
+      <div class="hs-header">
+        <span class="hs-icon">📦</span>
+        <div>
+          <div class="hs-title">HS 编码查询</div>
+          <div class="hs-subtitle">输入中国海关编码（HS Code），查询美国进口认证要求</div>
+        </div>
+      </div>
+      <div class="input-group">
+        <input type="text" id="hsInput" placeholder="输入 HS 编码，如：9503、8471、8517..." maxlength="14" onkeydown="if(event.key==='\'Enter'\')searchHs()">
+        <button class="hs-btn" onclick="searchHs()">查认证</button>
+      </div>
+      <div class="hs-hint">
+        💡 支持完整编码或前 2/4/6 位模糊查询，例如：<span class="hs-tag" onclick="quickHs('85')">85</span> <span class="hs-tag" onclick="quickHs('9503')">9503</span> <span class="hs-tag" onclick="quickHs('9403')">9403</span> <span class="hs-tag" onclick="quickHs('9018')">9018</span>
+      </div>
+      <div class="hs-result" id="hsResult"></div>
+    </div>
+<div class="results" id="results">
       <!-- Results will be inserted here -->
     </div>
 
@@ -1328,6 +1454,7 @@
     function displayResults(query) {
       const container = document.getElementById('results');
       container.classList.add('show');
+      document.getElementById('hsResult').classList.remove('show');
 
       const result = searchProducts(query);
       const certs = result.certs;
@@ -1425,6 +1552,220 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeModal();
     });
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // HS 编码数据库（美国进口主要品类）
+    // 格式：hsCode 前缀 | certIds 认证ID列表 | products 示例品名
+    // ═══════════════════════════════════════════════════════════════════════
+    const hsDB = [
+      // ── 85类：电机、电子设备 ──────────────────────────────────────────
+      { hs: '8471', name: '自动数据处理设备', usChapter: '84/85', certIds: ['fcc','ul'], products: '笔记本电脑、平板电脑、台式机、服务器、工作站、POS机', note: '含无线功能需FCC ID' },
+      { hs: '8517', name: '电话/通讯设备', usChapter: '85', certIds: ['fcc','ul'], products: '手机、蓝牙耳机、对讲机、电话机、无线路由器、交换机', note: '含蓝牙/WiFi需FCC ID' },
+      { hs: '8518', name: '音频设备', usChapter: '85', certIds: ['fcc','ul'], products: '蓝牙音箱、无线音箱、麦克风、扩音器、耳机', note: '含无线需FCC ID' },
+      { hs: '8528', name: '显示器/电视', usChapter: '85', certIds: ['fcc','ul','energy-star'], products: '显示器、电视机、投影仪', note: '4K/8K电视额外能效要求' },
+      { hs: '8504', name: '变压器/电源', usChapter: '85', certIds: ['fcc','ul','doe'], products: '电源适配器、充电器、变压器、UPS不间断电源', note: '外置电源适配器强制DOE能效' },
+      { hs: '8501', name: '电动机/电机', usChapter: '85', certIds: ['fcc','ul'], products: '电机、发动机、泵、风扇', note: '' },
+      { hs: '8536', name: '电气控制/开关', usChapter: '85', certIds: ['fcc','ul'], products: '开关、继电器、断路器、配电板、接触器', note: '工业控制设备' },
+      { hs: '8544', name: '绝缘电线/电缆', usChapter: '85', certIds: ['fcc'], products: '数据线、USB线、电源线、网络线、光纤电缆', note: '含屏蔽要求' },
+      { hs: '8533', name: '电阻器/电子元件', usChapter: '85', certIds: ['fcc'], products: '电路板、电子元器件、连接器', note: '' },
+      { hs: '8542', name: '集成电路/芯片', usChapter: '85', certIds: ['fcc'], products: '芯片、IC、存储器、微处理器', note: '' },
+
+      // ── 84类：机械/设备 ────────────────────────────────────────────────
+      { hs: '8418', name: '制冷设备', usChapter: '84', certIds: ['fcc','ul','doe','energy-star'], products: '冰箱、冷柜、酒柜、空调、空气源热泵', note: 'DOE强制能效标准' },
+      { hs: '8450', name: '洗衣机', usChapter: '84', certIds: ['fcc','ul','doe','energy-star'], products: '洗衣机、干衣机、洗烘一体机', note: '能源之星级别的能效' },
+      { hs: '8422', name: '洗碗机', usChapter: '84', certIds: ['fcc','ul','doe','energy-star'], products: '洗碗机', note: 'WaterSense节水认证' },
+      { hs: '8414', name: '泵/压缩机', usChapter: '84', certIds: ['fcc','ul'], products: '空压机、真空泵、工业风机、气泵', note: '' },
+      { hs: '8415', name: '空调/热泵', usChapter: '84', certIds: ['fcc','ul','doe'], products: '分体空调、移动空调、空气源热泵', note: '含氟气体F-Gas申报' },
+      { hs: '8421', name: '净水/滤水设备', usChapter: '84', certIds: ['fcc','ul','fda-food'], products: '净水器、滤水壶、饮水机', note: '食品接触材料FDA合规' },
+      { hs: '8469', name: '办公用机械', usChapter: '84', certIds: ['fcc','ul'], products: '打印机、扫描仪、复印机、碎纸机', note: '' },
+
+      // ── 94类：家具/家居 ────────────────────────────────────────────────
+      { hs: '9401', name: '座椅家具', usChapter: '94', certIds: ['cpsc-general','astm-general'], products: '办公椅、游戏椅、餐椅、梳妆凳', note: 'ASTM F2613（儿童椅）/ CPSC铅测试' },
+      { hs: '9403', name: '其他家具', usChapter: '94', certIds: ['cpsc-general','astm-general'], products: '书桌、柜子、书架、置物架、床头柜、梳妆台', note: 'ASTM F2057（衣柜）/ ASTM F2385' },
+      { hs: '9404', name: '床上用品', usChapter: '94', certIds: ['ftc-textile','prop65'], products: '床垫、床垫套、枕头、靠垫、睡袋、羽绒被', note: '床垫阻燃测试16 CFR 1632' },
+      { hs: '9405', name: '照明灯具', usChapter: '94', certIds: ['ul-lighting','fcc-light','energy-star'], products: '台灯、落地灯、吊灯、吸顶灯、LED灯泡、灯带', note: '亚马逊灯具类强制UL/ETL' },
+      { hs: '9401.70', name: '儿童高脚椅', usChapter: '94', certIds: ['cpc','astm-f963'], products: '儿童餐椅、高脚椅、增高椅', note: 'ASTM F404强制要求' },
+
+      // ── 95类：玩具/运动 ────────────────────────────────────────────────
+      { hs: '9503', name: '玩具', usChapter: '95', certIds: ['cpc','astm-f963','tracking-label'], products: '积木、娃娃、毛绒玩具、遥控玩具、电子玩具、拼图', note: '12岁以下儿童玩具强制CPC' },
+      { hs: '9504', name: '游戏机/彩票', usChapter: '95', certIds: ['fcc','ul'], products: '游戏机、掌机、彩票机、桌上游戏', note: '含无线功能需FCC ID' },
+      { hs: '9506', name: '运动器材', usChapter: '95', certIds: ['cpsc-general'], products: '篮球、足球、网球拍、高尔夫球杆、瑜伽垫、护具', note: '运动头盔见9507' },
+      { hs: '9506.62', name: '充气运动球', usChapter: '95', certIds: ['cpsc-general'], products: '篮球、足球、排球（充气）', note: '' },
+      { hs: '9507', name: '钓鱼/狩猎', usChapter: '95', certIds: ['cpsc-general'], products: '鱼竿、渔轮、钓鱼配件', note: '' },
+      { hs: '9508', name: '马戏团/游乐', usChapter: '95', certIds: ['cpsc-general'], products: '充气城堡、蹦床、游乐设施', note: 'ASTM F2374充气游乐设备' },
+
+      // ── 62/61类：纺织服装 ───────────────────────────────────────────────
+      { hs: '61', name: '针织/钩编服装', usChapter: '61/62', certIds: ['ftc-textile','flammable-textile'], products: 'T恤、衬衫、卫衣、裤子、裙子（针织）', note: '纤维成分+护理标签，16 CFR 1610阻燃' },
+      { hs: '62', name: '非针织服装', usChapter: '62', certIds: ['ftc-textile','flammable-textile'], products: '西装、外套、裤子、裙子（非针织）', note: '纤维成分+护理标签' },
+      { hs: '63', name: '其他纺织制成品', usChapter: '63', certIds: ['ftc-textile','ftc-textile'], products: '毛巾、浴巾、地毯、毛毯、窗帘、床单、睡袋', note: '毛毯阻燃测试16 CFR 1632' },
+      { hs: '6401', name: '橡胶/塑料鞋', usChapter: '64', certIds: ['cpsc-general'], products: '拖鞋、凉鞋、橡胶靴', note: '' },
+      { hs: '6402', name: '其他鞋类', usChapter: '64', certIds: ['cpsc-general'], products: '运动鞋、皮鞋、帆布鞋', note: 'CPSIA铅+邻苯' },
+      { hs: '6403', name: '皮革鞋', usChapter: '64', certIds: ['cpsc-general'], products: '皮鞋、靴子', note: '' },
+
+      // ── 70类：玻璃/陶瓷 ────────────────────────────────────────────────
+      { hs: '7013', name: '玻璃餐具', usChapter: '70', certIds: ['fda-food','prop65'], products: '玻璃杯、玻璃碗、玻璃盘、水晶杯', note: '含铅玻璃（水晶杯）Prop 65警告' },
+      { hs: '6911', name: '陶瓷餐具', usChapter: '69', certIds: ['fda-food','prop65'], products: '陶瓷餐具、陶瓷杯、陶瓷盘、陶瓷碗', note: '含铅釉面Prop 65警告' },
+      { hs: '6912', name: '陶瓷装饰品', usChapter: '69', certIds: ['prop65'], products: '陶瓷花瓶、陶瓷摆件、瓷砖', note: '含铅风险' },
+
+      // ── 48类：纸/纸板 ─────────────────────────────────────────────────
+      { hs: '4819', name: '纸包装容器', usChapter: '48', certIds: ['cpsc-general','package-label'], products: '纸箱、纸盒、纸袋、纸杯（食品级）', note: 'FTC标签法规' },
+      { hs: '4823', name: '其他纸制品', usChapter: '48', certIds: ['cpsc-general'], products: '纸巾、湿巾、卫生纸、纸尿裤、一次性手套', note: '湿巾需FDA注册（如用于医疗）' },
+
+      // ── 39类：塑料 ───────────────────────────────────────────────────
+      { hs: '3924', name: '塑料餐具/厨房用品', usChapter: '39', certIds: ['fda-food','prop65'], products: '塑料杯、塑料碗、塑料盘、塑料餐具、硅胶厨具', note: '食品接触材料FDA 21 CFR合规' },
+      { hs: '3926', name: '其他塑料制品', usChapter: '39', certIds: ['cpsc-general','prop65'], products: '塑料收纳盒、塑料挂钩、塑料配件、塑料玩具配件', note: '儿童产品需CPSIA测试' },
+      { hs: '3923', name: '塑料包装', usChapter: '39', certIds: ['cpsc-general'], products: '保鲜膜、保鲜袋、塑料托盘', note: '' },
+
+      // ── 87类：车辆/汽车 ────────────────────────────────────────────────
+      { hs: '8714', name: '自行车零件', usChapter: '87', certIds: ['cpsc-general'], products: '自行车车把、车座、脚蹬、链条、刹车线', note: '' },
+      { hs: '8712', name: '自行车整车', usChapter: '87', certIds: ['cpsc-general','cpsc-general'], products: '自行车、电动车、折叠车、山地车', note: '自行车含DOT反射器要求' },
+      { hs: '4011', name: '充气橡胶轮胎', usChapter: '40', certIds: ['dot','cpsc-general'], products: '汽车轮胎、自行车轮胎、摩托车轮胎', note: 'DOT认证+16 CFR Part 574' },
+      { hs: '8708', name: '汽车零部件', usChapter: '87', certIds: ['cpsc-general'], products: '车灯、保险杠、脚垫、座套、车载支架', note: '车灯需DOT/SAE FMVSS 108' },
+      { hs: '8711', name: '摩托车/电动车', usChapter: '87', certIds: ['fcc','dot'], products: '摩托车、电动摩托车', note: '' },
+
+      // ── 90类：医疗/光学 ────────────────────────────────────────────────
+      { hs: '9018', name: '医疗/牙科器械', usChapter: '90', certIds: ['fda-medical','fcc','ul-medical'], products: '注射器、体温计、血压计、血糖仪、手术器械、牙科器械', note: 'FDA企业注册+器械列名（Class I豁免510k）' },
+      { hs: '9019', name: '理疗/按摩', usChapter: '90', certIds: ['fda-medical','fcc','ul'], products: '按摩器、理疗仪、热敷垫、颈椎按摩仪、眼部按摩仪', note: 'heating pad通常Class I，510(k)豁免' },
+      { hs: '9020', name: '呼吸防护', usChapter: '90', certIds: ['fda-medical','nia'], products: '口罩、N95口罩、呼吸器、防毒面具', note: 'N95需NIOSH认证（Healthcare用）；普通口罩FDA注册' },
+      { hs: '9021', name: '矫正/辅助器械', usChapter: '90', certIds: ['fda-medical'], products: '矫正鞋垫、矫形器、护膝、护腰、拐杖', note: '' },
+      { hs: '9022', name: 'X光/医学影像', usChapter: '90', certIds: ['fcc','fda-medical'], products: 'X光机、超声波仪器', note: '' },
+      { hs: '9001', name: '光学/眼镜', usChapter: '90', certIds: ['cpsc-general','prop65'], products: '眼镜片、眼镜框、太阳镜、隐形眼镜', note: '太阳镜需ANSI Z80.3；含铅镜片需Prop 65' },
+
+      // ── 91类：钟表 ────────────────────────────────────────────────────
+      { hs: '9101', name: '贵金属/宝石手表', usChapter: '91', certIds: ['cpsc-general'], products: '名贵手表、镶钻手表', note: '' },
+      { hs: '9102', name: '手表/怀表', usChapter: '91', certIds: ['fcc','cpsc-general'], products: '普通手表、电子手表、智能手表', note: '含锂电池需DOT/SHazmat' },
+      { hs: '9105', name: '闹钟/挂钟', usChapter: '91', certIds: ['fcc','cpsc-general'], products: '闹钟、挂钟、座钟', note: '含电子元件需FCC' },
+
+      // ── 71类：珠宝 ────────────────────────────────────────────────────
+      { hs: '7113', name: '珠宝制品', usChapter: '71', certIds: ['cpsc-general','prop65'], products: '项链、耳环、手链、戒指、首饰盒', note: '儿童首饰需ASTM F2923；含铅需Prop 65警告' },
+      { hs: '7117', name: '仿首饰', usChapter: '71', certIds: ['cpsc-general','prop65'], products: '合金首饰、人造珠宝、时尚首饰', note: '含铅/镉风险，儿童首饰需CPSIA测试' },
+
+      // ── 42类：皮革/箱包 ────────────────────────────────────────────────
+      { hs: '4202', name: '箱包/手提包', usChapter: '42', certIds: ['cpsc-general'], products: '行李箱、背包、手提包、单肩包、旅行包', note: 'CPSIA铅+邻苯测试' },
+      { hs: '4203', name: '皮革服装', usChapter: '42', certIds: ['ftc-textile'], products: '皮衣、皮裤、皮手套', note: '' },
+
+      // ── 96类：杂项 ────────────────────────────────────────────────────
+      { hs: '9603', name: '梳子/刷子', usChapter: '96', certIds: ['cpsc-general','prop65'], products: '梳子、牙刷、化妆刷、清洁刷、指甲钳', note: '含动物毛需兽医证书' },
+      { hs: '9619', name: '卫生用品', usChapter: '96', certIds: ['cpsc-general'], products: '纸尿裤、卫生巾、棉签、棉片、一次性手套', note: 'FDA Class I医疗器械（如用于医疗目的）' },
+      { hs: '9617', name: '保温瓶/水壶', usChapter: '96', certIds: ['fda-food','prop65'], products: '保温杯、保温瓶、运动水壶、不锈钢水壶', note: '食品接触材料FDA合规' },
+      { hs: '9615', name: '梳妆用品', usChapter: '96', certIds: ['fda-cosmetic','label-cosmetic'], products: '发梳、发夹、发带、发卡、假发', note: '化妆品需FDA设施注册（MoCRA 2023）' },
+
+      // ── 33类：化妆品/香料 ─────────────────────────────────────────────
+      { hs: '3303', name: '香水/花露水', usChapter: '33', certIds: ['fda-cosmetic','label-cosmetic'], products: '香水、古龙水、花露水、香薰精油', note: 'MoCRA 2023化妆品强制注册' },
+      { hs: '3304', name: '美容/护肤化妆品', usChapter: '33', certIds: ['fda-cosmetic','label-cosmetic'], products: '面霜、乳液、精华、面膜、口红、粉底、眼影', note: 'MoCRA 2023强制注册' },
+      { hs: '3305', name: '护发品', usChapter: '33', certIds: ['fda-cosmetic','label-cosmetic'], products: '洗发水、护发素、发膜、定型产品', note: 'MoCRA 2023' },
+      { hs: '3306', name: '口腔/牙齿卫生', usChapter: '33', certIds: ['fda-cosmetic','label-cosmetic'], products: '牙膏、漱口水、牙线', note: 'OTC药品宣称需FDA NDA/ANDA' },
+      { hs: '3307', name: '剃须/个人护理', usChapter: '33', certIds: ['fda-cosmetic','label-cosmetic'], products: '剃须膏、剃须刀、除臭剂、洗衣液', note: '洗衣液需CPSIA + Prop 65' },
+
+      // ── 34类：肥皂/清洁剂 ──────────────────────────────────────────────
+      { hs: '3401', name: '肥皂/香皂', usChapter: '34', certIds: ['fda-cosmetic'], products: '香皂、液体皂、浴盐', note: '肥皂定义豁免MoCRA' },
+      { hs: '3402', name: '表面活性剂/清洁剂', usChapter: '34', certIds: ['cpsc-general','prop65'], products: '洗衣液、洗洁精、清洁剂、去污剂', note: '含表面活性剂需Prop 65评估' },
+
+      // ── 68类：纸/石/水泥制品 ───────────────────────────────────────────
+      { hs: '6810', name: '水泥/石制建材', usChapter: '68', certIds: ['cpsc-general'], products: '人造石台面、瓷砖、水泥制品', note: '含石英需Prop 65（吸入性结晶硅）' },
+      { hs: '6815', name: '石棉制品（禁）', usChapter: '68', certIds: [], products: '石棉材料（禁止进口）', note: '美国TSCA严格禁止石棉' },
+
+      // ── 28-38类：化工产品 ──────────────────────────────────────────────
+      { hs: '2804', name: '稀有气体/贵金属', usChapter: '28', certIds: ['dot-hazmat'], products: '锂电池、纽扣电池、含汞电池', note: 'DOT HMR hazmat申报；IATA DGR航空运输要求' },
+      { hs: '3808', name: '农药/杀虫剂', usChapter: '38', certIds: ['epa-pesticide'], products: '驱蚊剂、杀虫剂、灭鼠剂、杀菌剂', note: 'FIFRA EPA强制注册' },
+      { hs: '3809', name: '纺织/皮革处理剂', usChapter: '38', certIds: ['fda-food','fda-cosmetic'], products: '阻燃整理剂（纺织用）、防水剂', note: '如用于食品接触材料需FDA合规' },
+      { hs: '3824', name: '工业助剂', usChapter: '38', certIds: ['cpsc-general','prop65'], products: '工业树脂、粘合剂、涂料、染料', note: '含铅/镉/甲醛需Prop 65警告' },
+
+      // ── 67类：羽毛/羽绒 ────────────────────────────────────────────────
+      { hs: '6701', name: '羽毛/羽绒制品', usChapter: '67', certIds: ['cpsc-general'], products: '羽绒被、羽绒服、羽绒枕头', note: '羽绒需USDA兽医证书；含野生动物羽毛需CITES证书' },
+
+      // ── 92类：乐器 ────────────────────────────────────────────────────
+      { hs: '9201', name: '键盘乐器', usChapter: '92', certIds: ['fcc','cpsc-general'], products: '钢琴、电子琴、电钢琴', note: '含电子元件需FCC' },
+      { hs: '9207', name: '电声音乐设备', usChapter: '92', certIds: ['fcc','ul'], products: '电吉他、音箱、效果器、调音台', note: '含无线功能FCC ID' },
+
+      // ── 66类：雨伞/手杖 ────────────────────────────────────────────────
+      { hs: '6601', name: '雨伞/阳伞', usChapter: '66', certIds: ['cpsc-general'], products: '雨伞、遮阳伞、高尔夫伞', note: '' },
+
+      // ── 73类：钢铁制品 ────────────────────────────────────────────────
+      { hs: '7317', name: '钉子/螺丝/紧固件', usChapter: '73', certIds: ['cpsc-general'], products: '螺丝、螺母、螺栓、钉子、膨胀螺栓', note: '' },
+      { hs: '7323', name: '钢铁制厨房器具', usChapter: '73', certIds: ['fda-food','prop65'], products: '不锈钢锅、不锈钢餐具、保温瓶、菜刀', note: '食品接触材料FDA合规；含锰不锈钢豁免Prop 65' },
+      { hs: '7324', name: '钢铁制卫生洁具', usChapter: '73', certIds: ['fda-food'], products: '不锈钢水槽、水龙头、花洒', note: '饮水接触NSF/ANSI 61认证' },
+
+      // ── 76类：铝制品 ──────────────────────────────────────────────────
+      { hs: '7615', name: '铝制厨房器具', usChapter: '76', certIds: ['fda-food'], products: '铝锅、铝制餐具、铝箔', note: '铝制食品接触需FDA 21 CFR 177.1550合规' },
+
+      // ── 21类：食品/农产品 ──────────────────────────────────────────────
+      { hs: '2106', name: '膳食补充剂', usChapter: '21', certIds: ['fda-dietary','fda-facility'], products: '维生素、矿物质、蛋白粉、益生菌、代餐', note: '膳食补充剂需FDA设施注册；DSHEA合规' },
+      { hs: '2202', name: '饮料/瓶装水', usChapter: '22', certIds: ['fda-beverage'], products: '瓶装水、饮料、功能饮料、果汁', note: 'FDA饮料设施注册；瓶装水需EPA Safe Drinking Water' },
+      { hs: '2309', name: '宠物食品', usChapter: '23', certIds: ['fda-petfood'], products: '狗粮、猫粮、宠物零食', note: 'FDA宠物食品设施注册（2009 FD&C Act）' },
+    ];
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // HS 编码查询函数
+    // ═══════════════════════════════════════════════════════════════════════
+    function searchHs() {
+      const input = document.getElementById('hsInput').value.trim().replace(/[.\s-]/g, '');
+      const container = document.getElementById('hsResult');
+      container.classList.add('show');
+      document.getElementById('hsResult').classList.remove('show');
+
+      if (!input) {
+        container.innerHTML = '<div class="hs-empty"><div class="icon">🔢</div>请输入 HS 编码</div>';
+        return;
+      }
+
+      // 精准匹配 + 前缀模糊匹配（支持任意位数：2/4/6/8/10位）
+      const clean = input.replace(/\D/g, '');
+      if (!clean) {
+        container.innerHTML = '<div class="hs-empty"><div class="icon">❌</div>HS 编码格式错误，请输入数字</div>';
+        return;
+      }
+
+      const matched = hsDB.filter(entry => {
+        const entryHs = entry.hs.replace(/\.\d+$/, '');
+        return entryHs === clean ||
+               entryHs.startsWith(clean) ||
+               clean.startsWith(entryHs.substring(0, Math.min(clean.length, entryHs.length)));
+      });
+
+      if (matched.length === 0) {
+        container.innerHTML = '<div class="hs-empty"><div class="icon">📭</div>未找到匹配的 HS 编码<br><small style="color:#aaa">尝试输入更少位数（如 85、9503、9403）</small></div>';
+        return;
+      }
+
+      let html = '';
+      for (const entry of matched) {
+        const certs = entry.certIds.map(id => {
+          const cert = findCertById(id);
+          if (!cert) return null;
+          const label = cert.level === 'required' ? '必需' :
+                        cert.level === 'conditional' ? '视产品' :
+                        cert.level === 'recommended' ? '推荐' : '可选';
+          return `<span class="hs-cert-chip ${cert.level}" onclick="showDetail('${id}')" title="${cert.desc}">${cert.name} <small>${label}</small></span>`;
+        }).filter(Boolean);
+
+        const noteHtml = entry.note ? `<div class="hs-level-note">💡 ${entry.note}</div>` : '';
+        const certsHtml = certs.length > 0
+          ? `<div class="hs-cert-chips">${certs.join('')}</div>`
+          : `<div style="color:#888;font-size:0.85rem;margin-top:8px">此编码暂无特定认证数据</div>`;
+
+        html += `
+          <div class="hs-code-card">
+            <div class="hs-code-card-header">
+              <span class="hs-code-badge">${entry.hs.toUpperCase()}</span>
+              <span class="hs-us-rate">美国海关章节: ${entry.usChapter}</span>
+            </div>
+            <div class="hs-desc"><strong>${entry.name}</strong></div>
+            <div class="hs-products"><strong>常见产品：</strong>${entry.products}</div>
+            ${certsHtml}
+            ${noteHtml}
+          </div>`;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function quickHs(code) {
+      document.getElementById('hsInput').value = code;
+      searchHs();
+      document.getElementById('hsInput').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
   </script>
 </body>
 </html>
