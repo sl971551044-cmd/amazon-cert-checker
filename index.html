@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -12,212 +12,112 @@
       min-height: 100vh;
       padding: 20px;
     }
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-    header {
-      text-align: center;
-      padding: 40px 20px;
-      color: white;
-    }
+    .container { max-width: 960px; margin: 0 auto; }
+    header { text-align: center; padding: 40px 20px; color: white; }
     header h1 { font-size: 2.5rem; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
     header p { font-size: 1.1rem; opacity: 0.9; }
+    header .urgent { display: inline-block; background: #e74c3c; color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-top: 8px; }
     header p small { display: block; font-size: 0.85rem; opacity: 0.7; margin-top: 4px; }
     .search-box {
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      background: white; border-radius: 20px; padding: 30px;
+      margin-bottom: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     }
-    .input-group {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 15px;
-    }
+    .input-group { display: flex; gap: 12px; margin-bottom: 15px; }
     input[type="text"] {
-      flex: 1;
-      padding: 16px 24px;
-      font-size: 1.1rem;
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      outline: none;
-      transition: border-color 0.3s;
+      flex: 1; padding: 16px 24px; font-size: 1.1rem; border: 2px solid #e0e0e0;
+      border-radius: 12px; outline: none; transition: border-color 0.3s;
     }
     input[type="text"]:focus { border-color: #667eea; }
     button {
-      padding: 16px 32px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: white;
+      padding: 16px 32px; font-size: 1.1rem; font-weight: 600; color: white;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
+      border: none; border-radius: 12px; cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
     }
     button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(102,126,234,0.4); }
     .tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .tag {
-      padding: 6px 14px;
-      background: #f0f0f0;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      color: #666;
-      cursor: pointer;
-      transition: all 0.2s;
+      padding: 6px 14px; background: #f0f0f0; border-radius: 20px;
+      font-size: 0.85rem; color: #666; cursor: pointer; transition: all 0.2s;
     }
     .tag:hover { background: #667eea; color: white; }
+    .tag.urgent { background: #ffebee; color: #c62828; }
+    .tag.urgent:hover { background: #e74c3c; color: white; }
     .results {
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      display: none;
+      background: white; border-radius: 20px; padding: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none;
     }
     .results.show { display: block; }
     .category-badge {
-      display: inline-block;
-      padding: 8px 16px;
+      display: inline-block; padding: 8px 16px;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 12px;
+      color: white; border-radius: 20px; font-weight: 600; font-size: 0.9rem;
+      margin: 0 8px 12px 0;
     }
     .category-note {
-      font-size: 0.85rem;
-      color: #888;
-      margin-bottom: 18px;
-      padding: 10px 14px;
-      background: #f8f9fa;
-      border-radius: 10px;
+      font-size: 0.85rem; color: #888; margin-bottom: 18px;
+      padding: 10px 14px; background: #f8f9fa; border-radius: 10px;
     }
+    .cpsc-alert {
+      background: #fff3cd; border: 1px solid #ffc107; border-radius: 12px;
+      padding: 16px 20px; margin-bottom: 20px; font-size: 0.9rem;
+    }
+    .cpsc-alert strong { color: #856404; }
+    .cpsc-alert a { color: #667eea; text-decoration: underline; }
     .cert-grid { display: grid; gap: 15px; }
     .cert-card {
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 20px;
-      transition: all 0.3s;
-      cursor: pointer;
-      position: relative;
+      border: 2px solid #e0e0e0; border-radius: 12px; padding: 20px;
+      transition: all 0.3s; cursor: pointer; position: relative;
     }
-    .cert-card:hover { 
-      border-color: #667eea; 
-      transform: translateX(5px);
-      box-shadow: 0 4px 12px rgba(102,126,234,0.2);
-    }
+    .cert-card:hover { border-color: #667eea; transform: translateX(5px); box-shadow: 0 4px 12px rgba(102,126,234,0.2); }
     .cert-card::after {
-      content: '查看详情 →';
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #667eea;
-      font-size: 0.85rem;
-      font-weight: 600;
-      opacity: 0;
-      transition: opacity 0.3s;
+      content: '查看详情 →'; position: absolute; right: 20px; top: 50%;
+      transform: translateY(-50%); color: #667eea; font-size: 0.85rem;
+      font-weight: 600; opacity: 0; transition: opacity 0.3s;
     }
     .cert-card:hover::after { opacity: 1; }
     .cert-card.required { border-left: 4px solid #e74c3c; }
-    .cert-card.recommended { border-left: 4px solid #f39c12; }
     .cert-card.conditional { border-left: 4px solid #3498db; }
+    .cert-card.recommended { border-left: 4px solid #f39c12; }
     .cert-card.optional { border-left: 4px solid #27ae60; }
-    .cert-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 10px;
-      padding-right: 80px;
-      gap: 8px;
-    }
+    .cert-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; padding-right: 80px; gap: 8px; }
     .cert-name { font-size: 1.2rem; font-weight: 700; color: #333; }
-    .cert-level {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
+    .cert-level { padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
     .cert-level.required { background: #ffebee; color: #c62828; }
     .cert-level.recommended { background: #fff3e0; color: #e65100; }
     .cert-level.conditional { background: #e3f2fd; color: #1565c0; }
     .cert-level.optional { background: #e8f5e9; color: #2e7d32; }
     .cert-desc { color: #666; line-height: 1.6; margin-bottom: 10px; }
     .cert-agency { font-size: 0.85rem; color: #999; }
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: #666;
-    }
+    .empty-state { text-align: center; padding: 60px 20px; color: #666; }
     .empty-state .icon { font-size: 4rem; margin-bottom: 20px; }
     .empty-state h3 { font-size: 1.3rem; margin-bottom: 10px; color: #333; }
-    footer {
-      text-align: center;
-      padding: 40px;
-      color: rgba(255,255,255,0.7);
-      font-size: 0.9rem;
-    }
+    footer { text-align: center; padding: 40px; color: rgba(255,255,255,0.7); font-size: 0.9rem; }
 
-    /* Modal styles */
+    /* Modal */
     .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.6);
-      z-index: 1000;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 20px;
-      overflow-y: auto;
-      animation: fadeIn 0.3s ease;
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.6);
+      z-index: 1000; justify-content: center; align-items: flex-start;
+      padding: 20px; overflow-y: auto; animation: fadeIn 0.3s ease;
     }
     .modal-overlay.show { display: flex; }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .modal {
-      background: white;
-      border-radius: 20px;
-      max-width: 700px;
-      width: 100%;
-      margin: 20px auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      animation: slideUp 0.3s ease;
-      overflow: hidden;
+      background: white; border-radius: 20px; max-width: 700px; width: 100%;
+      margin: 20px auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideUp 0.3s ease; overflow: hidden;
     }
-    @keyframes slideUp {
-      from { transform: translateY(30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .modal-header {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 24px 30px;
-      position: relative;
+      color: white; padding: 24px 30px; position: relative;
     }
     .modal-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      line-height: 1;
-      padding: 0;
+      position: absolute; top: 16px; right: 16px;
+      background: rgba(255,255,255,0.2); border: none; color: white;
+      font-size: 1.5rem; width: 36px; height: 36px; border-radius: 50%;
+      cursor: pointer; line-height: 1; padding: 0;
     }
     .modal-close:hover { background: rgba(255,255,255,0.3); }
     .modal-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
@@ -225,54 +125,26 @@
     .modal-body { padding: 30px; }
     .modal-section { margin-bottom: 24px; }
     .modal-section:last-child { margin-bottom: 0; }
-    .section-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #667eea;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-content {
-      color: #444;
-      line-height: 1.7;
-      font-size: 0.95rem;
-    }
+    .section-title { font-size: 1rem; font-weight: 700; color: #667eea; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .section-content { color: #444; line-height: 1.7; font-size: 0.95rem; }
     .section-content ul { padding-left: 20px; margin-top: 6px; }
     .section-content li { margin-bottom: 4px; }
     .modal-meta {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      padding: 16px;
-      background: #f8f9fa;
-      border-radius: 12px;
-      margin-bottom: 20px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      padding: 16px; background: #f8f9fa; border-radius: 12px; margin-bottom: 20px;
     }
     .meta-item { font-size: 0.85rem; }
     .meta-label { color: #999; margin-bottom: 2px; }
     .meta-value { color: #333; font-weight: 600; }
     .modal-link {
-      display: inline-block;
-      padding: 10px 20px;
-      background: #667eea;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-top: 8px;
-      transition: background 0.2s;
+      display: inline-block; padding: 10px 20px; background: #667eea;
+      color: white; text-decoration: none; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600; margin-top: 8px; transition: background 0.2s;
     }
     .modal-link:hover { background: #5568d3; }
     .level-tag {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-left: 8px;
+      display: inline-block; padding: 4px 12px; border-radius: 20px;
+      font-size: 0.8rem; font-weight: 600; margin-left: 8px;
     }
     .level-tag.required { background: #ffebee; color: #c62828; }
     .level-tag.recommended { background: #fff3e0; color: #e65100; }
@@ -294,12 +166,13 @@
     <header>
       <h1>🔍 亚马逊美国站产品认证查询</h1>
       <p>输入产品名称（中英文均可），查询出口美国所需认证</p>
-      <p><small>⚠️ 认证是否为强制/必需完全取决于产品具体属性和销售渠道，结果仅供参考</small></p>
+      <div class="urgent">⚠️ 2026年7月8日起 CPSC证书强制电子申报 (eFiling)</div>
+      <p><small>认证强制性取决于产品具体属性和销售渠道，结果仅供参考</small></p>
     </header>
 
     <div class="search-box">
       <div class="input-group">
-        <input type="text" id="searchInput" placeholder="输入产品名称，中英文均可，如：heating pad、蓝牙耳机、LED light..." onkeydown="if(event.key==='Enter') search()">
+        <input type="text" id="searchInput" placeholder="输入产品名称，如：heating pad、蓝牙耳机、LED灯、儿童玩具..." onkeydown="if(event.key==='Enter') search()">
         <button onclick="search()">查询认证</button>
       </div>
       <div class="tags">
@@ -309,6 +182,7 @@
         <span class="tag" onclick="quickSearch('充电宝')">充电宝</span>
         <span class="tag" onclick="quickSearch('heating pad')">heating pad</span>
         <span class="tag" onclick="quickSearch('护肤品')">护肤品</span>
+        <span class="tag urgent" onclick="quickSearch('CPSC eFiling')">📋 CPSC新规</span>
       </div>
     </div>
 
@@ -332,44 +206,27 @@
       </div>
       <div class="modal-body">
         <div class="modal-meta">
-          <div class="meta-item">
-            <div class="meta-label">监管机构</div>
-            <div class="meta-value" id="modalRegulator"></div>
-          </div>
-          <div class="meta-item">
-            <div class="meta-label">法律依据</div>
-            <div class="meta-value" id="modalLaw"></div>
-          </div>
-          <div class="meta-item">
-            <div class="meta-label">预估费用</div>
-            <div class="meta-value" id="modalCost"></div>
-          </div>
-          <div class="meta-item">
-            <div class="meta-label">办理周期</div>
-            <div class="meta-value" id="modalDuration"></div>
-          </div>
+          <div class="meta-item"><div class="meta-label">监管机构</div><div class="meta-value" id="modalRegulator"></div></div>
+          <div class="meta-item"><div class="meta-label">法律依据</div><div class="meta-value" id="modalLaw"></div></div>
+          <div class="meta-item"><div class="meta-label">预估费用</div><div class="meta-value" id="modalCost"></div></div>
+          <div class="meta-item"><div class="meta-label">办理周期</div><div class="meta-value" id="modalDuration"></div></div>
         </div>
-
         <div class="modal-section">
           <div class="section-title">📜 法规依据</div>
           <div class="section-content" id="modalLawText"></div>
         </div>
-
         <div class="modal-section">
           <div class="section-title">📋 适用产品范围</div>
           <div class="section-content" id="modalScope"></div>
         </div>
-
         <div class="modal-section">
           <div class="section-title">✅ 核心要求</div>
           <div class="section-content" id="modalRequirements"></div>
         </div>
-
         <div class="modal-section">
           <div class="section-title">💡 办理建议</div>
           <div class="section-content" id="modalTips"></div>
         </div>
-
         <div class="modal-section">
           <a id="modalLink" class="modal-link" href="#" target="_blank">🔗 查看官方信息</a>
         </div>
@@ -377,901 +234,880 @@
     </div>
   </div>
 
-  <script>
-    // ═══════════════════════════════════════════════════════════════
-    // 认证数据库
-    // level: required=强制必需 | conditional=特定产品强制 | recommended=强烈推荐 | optional=可选
-    // ═══════════════════════════════════════════════════════════════
-    const certDB = {
-      electronics: {
-        name: '电子产品',
-        keywords: ['耳机','蓝牙','充电','电子','手机','电脑','平板','音响','音箱','数据线','充电器','适配器','电池','移动电源','充电宝','线材','线缆','插座','开关','显示器','屏幕','键盘','鼠标','摄像头','路由器','网络设备','智能','电子设备'],
-        enKeywords: ['bluetooth','wireless','charger','adapter','power bank','battery','earphone','headphone','speaker','router','phone','tablet','laptop','keyboard','mouse','electronic','cable','smart'],
-        certs: [
-          { 
-            id: 'fcc',
-            name: 'FCC认证', 
-            fullName: 'FCC Equipment Authorization / 47 CFR Part 15',
-            level: 'required', desc: '含无线/射频功能或有电磁辐射的产品必须获得FCC授权', 
-            agency: 'FCC',
-            regulator: '美国联邦通信委员会 (FCC)',
-            law: 'FCC Rules 47 CFR Part 15',
-            lawText: '根据《通信法》第302条和第303条，所有在美国销售或使用的无线电频率发射设备，必须获得FCC认证。47 CFR Part 15规定了电磁兼容要求，含FCC ID的测试及列名。',
-            scope: '所有电子电气产品。有无线功能（蓝牙/WiFi/Zigbee等）：需FCC ID认证。无无线功能：需FCC SDoC（供应商符合性声明）。',
-            requirements: [
-              '无线产品：FCC ID测试（辐射+传导发射、射频暴露评估）',
-              '无无线产品：FCC SDoC（不需要测试机构，但需测试报告）',
-              '产品标签须含FCC ID（适用时）',
-              '用户手册含合规声明',
-              '需FCC认可实验室出具报告'
-            ],
-            cost: 'FCC ID: 3,000-10,000元 (非无线: 2,000-5,000元)',
-            duration: '2-4 周',
-            tips: '无线产品必须FCC ID（如蓝牙耳机、WiFi音箱）。纯电子无无线功能的产品仅需FCC SDoC，可自测或找实验室出报告，费用低很多。亚马逊会抽查FCC ID，无ID直接下架。FCC ID查询网址：https://www.fcc.gov/oet/ea/fccid',
-            link: 'https://www.fcc.gov/equipment-authorization'
-          },
-          { 
-            id: 'ul',
-            name: 'UL/ETL安全认证', 
-            fullName: 'UL/ETL/CSA Product Safety Certification',
-            level: 'conditional', desc: '亚马逊多数带电产品要求UL或同等安全认证（ETL/CSA）', 
-            agency: 'UL/ETL/CSA',
-            regulator: '各认证机构（第三方NRTL）',
-            law: 'OSHA NRTL Program (OSHA认可的国家认可测试实验室)',
-            lawText: 'UL认证本身不是法律强制要求，但美国OSHA要求产品进入工作场所需经NRTL认证。亚马逊的规定更严格：许多电子电器类目强制要求提交UL或等效能NRTL认证（如ETL、CSA）才能上架。',
-            scope: '带电产品：电源适配器、充电器、家用电器、灯具、IT设备、音视频设备、电池产品等。',
-            requirements: [
-              '电气安全测试（电击、火灾、机械防护）',
-              '温升测试：正常及故障条件下',
-              '绝缘强度+接地连续性测试',
-              '异常操作+元器件故障测试',
-              '工厂审查：FUS (Follow-Up Service)'
-            ],
-            cost: '全项目: 15,000-50,000元 (简化报告8,000-15,000元)',
-            duration: '普通: 4-8周 (简化报告: 2-3周)',
-            tips: 'UL/ETL/CSA三者的NRTL资质是等效的，亚马逊都认可。ETL比UL便宜20-40%且周期更短。不是所有电子都强制要UL，但亚马逊在电器、灯具等类目通常会要求。如果产品不强制，可先上架，被要求再补。',
-            link: 'https://www.ul.com/services/certification'
-          },
-          { 
-            id: 'energy-star',
-            name: 'Energy Star', 
-            fullName: '美国能源之星 (EPA Voluntary Label)',
-            level: 'optional', desc: '能效标识，非强制但有助于提升搜索结果排名', 
-            agency: 'EPA',
-            regulator: '美国环保署 (EPA)',
-            law: 'Energy Policy Act of 2005',
-            lawText: '能源之星由EPA于1992年发起，是自愿性能效标识项目。产品需经EPA认可实验室测试，符合能效标准后方可使用标识。',
-            scope: '60+产品类别：家电、照明、办公设备、电子产品、暖通空调等（电脑、显示器、冰箱、空调最常用）。',
-            requirements: [
-              'EPA认可实验室测试',
-              '产品能效超过联邦最低标准',
-              '签署EPA合作伙伴协议',
-              '每年提交验证样本',
-              '标签设计需符合规范'
-            ],
-            cost: '认证+测试: 3,000-15,000元',
-            duration: '4-8周',
-            tips: '完全非强制，但有Energy Star标的产品在亚马逊搜索结果中权重更高，且部分B2B客户指定要求。不是电子产品的必备认证，锦上添花。',
-            link: 'https://www.energystar.gov'
-          },
-          { 
-            id: 'doe',
-            name: 'DOE能效认证', 
-            fullName: 'DOE Compliance Certificate (联邦强制能效)',
-            level: 'conditional', desc: '特定产品（电源适配器、电池充电器、家电等）强制能效注册', 
-            agency: 'DOE',
-            regulator: '美国能源部 (DOE)',
-            law: 'Energy Policy and Conservation Act (EPCA) 10 CFR 430',
-            lawText: '依据EPCA，DOE对特定产品类别设定强制能效标准。10 CFR 430规定了各类产品的能效要求。违规产品不得在美国销售，每次违规最高罚款$10,000。',
-            scope: '外置电源适配器 (EPS)、电池充电器 (BCS)、冰箱、空调、热水器、洗衣机、洗碗机等特定产品。普通电子产品不需要。',
-            requirements: [
-              '符合联邦能效标准',
-              '在DOE CCMS系统注册',
-              'DOE认可实验室测试',
-              '保留测试报告备查',
-              '进口商须注册'
-            ],
-            cost: '测试+注册: 5,000-15,000元 (简单电源适配器3,000-8,000元)',
-            duration: '4-6周',
-            tips: '只对特定产品强制。最常遇到的是外置电源适配器（手机充电器、笔记本电脑适配器）和电池充电器。如果产品不带这些，通常不需要。没有DOE注册，被查到的产品会被销毁或召回。',
-            link: 'https://www.energy.gov/eere/buildings/appliance-and-equipment-standards-program'
-          }
-        ]
+<script>
+// ════════════════════════════════════════════════════════════════════
+// 认证数据库
+// level: required=强制必需 | conditional=特定产品强制 | recommended=推荐 | optional=可选
+// ════════════════════════════════════════════════════════════════════
+const certDB = {
+  cpsc: {
+    name: 'CPSC合规体系',
+    keywords: ['cpsc','cpc','gcc','合规证书','合格证书','儿童产品证书','通用合规','efiling','电子申报','消费品安全'],
+    enKeywords: ['cpsc','cpc','gcc','efiling','certificate','compliance','consumer product safety'],
+    certs: [
+      {
+        id: 'cpc-cert',
+        name: 'CPC儿童产品证书',
+        fullName: "Children's Product Certificate / CPSIA 第三方强制测试",
+        level: 'required',
+        desc: '所有12岁及以下儿童产品的制造商/进口商必须基于CPSC认可实验室出具CPC证书',
+        agency: 'CPSC',
+        regulator: '美国消费品安全委员会 (CPSC)',
+        law: 'CPSIA (Consumer Product Safety Improvement Act) Section 14 + 16 CFR Part 1110',
+        lawText: '《消费品安全改进法案》(CPSIA) 第14条要求：所有12岁及以下儿童产品的制造商或进口商，必须根据CPSC认可的第三方实验室的测试结果，以儿童产品证书(CPC)的形式证明其产品符合所有适用的儿童产品安全规则。亚马逊要求所有儿童产品Listing必须上传CPC，缺失即下架。',
+        scope: '所有12岁及以下儿童产品。包含但不限于：玩具(ASTM F963)、童装(16 CFR 1610)、儿童饰品(16 CFR 1500.50)、儿童家具、婴儿床(16 CFR 1218/1219)、儿童自行车(16 CFR 1512)、儿童电子产品(CPSIA铅)、安抚奶嘴(16 CFR 1511)、儿童护理用品等。不含自行车头盔(受CPC约束见16 CFR 1203)。\n\n⚠ CPSC定义的"儿童产品"标准：\n1. 产品"主要设计或意图"为12岁及以下儿童使用\n2. 判定依据：制造商声明的适用年龄 + 产品设计特征(尺寸、颜色、功能等)\n3. 儿童产品必须使用CPSC认可的第三方实验室进行测试',
+        requirements: [
+          '必须使用CPSC认可的第三方实验室进行测试',
+          '测试须覆盖所有适用儿童产品安全规则（不止一个标准）',
+          'CPC证书基于测试报告签发（证书不是测试报告本身）',
+          '证书须包含：产品描述、适用法规、制造商/进口商信息、实验室信息、测试日期',
+          '须由美国进口商或国内制造商签发',
+          '按型号分别出具，不可混用',
+          '须符合16 CFR Part 1110格式要求',
+          '保留测试报告备查（CPSC可随时要求提供）'
+        ],
+        cost: '测试费用因产品而异：玩具全套(含ASTM F963+CPSIA): 5,000-12,000元；童装: 3,000-8,000元；儿童电子产品: 5,000-15,000元',
+        duration: '2-4周（测试）+ 1-2天（出证书）',
+        tips: 'CPC证书≠测试报告！很多卖家混淆。证书是制造商签发的声明文件，测试报告是实验室出的。亚马逊要你提供的是两者：CPC证书+测试报告。证书格式在CPSC官网有模板，可以自己填。注意：CPC上的美国进口商信息必须真实，不要编造。亚马逊现在会核查进口商真实性。',
+        link: 'https://www.cpsc.gov/Business--Manufacturing/Testing-Certification/Childrens-Product-Certificate'
       },
-      toys: {
-        name: '儿童用品/玩具',
-        keywords: ['玩具','儿童','婴儿','宝宝','积木','娃娃','毛绒','益智','爬行','学步','推车','奶瓶','奶嘴','磨牙','咬胶','尿布','纸尿裤','童装','童鞋','童车','安全座椅','摇铃','儿童玩具'],
-        enKeywords: ['toy','child','baby','infant','stroller','crib','rattle','plush','doll','bottle','pacifier','diaper','kids','children'],
-        certs: [
-          { 
-            id: 'cpc',
-            name: 'CPC认证', 
-            fullName: 'Children\'s Product Certificate',
-            level: 'required', desc: '12岁及以下儿童产品必须提供CPC证书才能上架', 
-            agency: 'CPSC',
-            regulator: '美国消费品安全委员会 (CPSC)',
-            law: 'Consumer Product Safety Improvement Act (CPSIA) Section 14',
-            lawText: 'CPSIA第14条规定：所有12岁及以下儿童产品的制造商或进口商必须基于CPSC认可的第三方实验室测试结果，签发CPC证书。亚马逊要求所有儿童产品listing必须提供CPC，无CPC即下架。',
-            scope: '12岁及以下儿童产品：玩具、童车、童装、童鞋、儿童家具、儿童护理用品等。',
-            requirements: [
-              '基于CPSC认可实验室的测试报告',
-              '测试须覆盖适用法规（铅、邻苯二甲酸盐、ASTM F963等）',
-              '证书包含：产品信息、适用法规、制造商、实验室信息、测试日期',
-              '英文撰写，须由美国进口商签发',
-              '按型号分别出报告'
-            ],
-            cost: '测试+报告: 2,000-8,000元 (含ASTM F963和CPSIA铅+邻苯二甲酸盐全套: 5,000-12,000元)',
-            duration: '2-4 周',
-            tips: '亚马逊儿童类目的"通行证"，没有CPC必下架。CPC须由美国进口商签发。找CPSC认可的实验室（SGS/Intertek/BV/TÜV莱茵），费用和周期差别不大。CPC有效期取决于产品是否变更，换了工厂要重新来。',
-            link: 'https://www.cpsc.gov/Business--Manufacturing/Testing-Certification/Childrens-Product-Certificate'
-          },
-          { 
-            id: 'astm-f963',
-            name: 'ASTM F963', 
-            fullName: 'ASTM F963 Toy Safety Standard (联邦强制)',
-            level: 'required', desc: '玩具安全物理机械测试，联邦法规强制引用', 
-            agency: 'CPSC',
-            regulator: 'ASTM International / CPSC (强制)',
-            law: '16 CFR Part 1250 (联邦法规强制引用)',
-            lawText: 'ASTM F963自2024年1月20日起被16 CFR Part 1250引用为强制性标准。涵盖玩具的机械物理安全、易燃性、化学安全、电气安全等。',
-            scope: '12岁及以下儿童玩具产品（不含自行车、体育用品等特殊豁免品）。',
-            requirements: [
-              '机械物理测试：冲击、挤压、扭力、拉力、尖点锐边',
-              '小部件测试（3岁以下警告）',
-              '易燃性测试',
-              '重金属+总铅',
-              '电气安全（带电玩具）',
-              '标签审查'
-            ],
-            cost: '物理测试: 3,000-8,000元 / 全套: 6,000-15,000元',
-            duration: '3-6周',
-            tips: 'ASTM F963通常和CPC一起做，实验室会用CPSC认可的资质一次出完整的CPC测试报告，不需要分开。最新版本是F963-23（2024年1月执行）。',
-            link: 'https://www.astm.org/f0963-23.html'
-          },
-          { 
-            id: 'tracking-label',
-            name: '追踪标签', 
-            fullName: 'CPSIA Tracking Label (儿童产品追溯标签)',
-            level: 'required', desc: '所有儿童产品必须贴追踪标签', 
-            agency: 'CPSC',
-            regulator: '美国消费品安全委员会 (CPSC)',
-            law: 'CPSIA Section 103',
-            lawText: 'CPSIA第103条要求儿童产品必须贴可追踪标签，便于产品召回时追溯生产信息。标签须永久附于产品和包装上。',
-            scope: '所有儿童产品（12岁及以下）。',
-            requirements: [
-              '标签含：制造商信息、生产地点、生产日期、批次/序列号',
-              '永久贴于产品本体 + 包装',
-              '耐磨耐水洗不脱落',
-              '标签信息完整可追溯到具体批次'
-            ],
-            cost: '标签设计+印刷: 500-2,000元',
-            duration: '1-2周',
-            tips: '最容易被忽视的合规要求。设计产品时预留标签位置，标签信息要完整（特别不要漏掉批次号），价格极低但缺失就是违规。',
-            link: 'https://www.cpsc.gov/Business--Manufacturing/Childrens-Products/Tracking-Labels'
-          }
-        ]
+      {
+        id: 'gcc-cert',
+        name: 'GCC通用合规证书',
+        fullName: 'General Certificate of Conformity (GCC) - 非儿童产品合规声明',
+        level: 'required',
+        desc: '受CPSC安全规则约束的非儿童产品(一般用途产品)，同样需要签发书面GCC合规声明',
+        agency: 'CPSC',
+        regulator: '美国消费品安全委员会 (CPSC)',
+        law: 'CPSA Section 14(a)(2) + 16 CFR Part 1110',
+        lawText: 'CPSA第14(a)(2)条规定：适用于消费品安全规则的一般用途产品(非儿童产品)的制造商和进口商，必须基于测试或合理的测试计划，以书面形式签发GCC（通用合规证书）证明产品合规。GCC是自我声明文件，不需要第三方实验室——但须有合理的测试程序(RTP)支持。',
+        scope: '以下CPSC清单中的非儿童产品需要GCC（截至2024年8月CPSC官方列表）：\n\n🔸 打火机 - 16 CFR 1210/1212 (ASTM F400)\n🔸 自行车 - 16 CFR 1512\n🔸 自行车头盔 - 16 CFR 1203\n🔸 全地形车(ATV) - 16 CFR 1420\n🔸 建筑玻璃材料 - 16 CFR 1201\n🔸 成人便携式床栏 - 16 CFR 1270\n🔸 双层床 - 16 CFR 1213\n🔸 纽扣/硬币电池产品 - 16 CFR 1263 (UL 4200A)\n🔸 地毯(大) - 16 CFR 1630 | 地毯(小) - 16 CFR 1631\n🔸 CB天线 - 16 CFR 1204\n🔸 车库开门器 - 16 CFR 1211\n🔸 火柴 - 16 CFR 1202\n🔸 床垫 - 16 CFR 1632/1633\n🔸 打火机液体 - 16 CFR 1214\n🔸 烟花 - 16 CFR 1500.17(a)(3)\n🔸 乙烯塑料薄膜 - 16 CFR 1611\n\n⚠ 重要：不是所有产品都有GCC要求！只有CPSC清单上的产品类别才需要GCC。大部分普通日用品(如充电器、台灯、餐具等)并不需要GCC——它们受FCC/FDA/UL等其他机构监管。',
+        requirements: [
+          '基于"合理测试程序"(RTP)出具书面GCC',
+          '不需要第三方实验室——可自测或委托任何实验室',
+          'GCC须包含：产品识别信息、适用安全规则、制造商/进口商信息、生产日期地点、测试日期地点、实验室信息',
+          '保留合理测试程序的记录备查',
+          '证书须随产品出货，并提供给经销商/零售商'
+        ],
+        cost: '证书：0元（自己写）| 测试费用：因产品而异，打火机: 5,000-15,000元，自行车: 10,000-30,000元，纽扣电池: 5,000-12,000元',
+        duration: '证书：1小时（自己写）| 测试：2-6周',
+        tips: 'GCC是很多卖家不知道的文件。注意：它不是花钱买的"认证"，是制造商/进口商自己签发的合规声明。大多数GCC产品自己写几页就够了。但"合理的测试程序"需要测试报告做支撑。特别注意：2026年7月8日起GCC也要电子申报(eFiling)！',
+        link: 'https://www.cpsc.gov/Business--Manufacturing/Testing-Certification/General-Certificate-of-Conformity'
       },
-      foodContact: {
-        name: '食品接触材料',
-        keywords: ['餐具','厨具','厨房','食品','食物','保鲜','密封','饭盒','水杯','杯子','碗','盘','筷子','勺子','砧板','刀具','锅','壶','烘焙','烧烤','咖啡','茶具','硅胶','塑料'],
-        enKeywords: ['kitchen','food container','bottle','cup','plate','bowl','utensil','cutting board','knife','pot','pan','baking','thermos','lunch box','straw'],
-        certs: [
-          { 
-            id: 'fda-food',
-            name: 'FDA食品接触材料', 
-            fullName: 'FDA Food Contact Substance Compliance',
-            level: 'required', desc: '与食品直接接触的材料须符合FDA 21 CFR要求', 
-            agency: 'FDA',
-            regulator: '美国食品药品监督管理局 (FDA)',
-            law: '21 CFR Parts 170-199 (联邦法规第21篇食品接触物质)',
-            lawText: 'FDA依据《联邦食品、药品和化妆品法案》监管食品接触材料。21 CFR 174-186规定了各种材料（塑料、橡胶、陶瓷、玻璃、金属、纸、涂层）的使用限制和迁移量要求。',
-            scope: '所有食品接触材料：塑料、硅胶、金属、陶瓷、玻璃、纸、涂层等。不是"产品"而是"材料"合规。',
-            requirements: [
-              '材料成分须符合21 CFR相关条款',
-              '迁移测试：总迁移量+特定迁移量',
-              '符合GMP (21 CFR 110)',
-              '需保留合规文件（测试报告、符合性声明）',
-              '按材料类别查对应的CFR'
-            ],
-            cost: '单材质: 3,000-10,000元 / 多材质: 8,000-20,000元',
-            duration: '3-6周',
-            tips: 'FDA并不直接给产品颁发"FDA证书"，合规证明是测试报告+符合性声明。常见材料对应CFR：塑料看21 CFR 177.1520，硅胶看177.2600。找有FDA资质认可的实验室出报告即可。',
-            link: 'https://www.fda.gov/food/food-contact-substances-fcs'
-          },
-          { 
-            id: 'prop65',
-            name: '加州65号提案', 
-            fullName: 'California Proposition 65 (安全饮用水和有毒物质执法法)',
-            level: 'required', desc: '在加州销售的产品含清单化学物质须贴警示标签', 
-            agency: 'California OEHHA',
-            regulator: '加州环境健康风险评估办公室 (OEHHA)',
-            law: 'California Health and Safety Code § 25249.5-25249.14',
-            lawText: 'Prop 65要求企业在销售含有致癌或生殖毒性化学物质的产品前，须向消费者提供明确警示。OEHHA化学品清单每年更新，目前约900种物质。',
-            scope: '在加州销售的所有产品（非加州发货可豁免，但大多亚马逊FBA发加州无法避免）。',
-            requirements: [
-              '检测产品是否含清单中的化学物质',
-              '含则贴Prop 65警示标签（产品+网站）',
-              '建议使用OEHHA安全港警告语',
-              '警告需用英文（也可加西语）'
-            ],
-            cost: '测试: 2,000-8,000元（简单材料测试费用不高）',
-            duration: '2-4周',
-            tips: 'Prop 65不是产品认证，是警示标签要求。很多产品（特别是含铅的陶瓷、涂层）只需贴标签就合规。Not required if you don\'t sell to California or your products contain no listed chemicals. 诉讼风险主要来自铅、邻苯二甲酸盐、甲醛、双酚A。',
-            link: 'https://www.p65warnings.ca.gov'
-          }
-        ]
+      {
+        id: 'efiling',
+        name: 'CPSC eFiling 电子申报',
+        fullName: 'CPSC eFiling - 强制性证书电子申报系统 (2026年7月8日生效)',
+        level: 'required',
+        desc: '🔴 紧急！2026年7月8日起CPSC监管产品清关前必须完成电子申报',
+        agency: 'CPSC + CBP',
+        regulator: '美国消费品安全委员会 (CPSC) + 海关与边境保护局 (CBP)',
+        law: 'Federal Register: Certificates of Compliance (2025年1月8日公布)',
+        lawText: 'CPSC eFiling新规于2026年7月8日正式生效：所有受CPSC监管的进口消费品，在清关前必须通过CBP的ACE系统或CPSC Product Registry提交电子合规证书数据。取代此前随货附带或抽查方式。未申报或数据不符的货物将被自动拦截，面临清关滞留、退回甚至罚款。',
+        scope: '所有受CPSC监管的消费品——涵盖儿童产品、成人服装、电子产品、家电、家具、家居、厨房用具、灯具等。\n\n无货值豁免！即使低于$800的小额包裹也需申报！\n\n⚠ 重要豁免：食品、药品、医疗器械归FDA管，不受CPSC eFiling约束。',
+        requirements: [
+          'eFiling必须包含7项核心数据（缺一不可）：',
+          '① 产品ID (Product ID) - GTIN/UPC/SKU等唯一标识',
+          '② 引用代码 (Citation Codes) - 适用的CPSC安全规则编号(如16 CFR 部分、ASTM标准)',
+          '③ 制造日期 (Date of Manufacture) - 精确到年月',
+          '④ 制造地点 (Place of Manufacture) - 工厂城市+国家',
+          '⑤ 产品测试日期 (Product Test Date) - 最近合规检测日期',
+          '⑥ 测试实验室 (Testing Laboratory) - CPSC认可实验室名称及编号',
+          '⑦ 联系人 (Point of Contact) - 进口商/合规负责人姓名电话邮箱',
+          '',
+          '操作方式分两种：',
+          '方式A：报关行直接将数据录入CBP的ACE系统',
+          '方式B：先到CPSC Product Registry预注册，生成证书标识符，再提供给报关行关联申报'
+        ],
+        cost: '申报本身不收费（通过ACE系统免费）| 但需持有有效CPC或GCC证书（证书费用见各分类）',
+        duration: '数据准备：1-2天 | ACE对接测试：建议7月8日前完成',
+        tips: '⚠ 这是当前最紧急的合规变化！\n\n✅ 立即行动：\n1. 访问 cpsc.gov/eFiling 使用Regulatory Robot查询你的SKU是否受CPSC监管\n2. 检查所有受监管SKU是否持有有效CPC/GCC证书\n3. 整理7项核心数据，建立数据台账\n4. 与合作报关行沟通ACE数据对接\n5. 2026年7月8日前完成流程测试\n\n🔍 Regulatory Robot工具：输入产品关键词，1分钟出结果。网址：cpsc.gov/eFiling\n\n⏰ 时间线：\n- 2026年7月8日：直接入境货物开始强制\n- 2027年1月8日：通过自由贸易区(FTZ)进口的货物开始强制',
+        link: 'https://www.cpsc.gov/eFiling'
       },
-      cosmetics: {
-        name: '化妆品/护肤品',
-        keywords: ['护肤','化妆','美容','面膜','精华','乳液','面霜','眼霜','口红','粉底','眼影','香水','香氛','洗护','洗发','护发','沐浴','香皂','牙膏','牙刷','化妆棉','棉签','护肤品','化妆品'],
-        enKeywords: ['cosmetic','skincare','makeup','cream','lotion','serum','fragrance','perfume','shampoo','soap','toothpaste','lipstick','foundation','mask'],
-        certs: [
-          { 
-            id: 'fda-cosmetic',
-            name: 'FDA化妆品设施注册', 
-            fullName: 'FDA Cosmetic Facility Registration & Product Listing (MoCRA)',
-            level: 'required', desc: '2023年12月起强制，化妆品设施须在FDA注册、产品须列名', 
-            agency: 'FDA',
-            regulator: '美国食品药品监督管理局 (FDA)',
-            law: 'MoCRA 2022 (Modernization of Cosmetics Regulation Act) + FD&C Act Ch.VI',
-            lawText: '根据MoCRA 2022（2023年12月29日生效），所有在美销售化妆品的制造商和加工商必须进行FDA设施注册（每两年更新）和产品列名。',
-            scope: '护肤品、彩妆、香水、洗发水、沐浴露等化妆品（不含肥皂按定义豁免，OTC药品另算）。',
-            requirements: [
-              '设施注册 (Facility Registration)，每两年更新',
-              '产品列名 (Product Listing)，每种产品单独列名',
-              '指定美国代理人 (US Agent)',
-              '不良事件报告制度',
-              '产品安全证明 (Safety Substantiation)'
-            ],
-            cost: '注册+列名: 3,000-8,000元（FDA不收费，主要是代理服务费）',
-            duration: '2-4周',
-            tips: 'MoCRA 2023年12月29日起强制执行，还没注册的赶紧注册。FDA不收费，但必须指定美国代理人。注册网址：https://www.fda.gov/cosmetics/registration-listing-cosmetics。化妆品注册和产品列名目前免费。',
-            link: 'https://www.fda.gov/cosmetics/registration-listing-cosmetics'
-          },
-          { 
-            id: 'label-cosmetic',
-            name: '化妆品标签合规', 
-            fullName: 'FDA Cosmetic Labeling Compliance (21 CFR 701)',
-            level: 'required', desc: '标签须含成分表、净含量、制造商信息等', 
-            agency: 'FDA',
-            regulator: '美国食品药品监督管理局 (FDA)',
-            law: '21 CFR Part 701 (化妆品标签) + MoCRA 2022',
-            lawText: '21 CFR Part 701详细规定化妆品标签要求。MoCRA新增过敏原信息披露要求和香精过敏原披露。标签须英文表述，INCI名称须正确。',
-            scope: '所有化妆品。',
-            requirements: [
-              '产品名称+功能声明',
-              '净含量（公制+美制）',
-              '成分表 (INCI国际通用名)',
-              '制造商信息+原产国',
-              '过敏原披露（MoCRA新增24种香精过敏原）',
-              '警告语（如必要）'
-            ],
-            cost: '标签设计+合规审查: 2,000-5,000元',
-            duration: '1-3周',
-            tips: 'FDA对成分标识错误零容忍。标签错误被NTE（海关扣留）的概率很高。INCI名称必须正确，常见错误是花哨的成分名和INCI标准名不一致。香精过敏原公示是MoCRA新要求。',
-            link: 'https://www.fda.gov/cosmetics/cosmetics-labeling'
-          },
-          { 
-            id: 'cruelty-free',
-            name: 'Cruelty-Free/Leaping Bunny', 
-            fullName: '无动物测试认证 (自愿第三方认证)',
-            level: 'optional', desc: '自愿认证，非强制但有助于美妆品牌溢价', 
-            agency: 'Leaping Bunny/PETA',
-            regulator: '第三方认证机构',
-            law: '无统一联邦法律',
-            lawText: '美国无统一Cruelty-Free认证法规。Leaping Bunny和PETA是两大认证体系。州层面：加州、纽约等已禁止销售经动物测试的化妆品。',
-            scope: '声称Cruelty-Free的化妆品。',
-            requirements: [
-              'Leaping Bunny：提交证明文件、年度复审',
-              'PETA：在线申请+无动物测试声明',
-              '产品和原料供应商均无动物测试',
-              '符合FTC反误导规定'
-            ],
-            cost: 'PETA: 免费 / Leaping Bunny: 5,000-15,000元',
-            duration: '4-8周',
-            tips: '非强制认证。亚马逊搜索支持"cruelty-free"过滤条件，有标签的转化率更高。Leaping Bunny含金量最高但贵，PETA便宜但认可度低些。本质上是个营销工具。',
-            link: 'https://www.leapingbunny.org'
-          }
-        ]
+      {
+        id: 'tracking-label',
+        name: '追踪标签(儿童产品)',
+        fullName: 'CPSIA Tracking Label (儿童产品追溯标签) - 16 CFR Part 1130',
+        level: 'required',
+        desc: '所有儿童产品(12岁及以下)必须贴永久性追踪标签，便于召回追溯',
+        agency: 'CPSC',
+        regulator: '美国消费品安全委员会 (CPSC)',
+        law: 'CPSIA Section 103 - Tracking Label Requirement',
+        lawText: 'CPSIA第103条规定，所有儿童产品(12岁及以下)的制造商须在产品本体和包装上贴永久性追踪标签，包含制造商信息、生产地点、生产日期、批次/序列号等信息，以支持产品召回追溯。标签须永久附于产品上。',
+        scope: '所有12岁及以下的儿童产品（与CPC覆盖范围一致）。',
+        requirements: [
+          '标签须含：制造商信息、生产地点、生产日期、批次号/序列号',
+          '永久附于产品本体(不脱落)',
+          '同时附于产品包装上',
+          '信息须可追溯到具体生产批次',
+          '用英文标注'
+        ],
+        cost: '标签设计+印刷: 500-2,000元（低成本）',
+        duration: '1-2周',
+        tips: '最容易被忽视的CPSC要求。很多卖家CPC做了但追踪标签漏了，照样被亚马逊或海关卡住。产品设计时提前预留标签位置，标签信息要完整(特别注意批次号不能省略)。低成本但必须做。',
+        link: 'https://www.cpsc.gov/Business--Manufacturing/Childrens-Products/Tracking-Labels'
+      }
+    ]
+  },
+
+  electronics: {
+    name: '电子产品',
+    keywords: ['耳机','蓝牙','充电','电子','手机','电脑','平板','音响','音箱','数据线','充电器','适配器','电池','移动电源','充电宝','线材','线缆','插座','开关','显示器','屏幕','键盘','鼠标','摄像头','路由器','网络设备','智能','电子设备'],
+    enKeywords: ['bluetooth','wireless','charger','adapter','power bank','battery','earphone','headphone','speaker','router','phone','tablet','laptop','keyboard','mouse','electronic','cable','smart'],
+    certs: [
+      {
+        id: 'fcc',
+        name: 'FCC认证',
+        fullName: 'FCC Equipment Authorization / 47 CFR Part 15',
+        level: 'required',
+        desc: '含无线/射频功能或有电磁辐射的产品必须获得FCC授权',
+        agency: 'FCC',
+        regulator: '美国联邦通信委员会 (FCC)',
+        law: 'FCC Rules 47 CFR Part 15',
+        lawText: '根据《通信法》第302条和第303条，所有在美国销售或使用的无线电频率发射设备，必须获得FCC认证。无线产品(蓝牙/WiFi/Zigbee等)需FCC ID认证；无无线功能产品需FCC SDoC(供应商符合性声明)。',
+        scope: '所有电子电气产品。\n- 有无线功能（蓝牙/WiFi/Zigbee等）：FCC ID认证\n- 无无线功能：FCC SDoC',
+        requirements: [
+          '无线产品：FCC ID测试（辐射+传导发射、射频暴露评估）',
+          '无无线产品：FCC SDoC（自测或实验室测试，不需FCC审核）',
+          '产品标签须含FCC ID（适用时）',
+          '用户手册含合规声明'
+        ],
+        cost: 'FCC ID: 3,000-10,000元 | 非无线FCC SDoC: 2,000-5,000元',
+        duration: 'FCC ID: 2-4周 | FCC SDoC: 1-2周',
+        tips: '无线产品必须FCC ID（蓝牙耳机、WiFi音箱等）。纯电子无无线功能的仅需SDoC。亚马逊会抽查FCC ID，无ID直接下架。另注意：FCC受CPSC eFiling影响？不，FCC独立于CPSC，FCC ID产品不受CPSC eFiling约束。',
+        link: 'https://www.fcc.gov/equipment-authorization'
       },
-      medical: {
-        name: '医疗器械/保健',
-        keywords: ['医疗','保健','健康','体温计','血压计','血糖仪','按摩','理疗','康复','护具','口罩','消毒','杀菌','检测','测试','诊断','治疗','器械'],
-        enKeywords: ['medical','massage','therapy','thermometer','blood pressure','monitor','mask','sterilization','diagnostic','heating pad','hot pack','brace','support','rehabilitation'],
-        certs: [
-          { 
-            id: 'fda-medical',
-            name: 'FDA医疗器械企业注册', 
-            fullName: 'FDA Establishment Registration & Device Listing',
-            level: 'required', desc: '医疗器械产品在美国销售前必须完成FDA企业注册和器械列名', 
-            agency: 'FDA',
-            regulator: '美国食品药品监督管理局 (FDA)',
-            law: '21 CFR Part 807 + FD&C Act Section 510',
-            lawText: 'FD&C法案第510条要求所有在美国销售或进口到美国的医疗器械的厂家，须进行FDA Establishment Registration和Device Listing。年度更新（每年10月-12月）。',
-            scope: '所有医疗器械（Class I/II/III）：体温计、血压计、血糖仪、按摩器、理疗仪、口罩等。heating pad用于医疗目的（如物理治疗）一般属于Class I医疗器械。',
-            requirements: [
-              'Establishment Registration（企业注册）',
-              'Device Listing（器械列名）',
-              '指定美国代理人 (US Agent)',
-              '按风险等级满足上市前要求 (Class I豁免510(k) / Class II需510(k))',
-              '遵守质量体系法规 (21 CFR 820 QSR)',
-              'UDI标识（部分豁免）'
-            ],
-            cost: '企业注册+器械列名: 5,000-12,000元（FDA年费\$(小型)/\$9,280(大型) + 美国代理人服务费）',
-            duration: '4-8周',
-            tips: 'heating pad如果是普通家用热敷垫，通常是Class I医疗器械（510(k)豁免），注册费用最低。但如果是用于治疗目的（物理治疗），需走510(k)路径。注意：很多heating pad主要宣传"舒缓肌肉""缓解疼痛"这属于医疗器械声明，必须注册FDA。FDA年度更新很重要，过期会被注销。',
-            link: 'https://www.fda.gov/medical-devices/device-registration-and-listing'
-          },
-          { 
-            id: 'fda-510k',
-            name: '510(k)上市前通知', 
-            fullName: 'FDA 510(k) Premarket Notification',
-            level: 'conditional', desc: 'Class II或部分Class III医疗器械需提交510(k)上市前通知', 
-            agency: 'FDA',
-            regulator: '美国食品药品监督管理局 (FDA)',
-            law: '21 CFR Part 807 Subpart E + FD&C Act Section 510(k)',
-            lawText: '510(k)是FDA对Class II医疗器械的上市前通知要求，须证明与已上市predicate device实质等同。',
-            scope: 'Class II医疗器械（大部分保健按摩类器械是Class I，豁免510(k)），以及部分高风险的Class I和Class III。',
-            requirements: [
-              '找到合适的Predicate Device',
-              '性能测试（生物相容性、电气安全、EMC等）',
-              '提交510(k)摘要',
-              'FDA审查（$31,872/2024年，小企业半价）',
-              '审查周期3-6个月'
-            ],
-            cost: '全流程: 100,000-300,000元 (大量产品属于510(k)豁免，不需此认证！)',
-            duration: '4-8个月',
-            tips: '如果您的heating pad只是Class I且510(k)豁免，这一项不需要。确定前先查514(k) exempt list。只有带治疗声明的专用设备才需要。不要上来就做510(k)，成本很高。',
-            link: 'https://www.fda.gov/medical-devices/premarket-submissions/premarket-notification-510k'
-          },
-          { 
-            id: 'iso13485',
-            name: 'ISO 13485', 
-            fullName: 'ISO 13485 Medical Devices QMS',
-            level: 'optional', desc: '医疗器械质量管理体系认证，非美国强制但被客户广泛要求', 
-            agency: 'ISO',
-            regulator: 'ISO (国际标准化组织)',
-            law: 'ISO 13485:2016 (国际标准)',
-            lawText: 'ISO 13485是医疗器械QMS国际标准。FDA认可的MDSAP（医疗器械单一审核程序）也基于ISO 13485。加拿大Health Canada、欧盟MDR强制要求。',
-            scope: '医疗器械制造商及其供应链。',
-            requirements: [
-              'QMS体系建立+文件化',
-              '管理评审和内审',
-              '设计和开发控制',
-              'CAPA（纠正预防措施）',
-              '第三方认证审核'
-            ],
-            cost: '体系建立+认证: 20,000-50,000元',
-            duration: '4-8个月',
-            tips: 'ISO 13485本身不是FDA强制的。美国FDA有自己的QSR（21 CFR 820），但现在QSR正在与ISO 13485对齐（2026年过渡期）。不是必须的认证，但对B2B业务很有帮助。',
-            link: 'https://www.iso.org/standard/59752.html'
-          },
-          { 
-            id: 'ul-medical',
-            name: 'UL 60601(医疗器械安全)', 
-            fullName: 'UL 60601 Medical Electrical Equipment Safety',
-            level: 'optional', desc: '电子医疗器械安全认证，主要用于Class II及以上设备', 
-            agency: 'UL',
-            regulator: 'UL LLC (NRTL)',
-            law: 'IEC 60601 / UL 60601',
-            lawText: 'IEC 60601是医用电气设备安全的国际标准，UL 60601是美国的等同采纳。Class II和III的医用电子设备通常需要此认证。但简单的Class I设备（如普通加热垫）通常不需要。',
-            scope: '医用电气设备（带电医疗器械）。',
-            requirements: ['电气安全测试','EMC测试','生物相容性','可用性工程','标签审查'],
-            cost: '全项目: 30,000-80,000元',
-            duration: '8-16周',
-            tips: '普通heating pad如果仅用于舒缓肌肉且是Class I，通常不需要UL 60601。但如果有治疗声明的专用设备则需要。先确认产品是Class I还是Class II。',
-            link: 'https://www.ul.com/insights/iec-60601-medical-electrical-equipment'
-          }
-        ]
+      {
+        id: 'ul',
+        name: 'UL/ETL安全认证',
+        fullName: 'UL/ETL/CSA Product Safety Certification (NRTL)',
+        level: 'conditional',
+        desc: '亚马逊分类要求带电产品提交UL或同级NRTL安全认证',
+        agency: 'UL/ETL',
+        regulator: 'NRTL (OSHA认可国家认可测试实验室)',
+        law: 'OSHA NRTL Program - 联邦职业安全与健康管理局',
+        lawText: 'UL本身不是联邦法律强制，但OSHA要求进入工作场所的产品经NRTL认证。亚马逊自营在许多电子电器类目强制要求NRTL认证(UL/ETL/CSA)才能上架。',
+        scope: '带电产品：电源适配器、充电器、家用电器、灯具、IT设备、音视频设备、电池产品等。\n亚马逊常见要求UL的类目：电子、灯具、家电、厨房电器。',
+        requirements: [
+          '电气安全测试（电击、火灾、机械防护）',
+          '温升测试（正常及故障条件下）',
+          '绝缘强度+接地连续性测试',
+          '异常操作+元器件故障测试',
+          '工厂审查：FUS (Follow-Up Service)'
+        ],
+        cost: '全项目: 15,000-50,000元 | 简化报告: 8,000-15,000元',
+        duration: '普通: 4-8周 | 简化报告: 2-3周',
+        tips: 'UL/ETL/CSA三者NRTL资质等效，亚马逊都认。ETL比UL便宜20-40%且快。不是所有电子都强制要UL——但亚马逊在电器类目常要求。先用上架测试，被要求再补。注意：UL不直接受CPSC管，但UL报告可能用于支持CPSC eFiling。',
+        link: 'https://www.ul.com/services/certification'
       },
-      lighting: {
-        name: '灯具照明',
-        keywords: ['灯','照明','LED','灯泡','台灯','落地灯','吊灯','壁灯','筒灯','射灯','灯带','灯条','路灯','手电','应急灯','智能灯','氛围灯','灯具'],
-        enKeywords: ['light','lamp','bulb','led','table lamp','floor lamp','chandelier','ceiling','torch','flashlight','lantern','string light'],
-        certs: [
-          { 
-            id: 'ul-lighting',
-            name: 'UL/ETL(灯具安全)', 
-            fullName: 'UL/ETL Lighting Safety (NRTL)',
-            level: 'required', desc: '亚马逊灯具类目强制要求UL/ETL安全认证', 
-            agency: 'UL/ETL',
-            regulator: 'NRTL (OSHA认可实验室)',
-            law: 'UL 1598 (固定式灯具) / UL 153 (便携式) / UL 1993 (LED灯泡)',
-            lawText: '亚马逊灯具类目（Lighting）政策要求提供UL或NRTL等效的安全认证。多数灯具必须符合UL适用标准。',
-            scope: '所有灯具：固定式、便携式、嵌入式、LED灯泡、LED灯管、智能灯具、夜灯等。',
-            requirements: [
-              '按适用UL标准进行安全测试',
-              '温升+机械+防触电+可燃性测试',
-              'UL工厂跟踪服务 (FUS)'
-            ],
-            cost: 'UL: 20,000-50,000元 / ETL: 15,000-35,000元（ETL周期更短更便宜）',
-            duration: 'UL: 8-12周 / ETL: 4-8周',
-            tips: 'ETL和UL的NRTL资质等效，亚马逊都认可。ETL通常便宜30%且周期短。对于LED灯，UL 8750(LED光源) + UL 1598(固定灯具)或UL 153(便携)。如果做亚马逊，灯具类目几乎必须有这个。',
-            link: 'https://www.ul.com/lighting'
-          },
-          { 
-            id: 'energy-star-light',
-            name: 'Energy Star(灯具版)', 
-            fullName: 'Energy Star for Lighting (自愿节能认证)',
-            level: 'optional', desc: '自愿节能认证，有助于提升Listing排名', 
-            agency: 'EPA',
-            regulator: '美国环保署 (EPA)',
-            law: 'Energy Star Lamps V2.1 / Luminaires V2.1',
-            lawText: 'Energy Star对灯具和灯泡有详细的能效测试要求。',
-            scope: 'LED灯泡、灯具、灯管。',
-            requirements: [
-              '光效≥指定值、CRI≥80、色温符合',
-              '寿命L70≥15,000小时',
-              '功率因数≥0.7/0.9',
-              '三年保修+EPA实验室测试'
-            ],
-            cost: '测试: 5,000-15,000元',
-            duration: '6-10周',
-            tips: '非强制，但Energy Star标志在亚马逊灯具搜索中清晰可见，影响转化率。可以和UL测试同时进行，节省费用。',
-            link: 'https://www.energystar.gov/products/lighting_fans'
-          },
-          { 
-            id: 'dlc',
-            name: 'DLC认证', 
-            fullName: 'DesignLights Consortium (商用LED认证)',
-            level: 'optional', desc: '商用LED灯具能效认证，主要用于B2B客户', 
-            agency: 'DLC',
-            regulator: 'DesignLights Consortium',
-            law: 'DLC Standard V5.1',
-            lawText: 'DLC是商用LED能效认证，公用事业公司提供DLC列名产品的节能补贴。家装灯具一般不需要。',
-            scope: '商用LED灯具：工矿灯、面板灯、路灯、筒灯等。',
-            requirements: [
-              '光效/CRI/PF/THD按DLC V5.1要求',
-              'LM-79/LM-80/ISTMT报告',
-              '驱动器寿命≥50,000小时',
-              '5年保修'
-            ],
-            cost: '测试: 10,000-30,000元',
-            duration: '8-12周',
-            tips: '家装LED完全不需要。商用LED拿到DLC列名可以帮客户拿节能补贴，B2B客户会指定。如果是Amazon C端销售，跳过即可。',
-            link: 'https://www.designlights.org'
-          },
-          { 
-            id: 'fcc-light',
-            name: 'FCC(智能灯具)', 
-            fullName: 'FCC for Smart Lighting (含无线灯具)',
-            level: 'conditional', desc: '含蓝牙/WiFi等无线功能的智能灯具需要FCC ID', 
-            agency: 'FCC',
-            regulator: '美国联邦通信委员会 (FCC)',
-            law: '47 CFR Part 15 Subpart B + C',
-            lawText: '带无线功能的智能灯具须通过FCC认证。纯有线开关或红外遥控器的不需要。',
-            scope: '智能LED灯泡、灯带、开关等含无线模块的灯具。',
-            requirements: ['FCC ID测试','FCC ID标签','合规声明'],
-            cost: 'FCC ID: 3,000-10,000元',
-            duration: '3-4周',
-            tips: '普通无无线功能的灯具不需要FCC。只有带蓝牙/WiFi/Zigbee的才需要FCC ID。智能灯：UL + FCC是标配组合。',
-            link: 'https://www.fcc.gov/equipment-authorization'
-          }
-        ]
+      {
+        id: 'energy-star',
+        name: 'Energy Star',
+        fullName: 'Energy Star 能效标识 (EPA自愿项目)',
+        level: 'optional',
+        desc: '自愿性节能标识，非强制但有助于搜索排名和B2B销售',
+        agency: 'EPA',
+        regulator: '美国环保署 (EPA)',
+        law: 'Energy Policy Act of 2005',
+        lawText: '能源之星由EPA 1992年发起，是自愿性能效标识。EPA认可实验室测试通过后可使用标识。',
+        scope: '60+产品类别：家电、照明、办公设备、电子产品、暖通空调等(电脑、显示器、冰箱、空调最常用)。',
+        requirements: [
+          'EPA认可实验室测试',
+          '产品能效超过联邦最低标准',
+          'EPA合作伙伴协议签署',
+          '每年提交验证样本'
+        ],
+        cost: '测试: 3,000-15,000元',
+        duration: '4-8周',
+        tips: '完全非强制。但Energy Star标的产品在亚马逊搜索结果中权重更高，部分B2B客户指定要求。非必备认证，锦上添花。',
+        link: 'https://www.energystar.gov'
       },
-      textiles: {
-        name: '纺织品/服装',
-        keywords: ['服装','衣服','服饰','纺织','面料','T恤','衬衫','裤子','裙子','外套','内衣','袜子','帽子','围巾','手套','家纺','床单','被套','枕套','毛巾','窗帘','地毯'],
-        enKeywords: ['textile','clothing','apparel','shirt','pants','dress','jacket','socks','hat','scarf','glove','bedding','towel','curtain','rug'],
-        certs: [
-          { 
-            id: 'ftc-textile',
-            name: 'FTC纺织品标签', 
-            fullName: 'FTC Care Labeling & Fiber Content (追溯标签法)',
-            level: 'required', desc: '所有纺织品须按FTC规则标注成分和护理说明', 
-            agency: 'FTC',
-            regulator: '美国联邦贸易委员会 (FTC)',
-            law: 'Textile Fiber Products Identification Act + FTC Care Labeling Rule 16 CFR 423',
-            lawText: '《纺织品纤维产品识别法》要求标注纤维成分（按重量从多到少）。FTC护理标签规则要求护理说明永久附在产品上。',
-            scope: '所有纺织品和服装（含家纺），不限于儿童用品。',
-            requirements: [
-              '纤维成分标签（按重量从多到少）',
-              '使用通用纤维名（Cotton/Polyester等）',
-              '护理标签：四类符号（水洗/漂白/干燥/熨烫）',
-              '护理符号使用ASTM D5489标准符号',
-              '原产国 (Country of Origin)必标',
-              '制造商/进口商信息'
-            ],
-            cost: '标签设计: 1,000-3,000元',
-            duration: '1-2周',
-            tips: '这就是个标签要求，不是花钱认证的东西。原产国标注是FTC严查项。常见错误：护理符号不规范、纤维成分顺序反了、原产国用错格式（必须是"Made in China"或"Product of China"）。',
-            link: 'https://www.ftc.gov/enforcement/rules/rulemaking-regulatory-reform-proceedings/textile-fiber-products-identification-act'
-          },
-          { 
-            id: 'oekotex',
-            name: 'OEKO-TEX', 
-            fullName: 'OEKO-TEX Standard 100 (自愿有害物质检测)',
-            level: 'optional', desc: '自愿认证，家纺和童装做这个有助于溢价', 
-            agency: 'OEKO-TEX',
-            regulator: 'OEKO-TEX国际协会',
-            law: 'OEKO-TEX Standard 100 (私人标准)',
-            lawText: 'OEKO-TEX是国际认可的纺织品有害物质检测标准，每年更新有害物质清单。分四类（I婴儿-IV装饰），I类最严格。',
-            scope: '所有纺织品。',
-            requirements: [
-              '按I-IV类测试300+种有害物质',
-              '工厂现场审核',
-              '证书有效期1年，需年度更新'
-            ],
-            cost: '测试: 5,000-15,000元 / 年度更新: 3,000-8,000元',
-            duration: '4-8周',
-            tips: '完全自愿。亚马逊上家纺和童装产品有OEKO-TEX标有助于溢价，但没它也能卖。如果产品本身是普通成人服装，做这个的意义不大。'
-          },
-          { 
-            id: 'flammable-textile',
-            name: '纺织品阻燃', 
-            fullName: '16 CFR 1610 服装纺织品阻燃 (联邦强制)',
-            level: 'required', desc: '服装纺织品须通过可燃性测试（联邦强制）', 
-            agency: 'CPSC',
-            regulator: '美国消费品安全委员会 (CPSC)',
-            law: '16 CFR Part 1610 (一般服装纺织品) / Part 1615/1616 (儿童睡衣)',
-            lawText: 'CPSC对纺织品阻燃有强制性要求。大部分服装须通过水平燃烧测试。儿童睡衣（0-14码）有更严格的垂直燃烧测试要求。',
-            scope: '服装纺织品（含家纺）。不含功能服和部分装饰材料。',
-            requirements: [
-              '水平燃烧测试（一般服装）',
-              '儿童睡衣需垂直燃烧测试',
-              '阻燃警告标签（如适用）'
-            ],
-            cost: '测试: 2,000-5,000元',
-            duration: '2-3周',
-            tips: '这个测试费用很低，但大部分合成纤维（涤纶等）天然通过率高。天然纤维（棉）的阻燃性能差些。儿童睡衣（尺码0-14）有更严格的要求，必须通过垂直燃烧测试。',
-            link: 'https://www.cpsc.gov/Regulations-Laws--Standards/Voluntary-Standards/Textile-and-Apparel'
-          }
-        ]
+      {
+        id: 'doe',
+        name: 'DOE能效认证',
+        fullName: 'DOE Compliance Certificate (联邦强制能效注册)',
+        level: 'conditional',
+        desc: '电源适配器、电池充电器、家电等特定产品强制DOE能效注册',
+        agency: 'DOE',
+        regulator: '美国能源部 (DOE)',
+        law: '10 CFR Part 430 - Energy Policy and Conservation Act',
+        lawText: 'DOE对特定产品类别设定强制能效标准。违规产品不得在美国销售，每次违规最高罚款$10,000。',
+        scope: '外置电源适配器(EPS)、电池充电器(BCS)、冰箱、空调、热水器、洗衣机、洗碗机等。普通电子产品不需要。',
+        requirements: [
+          'DOE认可实验室测试',
+          '在DOE CCMS系统注册',
+          '保留测试报告备查',
+          '进口商须注册'
+        ],
+        cost: '测试+注册: 3,000-15,000元（简单电源适配器3,000-8,000元）',
+        duration: '4-6周',
+        tips: '只对特定产品强制。最常见：手机充电器、笔记本适配器、电池充电器。没有DOE注册的产品被查到会销毁/召回。',
+        link: 'https://www.energy.gov/eere/buildings/appliance-and-equipment-standards-program'
+      }
+    ]
+  },
+
+  toys: {
+    name: '儿童用品/玩具',
+    keywords: ['玩具','儿童','婴儿','宝宝','积木','娃娃','毛绒','益智','爬行','学步','推车','奶瓶','奶嘴','磨牙','咬胶','尿布','纸尿裤','童装','童鞋','童车','安全座椅','摇铃'],
+    enKeywords: ['toy','child','baby','infant','stroller','crib','rattle','plush','doll','bottle','pacifier','diaper','kids','children'],
+    certs: [
+      {
+        id: 'cpc',
+        name: 'CPC认证(儿童产品)',
+        fullName: "Children's Product Certificate (基于第三方测试)",
+        level: 'required',
+        desc: '12岁及以下儿童产品必须提供CPC证书+第三方测试报告才能上架亚马逊',
+        agency: 'CPSC',
+        regulator: '美国消费品安全委员会 (CPSC)',
+        law: 'CPSIA Section 14 + 16 CFR Part 1110',
+        lawText: 'CPSIA第14条规定：所有12岁及以下儿童产品的制造商或进口商必须基于CPSC认可实验室测试结果，签发CPC证书。亚马逊要求所有儿童产品Listing提供CPC，无CPC即下架。\n\nCPC不是"发证机构"发的"证书"——它是一份制造商/进口商签发的合格声明文件，必须基于CPSC认可的第三方实验室的测试报告。亚马逊上架审核时通常需要：CPC证书 + 完整的测试报告。',
+        scope: '12岁及以下儿童产品：玩具、童车、童装、童鞋、儿童家具、儿童护理用品、儿童电子产品等。\n\n⚠ 亚马逊对"儿童产品"的定义比CPSC宽泛：即使制造商声明"不是儿童产品"，如果产品设计特征、尺寸、颜色、营销方式指向儿童，亚马逊也可能要求CPC。',
+        requirements: [
+          '必须CPSC认可的第三方实验室测试',
+          '测试须覆盖所有适用法规',
+          'CPC基于测试报告（证书≠报告！）',
+          '须含：产品信息、适用法规、制造商/进口商、实验室、测试日期',
+          '须美国进口商签发(中国制造商不能签发CPC)',
+          '英文撰写',
+          '按型号分别出'
+        ],
+        cost: '测试+CPC报告全套: 5,000-12,000元（含ASTM F963+CPSIA铅+邻苯二甲酸盐）',
+        duration: '2-4周',
+        tips: 'CRITICAL: CPC是亚马逊儿童类目的"通行证"，没有必下架。CPC必须由美国进口商签发(不能是中国公司)。一定要用CPSC认可实验室(SGS/Intertek/BV/TÜV莱茵等)，可在cpsc.gov/cgi-bin/LabSearch查询。\n\n⚠ 2026年7月8日起CPC数据须通过eFiling电子申报！详见CPSC合规体系的eFiling条目。',
+        link: 'https://www.cpsc.gov/Business--Manufacturing/Testing-Certification/Childrens-Product-Certificate'
       },
-      automotive: {
-        name: '汽车用品',
-        keywords: ['汽车','车载','车用','车充','导航','记录仪','胎压','检测','维修','保养','清洁','内饰','外饰','改装','配件','零件','轮胎','机油','滤清器','刹车'],
-        enKeywords: ['car','auto','vehicle','dashboard','charger','tire','filter','brake','oil','gps','dashcam','accessory'],
-        certs: [
-          { 
-            id: 'dot',
-            name: 'DOT/SAE(灯具反光)', 
-            fullName: 'DOT/SAE Emergency/Compliance (特定配件强制)',
-            level: 'conditional', desc: '仅轮胎、灯具、玻璃等安全相关件需DOT/SAE认证', 
-            agency: 'DOT/SAE',
-            regulator: '美国交通部 (DOT) / NHTSA',
-            law: '49 CFR Part 571 FMVSS',
-            lawText: 'DOT依据FMVSS对车辆安全零部件实施认证管理。但仅覆盖安全件的特定FMVSS（如轮胎FMVSS 109、灯具FMVSS 108）。一般汽车装配件不需要DOT认证。',
-            scope: '车辆安全件：轮胎、车灯、玻璃、安全带、儿童座椅、刹车片等。其他一般汽车装配件（如车载充电器、坐垫、挂饰）不需要。',
-            requirements: [
-              '符合对应FMVSS标准（如FMVSS 108灯具、FMVSS 109轮胎）',
-              '自我认证+贴DOT标志',
-              '保留测试记录',
-              '轮胎需DOT编码（日期/批次）'
-            ],
-            cost: '灯具DOT: 10,000-30,000元 / 刹车片: 15,000-40,000元',
-            duration: '灯具: 4-8周 / 刹车片: 6-12周',
-            tips: '大部分汽车用品（车充、坐垫、内饰、挂饰）完全不需要DOT认证。只有安全相关配件（灯具、轮胎、儿童座椅、刹车片）才需要。车载充电器在FCC+UL/ETL监管范围内。',
-            link: 'https://www.nhtsa.gov'
-          },
-          { 
-            id: 'carb',
-            name: 'CARB/EPA(排放)', 
-            fullName: 'CARB/EPA Emission Certification (仅排放相关件)',
-            level: 'conditional', desc: '仅发动机排放件和部分售后零部件需要CARB/EPA认证', 
-            agency: 'CARB/EPA',
-            regulator: '加州空气资源委员会/美国环保署',
-            law: 'Clean Air Act + California Health & Safety Code',
-            lawText: 'EPA排放标准针对机动车辆和发动机。CARB标准比EPA更严，仅针对加州及17个采用CARB的州。普通汽车用品完全不需要。',
-            scope: '发动机排放件、尾气系统、部分售后改装件（如进气系统、排气系统）等。清洁剂、机油、添加剂等需要EPA认证。',
-            requirements: [
-              'EPA：清洁空气法认可',
-              'CARB：Executive Order (EO) 认证',
-              '售后零部件：CARB EO号码'
-            ],
-            cost: 'EPA注册: 5,000-20,000元 / CARB EO: 3,000-15,000元',
-            duration: 'EPA: 4-8周 / CARB: 8-16周',
-            tips: '普通汽车配件（车充、坐垫、脚垫、导航、记录仪）完全不需要CARB或EPA认证。只有涉及发动机排放的才需要。亚马逊上有大量汽车内饰配件完全不需要这些认证。',
-            link: 'https://ww2.arb.ca.gov'
-          }
-        ]
+      {
+        id: 'astm-f963',
+        name: 'ASTM F963',
+        fullName: 'ASTM F963 Toy Safety Standard (联邦强制标准)',
+        level: 'required',
+        desc: '玩具安全物理机械测试标准，被16 CFR Part 1250引用为强制',
+        agency: 'CPSC',
+        regulator: 'ASTM International / CPSC (强制引用)',
+        law: '16 CFR Part 1250 (联邦法规强制引用ASTM F963)',
+        lawText: 'ASTM F963自2024年1月20日起被16 CFR Part 1250引用为强制性标准。涵盖玩具机械物理安全、易燃性、化学安全、电气安全等。最新版本ASTM F963-23。',
+        scope: '12岁及以下儿童玩具产品（不含自行车、体育用品等特殊豁免品）。',
+        requirements: [
+          '机械物理测试：冲击、挤压、扭力、拉力、尖点锐边',
+          '小部件测试（3岁以下警告）',
+          '易燃性测试',
+          '重金属+总铅',
+          '电气安全（带电玩具）',
+          '标签审查'
+        ],
+        cost: '物理测试: 3,000-8,000元 / 全套: 6,000-15,000元',
+        duration: '3-6周',
+        tips: '通常和CPC一起做，实验室用CPSC认可资质一次出完整的CPC测试报告。最新版F963-23(2024年1月执行)。注意亚马逊可能要求报告上明确引用ASTM F963-23。',
+        link: 'https://www.astm.org/f0963-23.html'
+      }
+    ]
+  },
+
+  foodContact: {
+    name: '食品接触材料',
+    keywords: ['餐具','厨具','厨房','食品','食物','保鲜','密封','饭盒','水杯','杯子','碗','盘','筷子','勺子','砧板','刀具','锅','壶','烘焙','烧烤','咖啡','茶具','硅胶','塑料'],
+    enKeywords: ['kitchen','food container','bottle','cup','plate','bowl','utensil','cutting board','knife','pot','pan','baking','thermos','lunch box','straw'],
+    certs: [
+      {
+        id: 'fda-food',
+        name: 'FDA食品接触材料',
+        fullName: 'FDA Food Contact Substance Compliance (21 CFR 170-199)',
+        level: 'required',
+        desc: '与食品直接接触的材料须符合FDA 21 CFR迁移量和使用限制要求',
+        agency: 'FDA',
+        regulator: '美国食品药品监督管理局 (FDA)',
+        law: '21 CFR Parts 170-199',
+        lawText: 'FDA依据《联邦食品、药品和化妆品法案》监管食品接触材料。21 CFR 174-186规定了各种材料的迁移量和使用限制。',
+        scope: '食品接触材料：塑料、硅胶、金属、陶瓷、玻璃、纸、涂层。不是"产品"而是"材料"合规。',
+        requirements: [
+          '材料成分须符合21 CFR',
+          '迁移测试：总迁移量+特定迁移量',
+          'GMP合规 (21 CFR 110)',
+          '保留合规文件'
+        ],
+        cost: '单材质: 3,000-10,000元 / 多材质: 8,000-20,000元',
+        duration: '3-6周',
+        tips: 'FDA不发"FDA证书"，合规证明=测试报告+符合性声明。常见材料CFR：塑料21 CFR 177.1520，硅胶177.2600。找有FDA资质的实验室。',
+        link: 'https://www.fda.gov/food/food-contact-substances-fcs'
       },
-      general: {
-        name: '通用日用品',
-        keywords: ['家居','日用','生活','收纳','清洁','工具','五金','文具','办公','运动','户外','宠物','礼品','装饰','摆件','钟表','眼镜','箱包','皮具','伞','风扇','配件','电器'],
-        enKeywords: ['home','household','daily','tool','office','stationery','sport','outdoor','pet','gift','decor','umbrella','fan','purse','bag','luggage','accessory','supply'],
-        certs: [
-          { 
-            id: 'cpsc-general',
-            name: 'CPSC通用要求', 
-            fullName: 'CPSC General Conformity Certificate (通用合规声明)',
-            level: 'required', desc: '所有消费品须有GCC合规声明（自我声明，不需认证机构）', 
-            agency: 'CPSC',
-            regulator: '美国消费品安全委员会 (CPSC)',
-            law: 'Consumer Product Safety Act (CPSA) + General Conformity Certificate (GCC)',
-            lawText: 'CPSA第14条规定所有受CPSC管辖的消费品，制造商或进口商须签发GCC（General Conformity Certificate）声明产品符合适用安全规则。GCC是自我声明文件，不是第三方认证证书。',
-            scope: '大多数消费品（儿童产品需CPC，已另有管制的不需重复GCC）。',
-            requirements: [
-              '识别适用的安全规则（CPSC/ASTM/UL等，取决于产品）',
-              '签发GCC合格声明（制造商/进口商签字）',
-              '保留测试报告和GCC文件',
-              'GCC须包含产品识别+适用法规+制造商+测试实验室+测试日期'
-            ],
-            cost: '0元（这是自我声明文件，不需要付费给认证机构）',
-            duration: '几个小时（自己写份GCC文档即可）',
-            tips: 'GCC不是花钱买的认证，是制造商自己写的一份合规声明文件。很多新手卖家不知道这个，实际上它不花钱但有法律约束力。CPSC抽查时会要这份文件。GCC模板网上有很多免费下载的。',
-            link: 'https://www.cpsc.gov/Business--Manufacturing/Testing-Certification/General-Certificate-of-Conformity'
-          },
-          { 
-            id: 'package-label',
-            name: 'FTC包装标签', 
-            fullName: 'FPLA/FTC Packaging & Labeling (通用标签法规)',
-            level: 'required', desc: '所有消费品须按FTC/FPLA要求标注包装信息', 
-            agency: 'FTC',
-            regulator: '美国联邦贸易委员会 (FTC)',
-            law: 'Fair Packaging and Labeling Act (FPLA) + FTC Act',
-            lawText: 'FPLA要求消费品如实标注净含量、制造商信息、原产国等。原产国标注是FTC严查项。',
-            scope: '大多数消费品，食品、药品、化妆品等有专门标签法的不受FPLA重复约束。',
-            requirements: [
-              '净含量（公制+美制双单位）',
-              '制造商或进口商信息',
-              '原产国 (Made in China等)',
-              '产品名称/功能描述',
-              '成分表（如适用）',
-              '条形码 (UPC/EAN)'
-            ],
-            cost: '标签设计: 500-2,000元',
-            duration: '1-2周',
-            tips: '这是基本标签要求，不是收费认证。原产国标注必须用"Made in XXX"或"Product of XXX"格式。条形码UPC码需要花钱买（GS1 US约需$250起）。',
-            link: 'https://www.ftc.gov/enforcement/rules/rulemaking-regulatory-reform-proceedings/fair-packaging-and-labeling-act'
-          },
-          { 
-            id: 'astm-general',
-            name: 'ASTM标准(产品材料)', 
-            fullName: 'ASTM Product Safety Standards (自愿/被法规引用)',
-            level: 'optional', desc: 'ASTM产品安全标准，部分被CPSC引用为强制', 
-            agency: 'ASTM',
-            regulator: 'ASTM International (部分标准被CPSC引用为强制)',
-            law: 'ASTM Standards (超过12,000个标准，部分被法规引用成为强制)',
-            lawText: 'ASTM标准本身是自愿的，但有些特定的ASTM被CPSC引用为强制执行（如ASTM F963玩具标准、ASTM F2057家具标准等）。大多数日用品的ASTM标准是自愿的。',
-            scope: '几乎所有产品类别。只有当被CPSC/FDA引用为强制时，才需要做相关测试。',
-            requirements: [
-              '检查产品是否有被CPSC引用的ASTM标准',
-              '需引用的才做测试，一般产品可跳过',
-              '未引用的完全不需做'
-            ],
-            cost: '不需做: 0元（没有强制引用的产品完全不需要花这个钱）',
-            duration: '不需要',
-            tips: '很多新手被忽悠做不必要的ASTM测试。检查方法：去CPSC官网查你的产品类别是否有强制引用的ASTM标准。没有的话，你完全不需要做ASTM测试。常见被强引用的：玩具(ASTM F963)、家具(ASTM F2057)、打火机(ASTM F400)。',
-            link: 'https://www.astm.org'
-          }
-        ]
+      {
+        id: 'prop65',
+        name: '加州65号提案',
+        fullName: 'California Proposition 65 (安全饮用水和有毒物质执法法)',
+        level: 'required',
+        desc: '在加州销售的产品含清单化学物质须贴警示标签',
+        agency: 'California OEHHA',
+        regulator: '加州环境健康风险评估办公室 (OEHHA)',
+        law: 'California Health and Safety Code § 25249.5-25249.14',
+        lawText: 'Prop 65要求企业销售含有致癌或生殖毒性化学物质的产品前，须提供明确警示。化学品清单约900种物质，每年更新。',
+        scope: '在加州销售的所有产品（FBA发往加州无法避免）。',
+        requirements: [
+          '检测产品是否含清单中的化学物质',
+          '含则贴Prop 65警示标签（产品+网站）',
+          '使用OEHHA安全港警告语'
+        ],
+        cost: '测试: 2,000-8,000元',
+        duration: '2-4周',
+        tips: '不是产品认证，是警示标签要求。很多产品(含铅陶瓷/涂层)只需贴标签即合规。诉讼风险主要来自铅、邻苯二甲酸盐、甲醛、双酚A。',
+        link: 'https://www.p65warnings.ca.gov'
       }
-    };
+    ]
+  },
 
-    // ═══════════════════════════════════════════════════════════════
-    // 产品映射表：常见产品直接映射到认证ID列表
-    // ═══════════════════════════════════════════════════════════════
-    const productMap = [
-      { patterns: ['heating pad','hot pad','加热垫','热敷垫','暖垫','理疗垫'], certIds: ['fda-medical','ul','fcc'] },
-      { patterns: ['power bank','充电宝','移动电源','battery pack'], certIds: ['fcc','ul','doe'] },
-      { patterns: ['bluetooth speaker','蓝牙音箱','无线音箱','蓝牙音响'], certIds: ['fcc','ul'] },
-      { patterns: ['led lamp','led light','led bulb','led灯','灯泡','led台灯'], certIds: ['ul-lighting','fcc-light'] },
-      { patterns: ['smart light','智能灯','智能灯具','smart bulb'], certIds: ['ul-lighting','fcc-light','fcc-light'] },
-      { patterns: ['wireless charger','无线充电器','无线充'], certIds: ['fcc','ul','doe'] },
-      { patterns: ['massage','按摩器','按摩仪','massager'], certIds: ['fda-medical','ul','fcc'] },
-      { patterns: ['electric toothbrush','电动牙刷'], certIds: ['fcc','ul'] },
-      { patterns: ['lithium battery','锂电池'], certIds: ['fcc','ul'] },
-      { patterns: ['night light','夜灯','小夜灯'], certIds: ['ul-lighting','fcc-light'] },
-      { patterns: ['cosmetic','skincare','化妆','护肤','facial mask','面膜'], certIds: ['fda-cosmetic','label-cosmetic'] },
-      { patterns: ['baby bottle','奶瓶','baby cup','婴儿水杯'], certIds: ['fda-food','prop65'] },
-      { patterns: ['silicone spatula','硅胶铲','硅胶刮刀'], certIds: ['fda-food','prop65'] },
-      { patterns: ['cutting board','砧板','切菜板'], certIds: ['fda-food','prop65'] },
-      { patterns: ['air purifier','空气净化器','净化器'], certIds: ['fcc','ul','energy-star'] },
-      { patterns: ['vacuum cleaner','吸尘器','扫地机器人'], certIds: ['fcc','ul','doe'] },
-      { patterns: ['water bottle','水杯','水壶','保温杯','thermos'], certIds: ['fda-food','prop65'] },
-      { patterns: ['pet product','宠物','狗','猫','pet feeder'], certIds: ['cpsc-general','package-label'] },
-      { patterns: ['office chair','办公椅','椅子'], certIds: ['cpsc-general','package-label'] },
-      { patterns: ['furniture','家具','table','desk','柜子'], certIds: ['cpsc-general','package-label'] },
-      { patterns: ['smart watch','智能手表','smart band','手环'], certIds: ['fcc','ul'] },
-      { patterns: ['drone','无人机','drone'], certIds: ['fcc','ul'] },
-      { patterns: ['medical mask','口罩','face mask'], certIds: ['fda-medical','package-label'] }
-    ];
+  cosmetics: {
+    name: '化妆品/护肤品',
+    keywords: ['护肤','化妆','美容','面膜','精华','乳液','面霜','眼霜','口红','粉底','眼影','香水','香氛','洗护','洗发','护发','沐浴','香皂','牙膏','牙刷','化妆棉','棉签','鼻贴','去黑头','鼻膜','粉刺贴','痘痘贴','祛痘','毛孔','清洁面膜'],
+    enKeywords: ['cosmetic','skincare','makeup','cream','lotion','serum','fragrance','perfume','shampoo','soap','toothpaste','lipstick','foundation','mask','nose strip','pore strip','blackhead','acne patch'],
+    certs: [
+      {
+        id: 'fda-cosmetic',
+        name: 'FDA化妆品设施注册',
+        fullName: 'FDA Cosmetic Facility Registration & Product Listing (MoCRA)',
+        level: 'required',
+        desc: '2023年12月起强制，化妆品设施须在FDA注册、产品列名',
+        agency: 'FDA',
+        regulator: '美国食品药品监督管理局 (FDA)',
+        law: 'MoCRA 2022 + FD&C Act Chapter VI',
+        lawText: 'MoCRA 2022(2023年12月29日生效)要求所有在美销售化妆品的制造商和加工商进行FDA设施注册(每两年更新)和产品列名。',
+        scope: '护肤品、彩妆、香水、洗发水、沐浴露等化妆品。',
+        requirements: [
+          '设施注册(Facility Registration)，每两年更新',
+          '产品列名(Product Listing)',
+          '指定美国代理人(US Agent)',
+          '不良事件报告制度',
+          '产品安全证明(Safety Substantiation)'
+        ],
+        cost: '注册+列名: 3,000-8,000元（FDA不收费，主要是代理服务费）',
+        duration: '2-4周',
+        tips: 'MoCRA已强制执行。FDA不收费，但须指定美国代理人。注册网址：fda.gov/cosmetics/registration-listing-cosmetics。注意化妆品不归CPSC管！不受eFiling约束。',
+        link: 'https://www.fda.gov/cosmetics/registration-listing-cosmetics'
+      },
+      {
+        id: 'label-cosmetic',
+        name: '化妆品标签合规',
+        fullName: 'FDA Cosmetic Labeling Compliance (21 CFR 701)',
+        level: 'required',
+        desc: '标签须含成分表、净含量、制造商信息、过敏原披露等',
+        agency: 'FDA',
+        regulator: '美国食品药品监督管理局 (FDA)',
+        law: '21 CFR Part 701 + MoCRA 2022过敏原披露要求',
+        lawText: '21 CFR 701详细规定化妆品标签要求。MoCRA新增24种香精过敏原披露。标签须英文，INCI名称须正确。',
+        scope: '所有化妆品。',
+        requirements: [
+          '产品名称+功能声明',
+          '净含量（公制+美制）',
+          '成分表(INCI名称)',
+          '制造商信息+原产国',
+          '过敏原披露（MoCRA新增24种香精过敏原）'
+        ],
+        cost: '标签设计+合规审查: 2,000-5,000元',
+        duration: '1-3周',
+        tips: 'FDA对成分标识错误零容忍。INCI名称必须正确，花哨的成分名和标准INCI名不一致会被NTE扣留。',
+        link: 'https://www.fda.gov/cosmetics/cosmetics-labeling'
+      }
+    ]
+  },
 
-    // ═══════════════════════════════════════════════════════════════
-    // 搜索核心函数
-    // ═══════════════════════════════════════════════════════════════
-    function search() {
-      const query = document.getElementById('searchInput').value.trim();
-      if (!query) return;
-      displayResults(query);
+  medical: {
+    name: '医疗器械/保健',
+    keywords: ['医疗','保健','健康','体温计','血压计','血糖仪','按摩','理疗','康复','护具','口罩','消毒','杀菌','检测','测试','诊断','治疗','器械','加热','热敷','发热'],
+    enKeywords: ['medical','massage','therapy','thermometer','blood pressure','monitor','mask','sterilization','diagnostic','heating pad','hot pack','brace','support','rehabilitation'],
+    certs: [
+      {
+        id: 'fda-medical',
+        name: 'FDA医疗器械企业注册',
+        fullName: 'FDA Establishment Registration & Device Listing (21 CFR Part 807)',
+        level: 'required',
+        desc: '医疗器械产品在美国销售前须完成FDA企业注册和器械列名',
+        agency: 'FDA',
+        regulator: '美国食品药品监督管理局 (FDA) - CDRH',
+        law: '21 CFR Part 807 + FD&C Act Section 510',
+        lawText: '所有在美销售或进口的医疗器械制造厂须进行FDA Establishment Registration(年度注册/10-12月)和Device Listing。注意：heating pad如果用于"舒缓肌肉""缓解疼痛"→医疗器械声明→须注册FDA。如果只是普通保暖→不归FDA管(但FCC+UL可能适用)。',
+        scope: '所有医疗器械(Class I/II/III)：体温计、血压计、血糖仪、按摩器、理疗仪、口罩、加热垫等。\n\nheating pad分类判断：\n- 仅用于保暖(非治疗目的)：属于普通消费品，不归FDA\n- 声称"缓解肌肉酸痛/疼痛"：属于Class I医疗器械(510k豁免)，必须注册FDA',
+        requirements: [
+          'Establishment Registration（企业注册，每年更新）',
+          'Device Listing（器械列名）',
+          '指定美国代理人(US Agent)',
+          'Class I产品：通常510(k)豁免（只需注册+列名）',
+          'Class II产品：需510(k)上市前通知',
+          'FDA年费（小型企业\$5,872 / 大型\$9,280 2025年）'
+        ],
+        cost: '企业注册+器械列名: 5,000-12,000元（含美国代理人服务费，不含FDA年费）',
+        duration: '4-8周（注册）+ 510(k)另计',
+        tips: '很多heating pad被误分类。关键判断：产品有没有治疗声明？没有→普通消费品。有→医疗器械。即使普通heating pad也会因"促进血液循环"这类暗示性用语被FDA介入。安全做法：低档产品不宣传治疗、不加注册；高档或明确治疗用途的必须注册FDA。',
+        link: 'https://www.fda.gov/medical-devices/device-registration-and-listing'
+      },
+      {
+        id: 'fda-510k',
+        name: '510(k)上市前通知',
+        fullName: 'FDA 510(k) Premarket Notification',
+        level: 'conditional',
+        desc: 'Class II医疗器械需提交510(k)证明与已上市谓词设备实质等同',
+        agency: 'FDA',
+        regulator: '美国食品药品监督管理局 (FDA)',
+        law: '21 CFR Part 807 Subpart E + FD&C Act Section 510(k)',
+        lawText: '510(k)是Class II医疗器械上市前通知。需证明与已上市的predicate device实质等同。审查费\$31,872(2025年/小企业半价)。',
+        scope: 'Class II医疗器械。普通家用heating pad(Class I)一般510(k)豁免。仅带治疗声明的专用设备才需。',
+        requirements: [
+          '找到合适的Predicate Device',
+          '性能测试(生物相容性、电气安全、EMC)',
+          '提交510(k)摘要',
+          'FDA审查3-6个月'
+        ],
+        cost: '全流程: 100,000-300,000元（许多产品属于510k豁免）',
+        duration: '4-8个月',
+        tips: '先查514(k) exempt list确定是否需要。普通heating pad(Class I)不需要。不要上来就做510(k)，成本极高。',
+        link: 'https://www.fda.gov/medical-devices/premarket-notifications/premarket-notification-510k'
+      }
+    ]
+  },
+
+  lighting: {
+    name: '灯具照明',
+    keywords: ['灯','照明','LED','灯泡','台灯','落地灯','吊灯','壁灯','筒灯','射灯','灯带','灯条','路灯','手电','应急灯','智能灯','氛围灯'],
+    enKeywords: ['light','lamp','bulb','led','table lamp','floor lamp','chandelier','ceiling','torch','flashlight','lantern','string light'],
+    certs: [
+      {
+        id: 'ul-lighting',
+        name: 'UL/ETL(灯具安全)',
+        fullName: 'UL/ETL Lighting Safety (NRTL)',
+        level: 'required',
+        desc: '亚马逊灯具类目强制要求UL或NRTL等效安全认证',
+        agency: 'UL/ETL',
+        regulator: 'NRTL (OSHA认可测试实验室)',
+        law: 'UL 1598(固定灯具) / UL 153(便携灯具) / UL 1993(LED灯泡)',
+        lawText: '亚马逊灯具类目政策要求NRTL安全认证。多数灯具须符合对应UL标准。',
+        scope: '所有灯具：固定式、便携式、嵌入式、LED灯泡、LED灯管、智能灯具、夜灯等。',
+        requirements: [
+          '按适用UL标准安全测试',
+          '温升+机械+防触电+可燃性测试',
+          'UL工厂跟踪服务(FUS)'
+        ],
+        cost: 'UL: 20,000-50,000元 / ETL: 15,000-35,000元',
+        duration: 'UL: 8-12周 / ETL: 4-8周',
+        tips: 'ETL和UL等效，亚马逊都认可。ETL便宜30%且快。LED灯：UL 8750 + UL 1598或UL 153。灯具类目几乎必须有这个。',
+        link: 'https://www.ul.com/lighting'
+      },
+      {
+        id: 'fcc-light',
+        name: 'FCC(智能灯具)',
+        fullName: 'FCC for Smart Lighting (含无线灯具)',
+        level: 'conditional',
+        desc: '含蓝牙/WiFi等无线功能的智能灯具需要FCC ID',
+        agency: 'FCC',
+        regulator: '美国联邦通信委员会 (FCC)',
+        law: '47 CFR Part 15 Subpart B + C',
+        lawText: '带无线功能的智能灯具须通过FCC认证。纯有线开关或红外遥控器的不需要。',
+        scope: '智能LED灯泡、灯带、开关等含无线模块的灯具。普通灯具不需要。',
+        requirements: ['FCC ID测试','FCC ID标签','合规声明'],
+        cost: 'FCC ID: 3,000-10,000元',
+        duration: '3-4周',
+        tips: '普通无无线灯具不需要FCC。智能灯：UL + FCC是标配组合。',
+        link: 'https://www.fcc.gov/equipment-authorization'
+      }
+    ]
+  },
+
+  textiles: {
+    name: '纺织品/服装',
+    keywords: ['服装','衣服','服饰','纺织','面料','T恤','衬衫','裤子','裙子','外套','内衣','袜子','帽子','围巾','手套','家纺','床单','被套','枕套','毛巾','窗帘','地毯'],
+    enKeywords: ['textile','clothing','apparel','shirt','pants','dress','jacket','socks','hat','scarf','glove','bedding','towel','curtain','rug'],
+    certs: [
+      {
+        id: 'ftc-textile',
+        name: 'FTC纺织品标签',
+        fullName: 'FTC Care Labeling & Fiber Content Rules (16 CFR 423)',
+        level: 'required',
+        desc: '所有纺织品须按FTC规则标注成分和护理说明',
+        agency: 'FTC',
+        regulator: '美国联邦贸易委员会 (FTC)',
+        law: 'Textile Fiber Products Identification Act + FTC Care Labeling Rule 16 CFR 423',
+        lawText: '标注纤维成分(按重量从多到少)和护理说明。不是认证，是标签要求。',
+        scope: '所有纺织品和服装(含家纺)。',
+        requirements: [
+          '纤维成分标签（按重量从多到少排列）',
+          '使用通用纤维名(Cotton/Polyester等)',
+          '护理标签：四类符号(水洗/漂白/干燥/熨烫)',
+          '原产国(Country of Origin)必标',
+          '制造商/进口商信息'
+        ],
+        cost: '标签设计: 1,000-3,000元',
+        duration: '1-2周',
+        tips: '不是花钱认证，是标签要求。原产国是FTC严查项，必须是"Made in China"或"Product of China"。小心纤维成分顺序排反。',
+        link: 'https://www.ftc.gov/enforcement/rules/textile-fiber-products-identification-act'
+      },
+      {
+        id: 'flammable-textile',
+        name: '纺织品阻燃测试',
+        fullName: '16 CFR 1610(一般服装) / 1615+1616(儿童睡衣)',
+        level: 'required',
+        desc: '服装纺织品须通过可燃性测试(联邦强制)',
+        agency: 'CPSC',
+        regulator: '美国消费品安全委员会 (CPSC)',
+        law: '16 CFR Part 1610 / 1615 / 1616',
+        lawText: 'CPSC对纺织品阻燃有强制性要求。大部分服装须通过水平燃烧测试。儿童睡衣(0-14码)有更严格垂直燃烧测试要求。\n\n⚠ 纺织品阻燃属于CPSC监管范围，因此纺织品也受CPSC eFiling影响！',
+        scope: '服装纺织品(含家纺)。不含功能服和部分装饰材料。\n注意：童装需同时满足16 CFR 1610(一般服装)+1615/1616(儿童睡衣专有标准)。',
+        requirements: [
+          '水平燃烧测试（一般服装、家纺）',
+          '儿童睡衣垂直燃烧测试（16 CFR 1615/1616）',
+          '阻燃警告标签（如适用）'
+        ],
+        cost: '测试: 2,000-5,000元',
+        duration: '2-3周',
+        tips: '费用低。合成纤维(涤纶等)天然通过率高。天然纤维(棉)阻燃差些。儿童睡衣(0-14)有更严格的垂直燃烧要求。注意：成衣出口美国做阻燃测试是强制要求，不是可选项！',
+        link: 'https://www.cpsc.gov/Regulations-Laws--Standards/Voluntary-Standards/Textile-and-Apparel'
+      },
+      {
+        id: 'oekotex',
+        name: 'OEKO-TEX',
+        fullName: 'OEKO-TEX Standard 100 (自愿有害物质检测)',
+        level: 'optional',
+        desc: '自愿性纺织品有害物质认证，有助溢价',
+        agency: 'OEKO-TEX',
+        regulator: 'OEKO-TEX International',
+        law: 'OEKO-TEX Standard 100 (私人标准)',
+        lawText: '纺织品有害物质检测，分四类(I婴儿-IV装饰)。',
+        scope: '纺织品。',
+        requirements: ['I-IV类测试300+有害物质','工厂审核','年度更新'],
+        cost: '测试: 5,000-15,000元 / 年度更新: 3,000-8,000元',
+        duration: '4-8周',
+        tips: '完全自愿。家纺和童装做这个有助于溢价。普通成人服装意义不大。',
+        link: 'https://www.oeko-tex.com'
+      }
+    ]
+  },
+
+  automotive: {
+    name: '汽车用品',
+    keywords: ['汽车','车载','车用','车充','导航','记录仪','胎压','检测','维修','保养','清洁','内饰','外饰','改装','配件','零件','轮胎','机油','滤清器','刹车'],
+    enKeywords: ['car','auto','vehicle','dashboard','charger','tire','filter','brake','oil','gps','dashcam','accessory'],
+    certs: [
+      {
+        id: 'dot',
+        name: 'DOT/SAE(安全件)',
+        fullName: 'DOT/SAE Safety Compliance (安全配件强制认证)',
+        level: 'conditional',
+        desc: '仅安全相关件(轮胎、灯具、刹车片等)需DOT/SAE认证',
+        agency: 'DOT/SAE',
+        regulator: '美国交通部 (DOT) / NHTSA',
+        law: '49 CFR Part 571 FMVSS',
+        lawText: 'DOT依据FMVSS对车辆安全零部件实施认证。仅覆盖安全件的特定FMVSS。一般汽车装配件不需要。',
+        scope: '安全件：轮胎(FMVSS 109)、车灯(FMVSS 108)、玻璃(FMVSS 205)、安全带、儿童座椅、刹车片。\n一般配件(车充/坐垫/脚垫/内饰)完全不需要DOT。\n车充受FCC+UL监管，不在DOT范围内。',
+        requirements: [
+          '符合对应FMVSS标准',
+          '自我认证+贴DOT标志',
+          '保留测试记录',
+          '轮胎需DOT编码(日期/批次)'
+        ],
+        cost: '灯具DOT: 10,000-30,000元 / 刹车片: 15,000-40,000元',
+        duration: '灯具: 4-8周 / 刹车片: 6-12周',
+        tips: '大部分汽车用品不需要DOT。只有安全相关配件才需要。车充在FCC+UL监管范围内，不在DOT。',
+        link: 'https://www.nhtsa.gov'
+      }
+    ]
+  },
+
+  general: {
+    name: '通用日用品',
+    keywords: ['家居','日用','生活','收纳','清洁','工具','五金','文具','办公','运动','户外','宠物','礼品','装饰','摆件','钟表','眼镜','箱包','皮具','伞','风扇','配件','电器'],
+    enKeywords: ['home','household','daily','tool','office','stationery','sport','outdoor','pet','gift','decor','umbrella','fan','purse','bag','luggage','accessory','supply'],
+    certs: [
+      {
+        id: 'cpsc-general',
+        name: 'CPSC通用要求',
+        fullName: 'CPSC General Product Safety (GCC + 通用标签义务)',
+        level: 'required',
+        desc: '所有CPSC监管产品须遵守CPSC通用安全要求，非儿童产品需GCC(如有适用规则)',
+        agency: 'CPSC',
+        regulator: '美国消费品安全委员会 (CPSC)',
+        law: 'CPSA + FHSA + PPPA — CPSC管辖16个法案',
+        lawText: 'CPSC管的不仅是CPSIA(儿童产品安全改进法)。CPSC负责执行16个联邦法律，包括：CPSA(消费品安全法)、FHSA(联邦危险物质法)、PPPA(防毒包装法)、FFA(联邦易燃织物法)、CPSIA(儿童产品安全改进法)等。\n\nCPSC管辖约15,000种消费品。产品是否受CPSC监管≠是否需要GCC。只有CPSC有特定安全规则的产品类别才需要GCC。大多数日用品(如收纳箱、雨伞、钟表)实际上不在GCC清单上，但它们仍受CPSC一般管辖(可能随时根据召回情况增加规则)。',
+        scope: 'CPSC管辖15,000种消费品（不含FDA管制的食品/药品/医疗器械/化妆品，不含FCC管制的无线设备，不含DOE管制的能效产品，不含USDOT管制的车辆）。\n\n⚠ 常见误区：很多卖家以为"只要是日用品就要GCC"。No！只有符合CPSC官方GCC清单的产品类别才需要。普通日用品(杯子、收纳、钟表、伞、文具等)在没有CPSC特定安全规则的情况下，不需要GCC。',
+        requirements: [
+          '检查产品是否有CPSC引用的安全规则（查Regulatory Robot：cpsc.gov/eFiling）',
+          '如有对应规则：须出具GCC并做相关测试',
+          '如无对应规则：不需要GCC，但需注意一般标签要求（原产国、警告语）',
+          '出口儿童产品必须CPC',
+          '2026年7月8日起，受管产品必须eFiling'
+        ],
+        cost: '不必要的测试：0元 | GCC制作：0元（自己写）',
+        duration: '不需要（没有对应规则的产品不需要做任何事）',
+        tips: '⚠ 重要警告：很多检测机构"吓唬"卖家说所有产品都要做GCC做这个做那个。事实是：大多数通用日用品并不需要特定的CPSC安全测试。\n\n正确做法：①去cpsc.gov/eFiling用Regulatory Robot查产品 ②没有规则要求→安心卖 ③有规则要求→按要求做GCC+测试。\n\n别被忽悠做不必要的测试！',
+        link: 'https://www.cpsc.gov/Regulations-Laws--Standards'
+      },
+      {
+        id: 'package-label',
+        name: 'FTC包装标签',
+        fullName: 'FPLA/FTC Packaging & Labeling (通用标签法)',
+        level: 'required',
+        desc: '所有消费品须按FTC/FPLA标注包装信息',
+        agency: 'FTC',
+        regulator: '美国联邦贸易委员会 (FTC)',
+        law: 'Fair Packaging and Labeling Act (FPLA) + FTC Act',
+        lawText: 'FPLA要求消费品如实标注净含量、制造商信息、原产国等。',
+        scope: '大多数消费品。食品/药品/化妆品有专门标签法的不受FPLA约束。',
+        requirements: [
+          '净含量（公制+美制双单位）',
+          '制造商或进口商信息',
+          '原产国 (Made in China)',
+          '产品名称/功能描述',
+          '条形码 (UPC/EAN)'
+        ],
+        cost: '标签设计: 500-2,000元',
+        duration: '1-2周',
+        tips: '基本标签要求，不是收费认证。原产国必须是"Made in XXX"格式。UPC需GS1 US购买($250起)。',
+        link: 'https://www.ftc.gov/enforcement/rules/fair-packaging-and-labeling-act'
+      }
+    ]
+  }
+};
+
+// ════════════════════════════════════════════════════════════════════
+// 产品映射表：常见产品直接映射认证ID列表
+// ════════════════════════════════════════════════════════════════════
+const productMap = [
+  { patterns: ['heating pad','hot pad','加热垫','热敷垫','暖垫','理疗垫'], certIds: ['fda-medical','ul','fcc'] },
+  { patterns: ['power bank','充电宝','移动电源','battery pack'], certIds: ['fcc','ul','doe'] },
+  { patterns: ['bluetooth speaker','蓝牙音箱','无线音箱','蓝牙音响'], certIds: ['fcc','ul'] },
+  { patterns: ['bluetooth earphone','蓝牙耳机','无线耳机','earphone','headphone'], certIds: ['fcc','ul'] },
+  { patterns: ['led lamp','led light','led bulb','led灯','灯泡','led台灯'], certIds: ['ul-lighting','fcc-light'] },
+  { patterns: ['smart light','智能灯','智能灯具','smart bulb'], certIds: ['ul-lighting','fcc-light'] },
+  { patterns: ['wireless charger','无线充电器','无线充'], certIds: ['fcc','ul','doe'] },
+  { patterns: ['massage','按摩器','按摩仪','massager'], certIds: ['fda-medical','ul','fcc'] },
+  { patterns: ['electric toothbrush','电动牙刷'], certIds: ['fcc','ul'] },
+  { patterns: ['lithium battery','锂电池'], certIds: ['fcc','ul'] },
+  { patterns: ['night light','夜灯','小夜灯'], certIds: ['ul-lighting'] },
+  { patterns: ['cosmetic','skincare','化妆','护肤','facial mask','面膜','鼻贴','痘痘贴','粉刺贴','去黑头','鼻膜','acne patch','nose strip','pore strip','blackhead'], certIds: ['fda-cosmetic','label-cosmetic'] },
+  { patterns: ['baby product','婴儿','宝宝','奶瓶','婴儿水杯','baby bottle','pacifier'], certIds: ['cpc','tracking-label','fda-food','prop65'] },
+  { patterns: ['toy','玩具','儿童玩具','积木','娃娃','毛绒玩具'], certIds: ['cpc','astm-f963','tracking-label'] },
+  { patterns: ['children clothing','童装','儿童服装'], certIds: ['cpc','flammable-textile','tracking-label','ftc-textile'] },
+  { patterns: ['cutting board','砧板','切菜板'], certIds: ['fda-food','prop65'] },
+  { patterns: ['silicone spatula','硅胶铲','硅胶刮刀'], certIds: ['fda-food','prop65'] },
+  { patterns: ['air purifier','空气净化器','净化器'], certIds: ['fcc','ul','energy-star'] },
+  { patterns: ['vacuum cleaner','吸尘器','扫地机器人'], certIds: ['fcc','ul','doe'] },
+  { patterns: ['water bottle','水杯','水壶','保温杯','thermos'], certIds: ['fda-food','prop65'] },
+  { patterns: ['pet product','宠物','狗','猫','pet feeder'], certIds: ['cpsc-general','package-label'] },
+  { patterns: ['office chair','办公椅','椅子'], certIds: ['cpsc-general','package-label'] },
+  { patterns: ['furniture','家具','table','desk','柜子'], certIds: ['cpsc-general','package-label'] },
+  { patterns: ['smart watch','智能手表','smart band','手环'], certIds: ['fcc','ul'] },
+  { patterns: ['drone','无人机'], certIds: ['fcc','ul'] },
+  { patterns: ['medical mask','口罩','face mask'], certIds: ['fda-medical','package-label'] },
+  { patterns: ['textile','fabric','纺织','面料','cloth','布料'], certIds: ['ftc-textile','flammable-textile'] },
+  { patterns: ['bicycle','自行车','bike','ebike','电动自行车'], certIds: ['gcc-cert'] },
+  { patterns: ['lighter','打火机','match','火柴'], certIds: ['gcc-cert'] },
+  { patterns: ['mattress','床垫','mattress pad','床垫罩'], certIds: ['gcc-cert','flammable-textile'] },
+  { patterns: ['button battery','button cell','纽扣电池','coin battery'], certIds: ['gcc-cert','ul'] },
+  { patterns: ['carpet','rug','地毯','地垫'], certIds: ['gcc-cert','ftc-textile'] },
+  { patterns: ['helmet','头盔','bicycle helmet','自行车头盔'], certIds: ['gcc-cert'] },
+  { patterns: ['clothing','apparel','服装','衣服','shirt','pants','dress','jacket','外套'], certIds: ['ftc-textile','flammable-textile'] },
+  { patterns: ['food container','food box','饭盒','保鲜盒','存储盒','收纳盒','lunch box'], certIds: ['fda-food','prop65'] },
+  { patterns: ['cookware','pot','pan','锅','煎锅','炒锅','汤锅','utensil','厨具','餐具'], certIds: ['fda-food','prop65'] },
+  { patterns: ['toaster','面包机','blender','搅拌机','blender','榨汁机','coffee maker','咖啡机','kettle','水壶'], certIds: ['ul','fcc'] },
+  { patterns: ['tire','轮胎'], certIds: ['dot'] },
+  { patterns: ['car charger','车充','车载充电器'], certIds: ['fcc','ul'] },
+  { patterns: ['baby carrier','婴儿背带','婴儿腰凳'], certIds: ['cpc','tracking-label'] },
+  { patterns: ['stroller','婴儿车','推车','婴儿推车'], certIds: ['cpc','tracking-label'] },
+  { patterns: ['crib','婴儿床','bassinet','摇篮'], certIds: ['cpc','tracking-label'] },
+  { patterns: ['stationery','文具','pen','笔','paper','纸','notebook','笔记本'], certIds: ['cpsc-general','package-label'] },
+  { patterns: ['pet toy','宠物玩具'], certIds: ['cpsc-general','package-label'] },
+  { patterns: ['bracelet','手链','necklace','项链','earring','耳环','ring','戒指','饰品','首饰','jewelry'], certIds: ['prop65','cpsc-general'] },
+  { patterns: ['watch','手表','clock','钟表'], certIds: ['fcc','cpsc-general'] },
+  { patterns: ['sunglasses','太阳镜','墨镜','glasses','眼镜'], certIds: ['cpsc-general','package-label'] },
+  { patterns: ['fan','风扇','台扇','落地扇','吊扇'], certIds: ['ul','fcc'] },
+  { patterns: ['hairdryer','吹风机','电吹风','hair straightener','直发器'], certIds: ['ul','fcc'] },
+  { patterns: ['electric shaver','剃须刀','电动剃须刀','hair trimmer','理发器'], certIds: ['fcc','ul'] },
+  { patterns: ['sex toy','成人用品','成人玩具','vibrator'], certIds: ['fcc','ul','prop65'] },
+  { patterns: ['cpsc','efiling','gcc','cpc证书','儿童产品证书','合规证书','电子申报'], certIds: ['cpc-cert','gcc-cert','efiling','tracking-label'] }
+];
+
+// ════════════════════════════════════════════════════════════════════
+// 搜索核心函数
+// ════════════════════════════════════════════════════════════════════
+function search() {
+  const query = document.getElementById('searchInput').value.trim();
+  if (!query) return;
+  displayResults(query);
+}
+
+function quickSearch(term) {
+  document.getElementById('searchInput').value = term;
+  search();
+}
+
+function findCertById(id) {
+  for (const cat of Object.values(certDB)) {
+    for (const cert of cat.certs) {
+      if (cert.id === id) return cert;
     }
+  }
+  return null;
+}
 
-    function quickSearch(term) {
-      document.getElementById('searchInput').value = term;
-      search();
+function searchProducts(query) {
+  const q = query.toLowerCase().trim();
+  const matchedCerts = new Map();
+
+  // 1. 产品映射表
+  for (const entry of productMap) {
+    for (const pattern of entry.patterns) {
+      if (q === pattern.toLowerCase() || q.includes(pattern.toLowerCase()) || pattern.toLowerCase().includes(q)) {
+        for (const certId of entry.certIds) {
+          const cert = findCertById(certId);
+          if (cert) matchedCerts.set(certId, cert);
+        }
+        break;
+      }
     }
+  }
 
-    // 按ID查找认证对象
-    function findCertById(id) {
-      for (const cat of Object.values(certDB)) {
-        for (const cert of cat.certs) {
-          if (cert.id === id) return cert;
-        }
-      }
-      return null;
+  // 2. 分类关键词匹配
+  const matchedCategories = [];
+  for (const [key, cat] of Object.entries(certDB)) {
+    let score = 0;
+    for (const kw of cat.keywords) {
+      if (q.includes(kw.toLowerCase())) score += kw.length;
     }
-
-    // 获取某认证所在的分类
-    function getCertCategory(id) {
-      for (const [key, cat] of Object.entries(certDB)) {
-        for (const cert of cat.certs) {
-          if (cert.id === id) return { key, name: cat.name };
-        }
-      }
-      return null;
+    for (const kw of cat.enKeywords || []) {
+      if (q.includes(kw.toLowerCase())) score += kw.length * 1.5;
     }
-
-    // 搜索：产品映射表优先 → 分类关键词匹配 → fallback通用
-    function searchProducts(query) {
-      const q = query.toLowerCase().trim();
-      const matchedCerts = new Map(); // certId → cert object
-
-      // 1. 先查产品映射表（精确匹配产品名）
-      for (const entry of productMap) {
-        for (const pattern of entry.patterns) {
-          if (q === pattern.toLowerCase() || 
-              q.includes(pattern.toLowerCase()) || 
-              pattern.toLowerCase().includes(q)) {
-            // 命中产品映射表，使用预定义的认证列表
-            for (const certId of entry.certIds) {
-              const cert = findCertById(certId);
-              if (cert) matchedCerts.set(certId, cert);
-            }
-            break;
-          }
-        }
-      }
-
-      // 2. 如果产品映射表结果不够，再按分类关键词匹配
-      const matchedCategories = [];
-      for (const [key, cat] of Object.entries(certDB)) {
-        let score = 0;
-        // 中文关键词匹配
-        for (const kw of cat.keywords) {
-          if (q.includes(kw.toLowerCase())) score += kw.length;
-        }
-        // 英文关键词匹配
-        for (const kw of cat.enKeywords || []) {
-          if (q.includes(kw.toLowerCase())) score += kw.length * 1.5; // 英文权重略高
-        }
-        // 认证名称本身匹配
-        for (const cert of cat.certs) {
-          if (q.includes(cert.name.toLowerCase())) score += 5;
-          if (q.includes(cert.fullName.toLowerCase())) score += 10;
-        }
-        if (score > 0) {
-          matchedCategories.push({ key, cat, score });
-        }
-      }
-
-      // 按匹配度排序
-      matchedCategories.sort((a, b) => b.score - a.score);
-      const topMatch = matchedCategories.slice(0, 3); // 显示最多3个分类
-
-      // 从分类匹配中收集认证（去重）
-      for (const { cat } of topMatch) {
-        for (const cert of cat.certs) {
-          if (!matchedCerts.has(cert.id)) {
-            matchedCerts.set(cert.id, cert);
-          }
-        }
-      }
-
-      // 3. 如果完全没有匹配，用通用分类
-      if (matchedCerts.size === 0 && matchedCategories.length === 0) {
-        for (const cert of certDB.general.certs) {
-          matchedCerts.set(cert.id, cert);
-        }
-      }
-
-      return {
-        certs: Array.from(matchedCerts.values()),
-        categories: matchedCategories.length > 0 ? matchedCategories.map(m => ({ key: m.key, name: m.cat.name, score: m.score })) : [{ key: 'general', name: certDB.general.name, score: 0 }],
-        firstCategoryKey: matchedCategories.length > 0 ? matchedCategories[0].key : 'general'
-      };
+    for (const cert of cat.certs) {
+      if (q.includes(cert.name.toLowerCase())) score += 5;
+      if (q.includes(cert.fullName.toLowerCase())) score += 10;
+      if (q.includes(cert.id.toLowerCase())) score += 8;
     }
+    if (score > 0) matchedCategories.push({ key, cat, score });
+  }
+  matchedCategories.sort((a, b) => b.score - a.score);
+  const topMatch = matchedCategories.slice(0, 4);
 
-    function displayResults(query) {
-      const container = document.getElementById('results');
-      container.classList.add('show');
-
-      const result = searchProducts(query);
-      const certs = result.certs;
-
-      if (certs.length === 0) {
-        container.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><h3>未找到匹配结果</h3><p>试试其他关键词，如：蓝牙耳机、儿童玩具、LED灯</p></div>';
-        return;
-      }
-
-      // 构建分类标签
-      const catHtml = result.categories.map(c => 
-        `<span class="category-badge" style="margin-right: 8px; margin-bottom: 8px; display: inline-block;">${c.name}</span>`
-      ).join('');
-
-      const catNames = result.categories.map(c => c.name).join('、');
-      const noteHtml = `<div class="category-note">匹配分类：${catNames}（共${certs.length}个相关认证）</div>`;
-
-      let gridHtml = '<div class="cert-grid">';
-      for (const cert of certs) {
-        const levelLabel = cert.level === 'required' ? '必需' : 
-                           cert.level === 'conditional' ? '视产品而定' :
-                           cert.level === 'recommended' ? '推荐' : '可选';
-        gridHtml += `
-          <div class="cert-card ${cert.level}" onclick="showDetail('${cert.id}')">
-            <div class="cert-header">
-              <span class="cert-name">${cert.name}</span>
-              <span class="cert-level ${cert.level}">${levelLabel}</span>
-            </div>
-            <div class="cert-desc">${cert.desc}</div>
-            <div class="cert-agency">监管机构: ${cert.agency}</div>
-          </div>
-        `;
-      }
-      gridHtml += '</div>';
-
-      container.innerHTML = catHtml + noteHtml + gridHtml;
+  for (const { cat } of topMatch) {
+    for (const cert of cat.certs) {
+      if (!matchedCerts.has(cert.id)) matchedCerts.set(cert.id, cert);
     }
+  }
 
-    function showDetail(certId) {
-      const cert = findCertById(certId);
-      if (!cert) return;
-
-      const levelText = cert.level === 'required' ? '必需认证' : 
-                        cert.level === 'conditional' ? '视产品而定' :
-                        cert.level === 'recommended' ? '推荐认证' : '可选认证';
-      const levelClass = cert.level;
-
-      document.getElementById('modalTitle').textContent = cert.name;
-      document.getElementById('modalTitle').innerHTML = 
-        cert.name + `<span class="level-tag ${levelClass}">${levelText}</span>`;
-      document.getElementById('modalSubtitle').textContent = cert.fullName;
-      document.getElementById('modalRegulator').textContent = cert.regulator;
-      document.getElementById('modalLaw').textContent = cert.law;
-      document.getElementById('modalCost').textContent = cert.cost;
-      document.getElementById('modalDuration').textContent = cert.duration;
-      document.getElementById('modalLawText').textContent = cert.lawText;
-
-      const scopeEl = document.getElementById('modalScope');
-      scopeEl.innerHTML = '';
-      const scopeP = document.createElement('div');
-      scopeP.textContent = cert.scope;
-      scopeEl.appendChild(scopeP);
-
-      const reqEl = document.getElementById('modalRequirements');
-      reqEl.innerHTML = '';
-      const reqList = document.createElement('ul');
-      for (const req of cert.requirements) {
-        const li = document.createElement('li');
-        li.textContent = req;
-        reqList.appendChild(li);
-      }
-      reqEl.appendChild(reqList);
-
-      document.getElementById('modalTips').textContent = cert.tips || '';
-
-      const linkEl = document.getElementById('modalLink');
-      if (cert.link) {
-        linkEl.href = cert.link;
-        linkEl.target = '_blank';
-        linkEl.rel = 'noopener noreferrer';
-        linkEl.style.display = 'inline-block';
-      } else {
-        linkEl.style.display = 'none';
-      }
-
-      document.getElementById('modal').classList.add('show');
-      document.body.style.overflow = 'hidden';
+  // 3. 无匹配→通用
+  if (matchedCerts.size === 0) {
+    for (const cert of certDB.general.certs) {
+      matchedCerts.set(cert.id, cert);
     }
+  }
 
-    function closeModal() {
-      document.getElementById('modal').classList.remove('show');
-      document.body.style.overflow = '';
+  return {
+    certs: Array.from(matchedCerts.values()),
+    categories: matchedCategories.length > 0 ? matchedCategories.map(m=>({key:m.key,name:m.cat.name,score:m.score})) : [{key:'general',name:certDB.general.name,score:0}]
+  };
+}
+
+function displayResults(query) {
+  const container = document.getElementById('results');
+  container.classList.add('show');
+
+  const result = searchProducts(query);
+  const certs = result.certs;
+
+  if (certs.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><h3>未找到匹配结果</h3><p>试试其他关键词，如：蓝牙耳机、儿童玩具、LED灯</p></div>';
+    return;
+  }
+
+  // CPSC紧急警示条（当搜索结果涉及CPSC相关认证时显示）
+  const hasCPSC = result.categories.some(c => c.key === 'cpsc') || certs.some(c => ['cpc','cpc-cert','gcc-cert','efiling','tracking-label'].includes(c.id));
+  const alertHtml = hasCPSC ? `<div class="cpsc-alert"><strong>⚠️ CPSC重要提醒</strong> 2026年7月8日起，受CPSC监管产品须通过 eFiling 完成合规证书电子申报方可清关。<br>🔍 使用 <a href="https://cpsc.gov/eFiling" target="_blank">Regulatory Robot 查询工具</a> 确认您的SKU是否受监管。<br>⏰ 2027年1月8日起，自由贸易区(FTZ)进口货物也须申报。</div>` : '';
+
+  const catHtml = result.categories.map(c =>
+    `<span class="category-badge">${c.name}</span>`
+  ).join('');
+  const catNames = result.categories.map(c=>c.name).join('、');
+  const noteText = result.categories.some(c=>c.key==='cpsc') ?
+    `✓ 您的查询涉及CPSC合规体系相关认证` :
+    `匹配分类：${catNames}（共${certs.length}个相关认证）`;
+  const noteHtml = `<div class="category-note">${noteText}</div>`;
+
+  let gridHtml = '<div class="cert-grid">';
+  for (const cert of certs) {
+    const levelLabel = cert.level === 'required' ? '必需' :
+                       cert.level === 'conditional' ? '视产品而定' :
+                       cert.level === 'recommended' ? '推荐' : '可选';
+    gridHtml += `
+      <div class="cert-card ${cert.level}" onclick="showDetail('${cert.id}')">
+        <div class="cert-header">
+          <span class="cert-name">${cert.name}</span>
+          <span class="cert-level ${cert.level}">${levelLabel}</span>
+        </div>
+        <div class="cert-desc">${cert.desc}</div>
+        <div class="cert-agency">监管机构: ${cert.agency}</div>
+      </div>`;
+  }
+  gridHtml += '</div>';
+
+  container.innerHTML = alertHtml + catHtml + noteHtml + gridHtml;
+}
+
+function showDetail(certId) {
+  const cert = findCertById(certId);
+  if (!cert) return;
+
+  const levelText = cert.level === 'required' ? '必需认证' :
+                    cert.level === 'conditional' ? '视产品而定' :
+                    cert.level === 'recommended' ? '推荐认证' : '可选认证';
+  const levelClass = cert.level;
+
+  document.getElementById('modalTitle').innerHTML =
+    cert.name + `<span class="level-tag ${levelClass}">${levelText}</span>`;
+  document.getElementById('modalSubtitle').textContent = cert.fullName;
+  document.getElementById('modalRegulator').textContent = cert.regulator;
+  document.getElementById('modalLaw').textContent = cert.law;
+  document.getElementById('modalCost').textContent = cert.cost;
+  document.getElementById('modalDuration').textContent = cert.duration;
+  document.getElementById('modalLawText').textContent = cert.lawText;
+
+  const scopeEl = document.getElementById('modalScope');
+  scopeEl.innerHTML = '';
+  const scopeP = document.createElement('div');
+  scopeP.textContent = cert.scope;
+  scopeEl.appendChild(scopeP);
+
+  const reqEl = document.getElementById('modalRequirements');
+  reqEl.innerHTML = '';
+  const reqList = document.createElement('ul');
+  for (const req of cert.requirements) {
+    if (req === '') {
+      const br = document.createElement('br');
+      reqList.appendChild(br);
+    } else {
+      const li = document.createElement('li');
+      li.textContent = req;
+      reqList.appendChild(li);
     }
+  }
+  reqEl.appendChild(reqList);
 
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeModal();
-    });
-  </script>
+  document.getElementById('modalTips').textContent = cert.tips || '';
+
+  const linkEl = document.getElementById('modalLink');
+  if (cert.link) {
+    linkEl.href = cert.link;
+    linkEl.target = '_blank';
+    linkEl.rel = 'noopener noreferrer';
+    linkEl.style.display = 'inline-block';
+  } else {
+    linkEl.style.display = 'none';
+  }
+
+  document.getElementById('modal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
 </body>
 </html>
