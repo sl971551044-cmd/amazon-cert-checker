@@ -91,8 +91,27 @@
       border-radius: 12px;
       padding: 20px;
       transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
     }
-    .cert-card:hover { border-color: #667eea; transform: translateX(5px); }
+    .cert-card:hover { 
+      border-color: #667eea; 
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(102,126,234,0.2);
+    }
+    .cert-card::after {
+      content: '查看详情 →';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #667eea;
+      font-size: 0.85rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .cert-card:hover::after { opacity: 1; }
     .cert-card.required { border-left: 4px solid #e74c3c; }
     .cert-card.recommended { border-left: 4px solid #f39c12; }
     .cert-card.optional { border-left: 4px solid #27ae60; }
@@ -101,6 +120,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
+      padding-right: 80px;
     }
     .cert-name { font-size: 1.2rem; font-weight: 700; color: #333; }
     .cert-level {
@@ -127,6 +147,130 @@
       padding: 40px;
       color: rgba(255,255,255,0.7);
       font-size: 0.9rem;
+    }
+
+    /* Modal styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease;
+    }
+    .modal-overlay.show { display: flex; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal {
+      background: white;
+      border-radius: 20px;
+      max-width: 700px;
+      width: 100%;
+      margin: 20px auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideUp 0.3s ease;
+      overflow: hidden;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 24px 30px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.3); }
+    .modal-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+    .modal-subtitle { font-size: 0.95rem; opacity: 0.9; }
+    .modal-body { padding: 30px; }
+    .modal-section { margin-bottom: 24px; }
+    .modal-section:last-child { margin-bottom: 0; }
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-content {
+      color: #444;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+    .section-content ul { padding-left: 20px; margin-top: 6px; }
+    .section-content li { margin-bottom: 4px; }
+    .modal-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 16px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .meta-item { font-size: 0.85rem; }
+    .meta-label { color: #999; margin-bottom: 2px; }
+    .meta-value { color: #333; font-weight: 600; }
+    .modal-link {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #667eea;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .modal-link:hover { background: #5568d3; }
+    .level-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .level-tag.required { background: #ffebee; color: #c62828; }
+    .level-tag.recommended { background: #fff3e0; color: #e65100; }
+    .level-tag.optional { background: #e8f5e9; color: #2e7d32; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.8rem; }
+      .input-group { flex-direction: column; }
+      .cert-card::after { display: none; }
+      .cert-header { padding-right: 0; }
+      .modal-body { padding: 20px; }
+      .modal-meta { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -162,96 +306,1021 @@
     </footer>
   </div>
 
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-subtitle" id="modalSubtitle"></div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-meta">
+          <div class="meta-item">
+            <div class="meta-label">监管机构</div>
+            <div class="meta-value" id="modalRegulator"></div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">法律依据</div>
+            <div class="meta-value" id="modalLaw"></div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">预估费用</div>
+            <div class="meta-value" id="modalCost"></div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">办理周期</div>
+            <div class="meta-value" id="modalDuration"></div>
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <div class="section-title">📜 法规依据</div>
+          <div class="section-content" id="modalLawText"></div>
+        </div>
+
+        <div class="modal-section">
+          <div class="section-title">📋 适用产品范围</div>
+          <div class="section-content" id="modalScope"></div>
+        </div>
+
+        <div class="modal-section">
+          <div class="section-title">✅ 核心要求</div>
+          <div class="section-content" id="modalRequirements"></div>
+        </div>
+
+        <div class="modal-section">
+          <div class="section-title">💡 办理建议</div>
+          <div class="section-content" id="modalTips"></div>
+        </div>
+
+        <div class="modal-section">
+          <a id="modalLink" class="modal-link" href="#" target="_blank">🔗 查看官方信息</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Simplified certification database
+    // Comprehensive certification database with detailed information
     const certDB = {
       electronics: {
         name: '电子产品',
         keywords: ['耳机','蓝牙','充电','电子','手机','电脑','平板','音响','音箱','数据线','充电器','适配器','电池','移动电源','充电宝','线材','线缆','插座','开关','显示器','屏幕','键盘','鼠标','摄像头','路由器','网络设备'],
         certs: [
-          { name: 'FCC认证', level: 'required', desc: '美国联邦通信委员会认证，所有无线电频率设备必须获得', agency: 'FCC (Federal Communications Commission)' },
-          { name: 'UL认证', level: 'recommended', desc: '美国保险商实验室安全认证，电子产品进入美国市场的重要安全认证', agency: 'UL (Underwriters Laboratories)' },
-          { name: 'Energy Star', level: 'optional', desc: '能源之星认证，节能产品标识，有助于提升产品竞争力', agency: 'EPA (Environmental Protection Agency)' },
-          { name: 'DOE能效认证', level: 'required', desc: '美国能源部能效认证，部分电子产品必须满足能效标准', agency: 'DOE (Department of Energy)' }
+          { 
+            id: 'fcc',
+            name: 'FCC认证', 
+            fullName: 'Federal Communications Commission Certification',
+            level: 'required', 
+            desc: '美国联邦通信委员会认证，所有无线电频率设备必须获得', 
+            agency: 'FCC',
+            regulator: '美国联邦通信委员会 (FCC)',
+            law: 'FCC Rules 47 CFR Part 15',
+            lawText: '根据《通信法》(Communications Act of 1934) 第302条和第303条，所有在美国销售或使用的无线电频率发射设备，必须获得FCC认证。47 CFR Part 15规定了无意辐射体和有意辐射体的电磁兼容要求。',
+            scope: '所有工作频率在9kHz以上的电子电气产品，包括：蓝牙设备、WiFi设备、遥控器、手机、平板电脑、笔记本电脑、充电器等。',
+            requirements: [
+              '辐射发射测试 (Radiated Emissions)：30MHz-40GHz',
+              '传导发射测试 (Conducted Emissions)：150kHz-30MHz',
+              '射频暴露评估 (RF Exposure Evaluation)',
+              '产品标签必须含FCC ID号码',
+              '用户手册需包含合规声明',
+              '测试报告需由FCC认可实验室出具'
+            ],
+            cost: '约 3,000-15,000 元人民币',
+            duration: '4-8 周',
+            tips: '建议选择有FCC Telecommunication Certification Body (TCB) 资质的机构办理。FCC ID查询网址：https://www.fcc.gov/oet/ea/fccid。亚马逊要求所有无线产品必须有FCC ID。',
+            link: 'https://www.fcc.gov/equipment-authorization'
+          },
+          { 
+            id: 'ul',
+            name: 'UL认证', 
+            fullName: 'Underwriters Laboratories Certification',
+            level: 'recommended', 
+            desc: '美国保险商实验室安全认证，电子产品进入美国市场的重要安全认证', 
+            agency: 'UL',
+            regulator: 'UL LLC (非营利第三方检测机构)',
+            law: 'UL Standards (UL 60950-1, UL 62368-1 等)',
+            lawText: 'UL认证本身不是美国法律强制要求，但许多州法律、市政法规以及零售商（如亚马逊、Best Buy、Home Depot）要求电子产品必须通过UL认证。UL标准是被广泛接受的产品安全标准。',
+            scope: '几乎所有电气电子产品：电源适配器、充电器、家用电器、IT设备、音视频设备、电池产品等。',
+            requirements: [
+              '电气安全测试：电击、火灾、机械伤害防护',
+              '温升测试：正常工作及故障条件下',
+              '绝缘强度测试',
+              '接地连续性测试',
+              '异常操作测试',
+              '铭牌和警示标识审查',
+              '工厂审查 (Follow-Up Service)'
+            ],
+            cost: '约 20,000-80,000 元人民币',
+            duration: '8-16 周',
+            tips: '亚马逊对带电产品的核心要求是UL或ETL认证。UL跟踪服务 (FUS) 年度费用约 1-3 万元。常见标准：UL 62368-1 (音视频/IT设备)、UL 60950-1 (信息技术设备)、UL 1310 (电源适配器)。',
+            link: 'https://www.ul.com/services/certification'
+          },
+          { 
+            id: 'energy-star',
+            name: 'Energy Star', 
+            fullName: '能源之星认证',
+            level: 'optional', 
+            desc: '能源之星认证，节能产品标识，有助于提升产品竞争力', 
+            agency: 'EPA',
+            regulator: '美国环保署 (EPA)',
+            law: 'Energy Policy Act of 2005',
+            lawText: '能源之星认证由EPA在1992年发起，依据《能源政策法》运作。产品必须满足EPA制定的能效标准，并经第三方认证机构测试。认证产品可使用Energy Star标识。',
+            scope: '电器、照明、办公设备、电子产品、暖通空调设备等60多个产品类别。',
+            requirements: [
+              '能效测试（需在EPA认可的实验室进行）',
+              '产品能效必须超过联邦最低标准',
+              '提交认证申请给EPA认可的认证机构',
+              '签署合作伙伴协议 (Partnership Agreement)',
+              '每年提交产品样本进行验证测试',
+              '使用Energy Star标签的设计规范'
+            ],
+            cost: '约 5,000-30,000 元人民币',
+            duration: '4-12 周',
+            tips: 'Energy Star不是强制认证，但带标识的产品在亚马逊搜索结果中更有竞争力。申请网址：https://www.energystar.gov。常见类别：电脑、显示器、电视机、冰箱、空调等。',
+            link: 'https://www.energystar.gov'
+          },
+          { 
+            id: 'doe',
+            name: 'DOE能效认证', 
+            fullName: 'Department of Energy Energy Efficiency Standards',
+            level: 'required', 
+            desc: '美国能源部能效认证，部分电子产品必须满足能效标准', 
+            agency: 'DOE',
+            regulator: '美国能源部 (DOE)',
+            law: 'Energy Policy and Conservation Act (EPCA) 10 CFR 430',
+            lawText: '依据《能源政策和节约法》(EPCA)，美国能源部对特定产品类别设定了强制性能效标准。10 CFR 430规定了各类家电的能效要求，违反规定的产品不得在美国销售。',
+            scope: '冰箱、空调、热水器、洗衣机、洗碗机等家电产品；部分外置电源、电池充电器产品。',
+            requirements: [
+              '符合联邦能效标准 (Federal Energy Conservation Standards)',
+              '提交CCMS (Compliance Certification Management System) 报告',
+              '在DOE认可的实验室进行测试',
+              '产品必须贴有黄色能效指南 (EnergyGuide) 标签',
+              '保留测试报告至少2年备查',
+              '进口商需在DOE注册'
+            ],
+            cost: '约 8,000-25,000 元人民币',
+            duration: '6-10 周',
+            tips: 'DOE认证是法定强制要求，违反将被罚款。每次违规最高可被处以$10,000罚款。CCMS系统网址：https://www.regulations.doe.gov/ccms。',
+            link: 'https://www.energy.gov/eere/buildings/appliance-and-equipment-standards-program'
+          }
         ]
       },
       toys: {
         name: '儿童用品/玩具',
         keywords: ['玩具','儿童','婴儿','宝宝','积木','娃娃','毛绒','益智','爬行','学步','推车','奶瓶','奶嘴','磨牙','咬胶','尿布','纸尿裤','童装','童鞋','童车','安全座椅'],
         certs: [
-          { name: 'CPC认证', level: 'required', desc: '儿童产品证书，12岁及以下儿童产品必须提供', agency: 'CPSC (Consumer Product Safety Commission)' },
-          { name: 'ASTM F963', level: 'required', desc: '美国玩具安全标准，儿童玩具必须符合此标准', agency: 'ASTM International' },
-          { name: 'CPSIA测试', level: 'required', desc: '消费品安全改进法案，检测铅含量和邻苯二甲酸盐', agency: 'CPSC' },
-          { name: '追踪标签', level: 'required', desc: '儿童产品必须贴有追踪标签，包含生产日期和批次信息', agency: 'CPSC' }
+          { 
+            id: 'cpc',
+            name: 'CPC认证', 
+            fullName: 'Children\'s Product Certificate',
+            level: 'required', 
+            desc: '儿童产品证书，12岁及以下儿童产品必须提供', 
+            agency: 'CPSC',
+            regulator: '美国消费品安全委员会 (CPSC)',
+            law: 'Consumer Product Safety Improvement Act (CPSIA) Section 14',
+            lawText: '根据《消费品安全改进法案》(CPSIA) 第14条，所有12岁及以下儿童产品的制造商或进口商必须基于CPSC认可的第三方实验室测试结果，签发儿童产品证书 (CPC)。亚马逊要求所有儿童产品listing必须提供CPC。',
+            scope: '主要为12岁及以下儿童设计或使用的产品：玩具、童车、童装、童鞋、儿童家具、儿童护理用品等。',
+            requirements: [
+              '基于CPSC认可的第三方实验室测试报告',
+              '测试项目须覆盖适用法规：铅含量、邻苯二甲酸盐、ASTM F963等',
+              '证书必须包含：产品信息、适用法规、制造商信息、测试实验室信息、测试日期和结果',
+              '证书必须用英文撰写',
+              '证书需由美国本土制造商或进口商签发',
+              '测试报告必须基于产品每个具体型号'
+            ],
+            cost: '约 3,000-15,000 元人民币',
+            duration: '2-4 周',
+            tips: 'CPC证书是亚马逊儿童产品上架的"通行证"，没有CPC会被下架。CPC需由美国进口商或本土公司签发。实验室必须为CPSC认可的第三方，常见机构：SGS、Intertek、BV、TÜV。',
+            link: 'https://www.cpsc.gov/Business--Manufacturing/Testing-Certification/Childrens-Product-Certificate'
+          },
+          { 
+            id: 'astm-f963',
+            name: 'ASTM F963', 
+            fullName: 'ASTM F963 Standard Consumer Safety Specification for Toy Safety',
+            level: 'required', 
+            desc: '美国玩具安全标准，儿童玩具必须符合此标准', 
+            agency: 'ASTM',
+            regulator: 'ASTM International (美国材料试验协会)',
+            law: '16 CFR Part 1250 (联邦法规强制要求)',
+            lawText: 'ASTM F963是玩具安全标准，2024年1月20日起被美国联邦法规16 CFR Part 1250引用为强制性标准。涵盖玩具的机械安全、易燃性、化学安全、电气安全等方面。',
+            scope: '为12岁及以下儿童设计的玩具产品。',
+            requirements: [
+              '机械物理测试：冲击、挤压、扭力、拉力、尖点锐边',
+              '易燃性测试：材料阻燃要求',
+              '化学测试：8种重金属迁移+总铅含量',
+              '电气安全测试（带电玩具）',
+              '微生物安全（实验用品）',
+              '玩具警告标签审查',
+              '小部件警告（3岁以下）'
+            ],
+            cost: '约 8,000-25,000 元人民币',
+            duration: '4-8 周',
+            tips: 'ASTM F963-23是最新的2023版本，2024年1月正式强制执行。测试必须由CPSC认可的实验室进行。常见不通过项：涂层铅超标、邻苯二甲酸盐超标、小部件脱落。',
+            link: 'https://www.astm.org/f0963-23.html'
+          },
+          { 
+            id: 'cpsia',
+            name: 'CPSIA测试', 
+            fullName: 'Consumer Product Safety Improvement Act Testing',
+            level: 'required', 
+            desc: '消费品安全改进法案，检测铅含量和邻苯二甲酸盐', 
+            agency: 'CPSC',
+            regulator: '美国消费品安全委员会 (CPSC)',
+            law: 'CPSIA Public Law 110-314',
+            lawText: '《消费品安全改进法案》(CPSIA) 是2008年颁布的联邦法律，对儿童产品的铅含量、邻苯二甲酸盐含量、追踪标签等做出严格规定。任何儿童产品中的铅含量超过300 ppm即为违法。',
+            scope: '所有12岁及以下儿童产品。',
+            requirements: [
+              '基材铅含量测试：≤300 ppm (按干重)',
+              '表面涂层铅含量：≤90 ppm',
+              '6种邻苯二甲酸盐 (DEHP, DBP, BBP) 含量：≤0.1%',
+              '3种附加邻苯二甲酸盐 (DINP, DIDP, DNOP)：≤0.1%',
+              '追踪标签 (Tracking Label) 必须永久贴于产品及包装',
+              '成人产品如可能被儿童使用也需测试'
+            ],
+            cost: '约 5,000-20,000 元人民币',
+            duration: '2-4 周',
+            tips: 'CPSIA罚款严厉：每次违规最高$100,000。邻苯二甲酸盐目前管控8种。追踪标签需包含：制造商信息、生产日期、生产地点、生产批次。',
+            link: 'https://www.cpsc.gov/Regulations-Laws--Standards/Statutes/Consumer-Product-Safety-Improvement-Act'
+          },
+          { 
+            id: 'tracking-label',
+            name: '追踪标签', 
+            fullName: 'Tracking Label for Children Products',
+            level: 'required', 
+            desc: '儿童产品必须贴有追踪标签，包含生产日期和批次信息', 
+            agency: 'CPSC',
+            regulator: '美国消费品安全委员会 (CPSC)',
+            law: 'CPSIA Section 103 Tracking Labels for Children Products',
+            lawText: 'CPSIA第103条要求所有儿童产品必须贴有可追踪标签 (Tracking Label)，便于产品召回时快速识别生产信息。标签必须永久粘贴在产品和包装上。',
+            scope: '所有儿童产品（12岁及以下）。',
+            requirements: [
+              '标签必须永久粘贴 (Permanent)',
+              '标签必须可追溯到具体生产信息：',
+              '  - 制造商、私有标签商或进口商名称',
+              '  - 产品生产地点',
+              '  - 产品生产日期 (年/月)',
+              '  - 产品批次或序列号 (运行识别号)',
+              '标签位置：产品本体 + 包装',
+              '标签材料需耐久（防磨损、水洗不脱落）'
+            ],
+            cost: '约 500-2,000 元人民币（标签设计+印刷）',
+            duration: '1-2 周',
+            tips: '追踪标签是CPSIA最容易忽视的合规要求。建议在产品设计阶段就规划标签位置。标签可以是丝印、模压、贴纸等形式。常见违规：标签位置不合理、字体太小不可读、信息不完整。',
+            link: 'https://www.cpsc.gov/Business--Manufacturing/Childrens-Products/Tracking-Labels'
+          }
         ]
       },
       foodContact: {
         name: '食品接触材料',
         keywords: ['餐具','厨具','厨房','食品','食物','保鲜','密封','饭盒','水杯','杯子','碗','盘','筷子','勺子','砧板','刀具','锅','壶','烘焙','烧烤','咖啡','茶具'],
         certs: [
-          { name: 'FDA食品接触材料', level: 'required', desc: '美国食品药品监督管理局认证，食品接触材料必须符合', agency: 'FDA (Food and Drug Administration)' },
-          { name: 'LFGB测试', level: 'recommended', desc: '德国食品接触材料测试，虽然不是美国法规，但有助于提升产品可信度', agency: 'German LFGB' },
-          { name: '加州65号提案', level: 'required', desc: '加州安全饮用水和有毒物质执法法，在加州销售需符合', agency: 'California Proposition 65' }
+          { 
+            id: 'fda-food',
+            name: 'FDA食品接触材料', 
+            fullName: 'FDA Food Contact Material Registration',
+            level: 'required', 
+            desc: '美国食品药品监督管理局认证，食品接触材料必须符合', 
+            agency: 'FDA',
+            regulator: '美国食品药品监督管理局 (FDA)',
+            law: '21 CFR Parts 170-199 (联邦法规第21篇)',
+            lawText: 'FDA依据《联邦食品、药品和化妆品法案》(FFDCA) 对食品接触材料进行监管。21 CFR Parts 170-199规定了各类食品接触材料的成分、安全性测试和合规要求。',
+            scope: '所有与食品直接接触的材料：塑料、橡胶、陶瓷、玻璃、金属、纸制品、不粘涂层等。',
+            requirements: [
+              '材料成分必须符合21 CFR相关条款',
+              '21 CFR 174-179：间接添加剂（涂层、粘合剂等）',
+              '21 CFR 175-177：聚合物材料（塑料、橡胶、纸）',
+              '21 CFR 180-186：食品接触物质',
+              '迁移测试 (Migration Testing)：总迁移量、特定迁移量',
+              '需符合FDA认可的配方或进行食品接触通告 (FCN)',
+              '符合良好生产规范 (GMP) 21 CFR 110'
+            ],
+            cost: '约 8,000-30,000 元人民币',
+            duration: '4-8 周',
+            tips: 'FDA对食品接触材料监管严格，不同材料对应不同CFR条款。塑料最常见参考21 CFR 177.1520。FDA无"证书"概念，合规证明是测试报告+符合性声明。建议提前与FDA认可的实验室确认材料类别。',
+            link: 'https://www.fda.gov/food/food-contact-substances-fcs'
+          },
+          { 
+            id: 'lfgb',
+            name: 'LFGB测试', 
+            fullName: 'German Food, Feed and Commodities Act Testing',
+            level: 'recommended', 
+            desc: '德国食品接触材料测试，虽然不是美国法规，但有助于提升产品可信度', 
+            agency: 'LFGB',
+            regulator: '德国联邦风险评估研究所 (BfR)',
+            law: 'LFGB §30/31 (德国食品、日用品及饲料法)',
+            lawText: 'LFGB是德国食品接触材料的测试标准，比FDA要求更严格，尤其在感官测试 (taste and smell transfer) 方面。虽然不是美国强制要求，但许多进口商和亚马逊欧洲站点会要求LFGB报告。',
+            scope: '所有食品接触材料，涵盖塑料、硅胶、橡胶、金属、陶瓷、纸制品等。',
+            requirements: [
+              '感官测试：气味和味道转移 (针对塑料/硅胶)',
+              '总迁移量测试',
+              '特定迁移物测试 (重金属、初级芳香胺等)',
+              '特殊材料：橡胶参照BfR建议',
+              '色牢度测试（带印刷产品）',
+              '残留物测试'
+            ],
+            cost: '约 5,000-15,000 元人民币',
+            duration: '3-6 周',
+            tips: 'LFGB测试在美国非强制，但许多亚马逊卖家会做LFGB报告以提升产品可信度（特别是硅胶、塑料产品）。LFGB和FDA测试可以同时做，节省成本。',
+            link: 'https://www.bfr.bund.de/en/food_contact_materials-1574.html'
+          },
+          { 
+            id: 'prop65',
+            name: '加州65号提案', 
+            fullName: 'California Proposition 65',
+            level: 'required', 
+            desc: '加州安全饮用水和有毒物质执法法，在加州销售需符合', 
+            agency: 'California OEHHA',
+            regulator: '加州环境健康风险评估办公室 (OEHHA)',
+            law: 'California Health and Safety Code Section 25249.5-25249.14',
+            lawText: '1986年通过的《安全饮用水和有毒物质执法法》要求：企业在销售含有致癌或生殖毒性化学物质的产品前，必须向消费者提供明确警告。OEHHA每年更新化学品清单，目前包含约900种物质。',
+            scope: '所有在加州销售的产品，包括食品、电子产品、玩具、化妆品、建材等。',
+            requirements: [
+              '检测产品是否含有Prop 65清单中的化学物质（约900+种）',
+              '若含有：需贴Prop 65警告标签',
+              '警告方式：产品标签+网站+线下陈列',
+              '具体警告语："WARNING: This product can expose you to chemicals including [chemical name], which is known to the State of California to cause [cancer/birth defects or other reproductive harm]. For more information go to www.P65Warnings.ca.gov"',
+              '企业可选择提供"安全港警告"用语',
+              '对清单外的物质无需警告'
+            ],
+            cost: '约 8,000-50,000 元人民币',
+            duration: '4-12 周',
+            tips: 'Prop 65是诉讼重灾区，许多职业诉讼者专门起诉不合规企业。2026年起警告用语规则有更新，必须使用新标准格式。建议直接使用OEHHA提供的"short-form"警告模板。',
+            link: 'https://www.p65warnings.ca.gov'
+          }
         ]
       },
       cosmetics: {
         name: '化妆品/护肤品',
         keywords: ['护肤','化妆','美容','面膜','精华','乳液','面霜','眼霜','口红','粉底','眼影','香水','香氛','洗护','洗发','护发','沐浴','香皂','牙膏','牙刷','化妆棉','棉签'],
         certs: [
-          { name: 'FDA化妆品注册', level: 'required', desc: '化妆品企业必须在FDA进行设施注册和产品列名', agency: 'FDA' },
-          { name: '良好生产规范GMP', level: 'required', desc: '化妆品生产必须符合FDA的良好生产规范', agency: 'FDA' },
-          { name: '标签合规', level: 'required', desc: '化妆品标签必须包含成分表、净含量、制造商信息等', agency: 'FDA' },
-          { name: '动物测试声明', level: 'recommended', desc: ' cruelty-free声明，部分消费者关注此点', agency: '自愿性' }
+          { 
+            id: 'fda-cosmetic',
+            name: 'FDA化妆品注册', 
+            fullName: 'FDA Cosmetic Registration and Product Listing',
+            level: 'required', 
+            desc: '化妆品企业必须在FDA进行设施注册和产品列名', 
+            agency: 'FDA',
+            regulator: '美国食品药品监督管理局 (FDA)',
+            law: 'Modernization of Cosmetics Regulation Act 2022 (MoCRA)',
+            text: '根据2022年《化妆品法规现代化法案》(MoCRA) 和《FD&C法案》第21章第VI部分，所有在美国销售的化妆品的制造商、加工商和分销商必须进行FDA设施注册和产品列名。',
+            scope: '所有化妆品 (cosmetics)：护肤品、彩妆、香水、肥皂（不包含按药品监管的化妆品和OTC产品）。',
+            requirements: [
+              '设施注册 (Facility Registration)：每两年更新一次',
+              '产品列名 (Product Listing)：每种产品都要列名',
+              '指定美国境内代理人 (US Agent)',
+              '产品成分声明',
+              '产品标签合规（含成分表、净含量、警告语等）',
+              'FDA不良事件报告 (Serious Adverse Event Reporting)',
+              '产品安全证明 (Product Safety substantiation)'
+            ],
+            cost: '约 5,000-15,000 元人民币',
+            duration: '2-6 周',
+            tips: 'MoCRA 2023年12月29日起强制执行，必须注册否则违法。注意"soap"和"cosmetic"的区别（皂基80%以上是soap，不受化妆品监管）。FDA费用：设施注册免费。',
+            link: 'https://www.fda.gov/cosmetics/registration-listing-cosmetics'
+          },
+          { 
+            id: 'gmp-cosmetic',
+            name: '良好生产规范GMP', 
+            fullName: 'Good Manufacturing Practice for Cosmetics',
+            level: 'required', 
+            desc: '化妆品生产必须符合FDA的良好生产规范', 
+            agency: 'FDA',
+            regulator: '美国食品药品监督管理局 (FDA)',
+            law: '21 CFR Part 117 (Subparts A, B, F) + MoCRA 2022',
+            text: 'FDA对化妆品生产实施GMP要求，确保产品质量和安全性。ISO 22716是国际公认的化妆品GMP标准。',
+            scope: '所有化妆品制造、加工和包装设施。',
+            requirements: [
+              '厂房设施和设备卫生要求',
+              '原材料采购和检验程序',
+              '生产过程控制（温度、湿度等）',
+              '成品检验和放行程序',
+              '记录和文档管理（可追溯性）',
+              '人员培训',
+              '产品召回程序',
+              '不良事件报告系统'
+            ],
+            cost: '约 30,000-100,000 元人民币（GMP体系建立+认证）',
+            duration: '3-6 个月',
+            tips: '推荐认证ISO 22716（化妆品GMP国际标准），更被国际客户认可。亚马逊对化妆品GMP越来越重视，许多大客户要求供应商提供ISO 22716证书。',
+            link: 'https://www.iso.org/standard/36437.html'
+          },
+          { 
+            id: 'label-cosmetic',
+            name: '标签合规', 
+            fullName: 'Cosmetic Labeling Compliance',
+            level: 'required', 
+            desc: '化妆品标签必须包含成分表、净含量、制造商信息等', 
+            agency: 'FDA',
+            regulator: '美国食品药品监督管理局 (FDA)',
+            law: '21 CFR Part 701 (Cosmetic Labeling)',
+            text: '21 CFR Part 701详细规定了化妆品标签要求。MoCRA 2022进一步加强，要求过敏原信息披露、专业化妆品和香精过敏原披露。',
+            scope: '所有化妆品产品。',
+            requirements: [
+              '产品名称和功能声明',
+              '净含量 (Net Contents) - 按公制单位',
+              '成分表 (Ingredient List) - 使用INCI国际通用名',
+              '制造商、分销商或包装商信息',
+              '原产国 (Country of Origin)',
+              '警告语 (如必要)："Warning:..."',
+              '过敏原披露 (MoCRA新增要求)',
+              '香精过敏原 (Fragrance Allergens) 列出24种欧盟过敏原',
+              '产品保质期：≥30个月需标生产日期，<30个月需标有效期',
+              '标签必须用英文'
+            ],
+            cost: '约 3,000-8,000 元人民币（标签设计+审查）',
+            duration: '1-3 周',
+            tips: 'FDA对成分标识错误零容忍！常见错误：INCI名称错误、净含量单位不规范、过敏原缺失。欧盟26种过敏原中FDA要求披露24种，必须使用INCI名称。',
+            link: 'https://www.fda.gov/cosmetics/cosmetics-labeling'
+          },
+          { 
+            id: 'cruelty-free',
+            name: '动物测试声明', 
+            fullName: 'Cruelty-Free / Not Tested on Animals Claim',
+            level: 'recommended', 
+            desc: ' cruelty-free声明，部分消费者关注此点', 
+            agency: '自愿性',
+            regulator: '无统一监管（多个第三方认证机构）',
+            law: '无统一联邦法律（多个州法律有差异）',
+            text: '美国无统一cruelty-free认证法规。但加州、纽约等多个州已禁止销售经过动物测试的化妆品。Leaping Bunny和PETA是两个最被认可的第三方认证。',
+            scope: '所有声称cruelty-free的化妆品。',
+            requirements: [
+              'Leaping Bunny：需通过认证申请、提交证明文件、年度复审',
+              'PETA认证：在线申请，提交"无动物测试"承诺声明',
+              '不能在产品上进行动物测试',
+              '原料供应商也不能进行动物测试',
+              '公司不能在中国大陆销售（除2021年起新规允许）',
+              '禁用"cruelty-free"标识需要符合FTC反误导规定'
+            ],
+            cost: '约 5,000-20,000 元人民币',
+            duration: '4-8 周',
+            tips: 'cruelty-free已成为化妆品销售的重要卖点。亚马逊可使用"cruelty-free"过滤选项。Leaping Bunny认证最权威但费用较高，PETA认证便宜但认可度低些。',
+            link: 'https://www.leapingbunny.org'
+          }
         ]
       },
       medical: {
         name: '医疗器械/保健',
         keywords: ['医疗','保健','健康','体温计','血压计','血糖仪','按摩','理疗','康复','护具','口罩','消毒','杀菌','检测','测试','诊断','治疗'],
         certs: [
-          { name: 'FDA医疗器械注册', level: 'required', desc: '医疗器械必须在FDA注册，根据风险等级分类管理', agency: 'FDA' },
-          { name: '510(k)许可', level: 'required', desc: '中低风险医疗器械上市前通知', agency: 'FDA' },
-          { name: 'ISO 13485', level: 'recommended', desc: '医疗器械质量管理体系认证', agency: 'ISO' },
-          { name: 'UDI标识', level: 'required', desc: '医疗器械唯一标识系统', agency: 'FDA' }
+          { 
+            id: 'fda-medical',
+            name: 'FDA医疗器械注册', 
+            fullName: 'FDA Medical Device Establishment Registration',
+            level: 'required', 
+            desc: '医疗器械必须在FDA注册，根据风险等级分类管理', 
+            agency: 'FDA',
+            regulator: '美国食品药品监督管理局 (FDA)',
+            law: '21 CFR Part 807 (Establishment Registration) + FD&C Act Section 510',
+            text: '依据FD&C法案第510条，所有生产、准备、传播或加工美国境内或进口到美国的医疗器械的厂家，必须进行FDA器械注册。年度更新（每年10月1日至12月31日）。',
+            scope: '所有医疗器械（I类、II类、III类），包括体温计、血压计、血糖仪、口罩等。',
+            requirements: [
+              '企业注册 (Establishment Registration)',
+              '器械列名 (Device Listing)',
+              '指定美国代理人 (US Agent)',
+              '按器械风险等级 (Class I/II/III) 满足相应上市前要求：',
+              '  - Class I：一般控制 (大部分豁免510(k))',
+              '  - Class II：510(k)上市前通知',
+              '  - Class III：PMA上市前批准',
+              '遵守质量体系法规 (QSR, 21 CFR 820)',
+              '遵守UDI医疗器械唯一标识要求',
+              'MDR医疗器械报告制度'
+            ],
+            cost: '约 10,000-30,000 元人民币（不含510(k)）',
+            duration: '4-12 周',
+            tips: 'FDA年度注册费（2024财年）：$9,280 (大型企业) / $4,640 (小型企业)。注意区分企业类型。口罩、防护服等疫情期间类目有EUA紧急使用授权。',
+            link: 'https://www.fda.gov/medical-devices/device-registration-and-listing'
+          },
+          { 
+            id: 'fda-510k',
+            name: '510(k)许可', 
+            fullName: 'FDA 510(k) Premarket Notification',
+            level: 'required', 
+            desc: '中低风险医疗器械上市前通知', 
+            agency: 'FDA',
+            regulator: '美国食品药品监督管理局 (FDA)',
+            law: '21 CFR Part 807 Subpart E + FD&C Act Section 510(k)',
+            text: '510(k)是FDA对中低风险医疗器械（Class II）的上市前通知要求。必须证明器械与已上市"predicate device"实质等同 (Substantially Equivalent)。',
+            scope: 'Class II医疗器械（部分Class I和Class III也需510(k)）。',
+            requirements: [
+              '选择合适的Predicate Device（比对器械）',
+              '性能测试：生物相容性、电气安全、EMC、可用性等',
+              '软件验证和确认 (V&V, 如适用)',
+              '性能基准测试 (Performance Testing)',
+              '动物试验 (如适用)',
+              '临床试验 (一般不需要，少数需要)',
+              '510(k)摘要 (510(k) Summary)',
+              'FDA审查费：Class II为$31,872 (2024年)',
+              '审查周期：3-6个月'
+            ],
+            cost: '约 200,000-800,000 元人民币（含测试和FDA费用）',
+            duration: '6-12 个月',
+            tips: '510(k)最关键是找到合适的Predicate Device。没有Predicate可能需要De Novo分类。Class II器械必须严格按21 CFR 820 (QSR) 质量体系运营。可咨询专业法规咨询师。',
+            link: 'https://www.fda.gov/medical-devices/premarket-submissions/premarket-notification-510k'
+          },
+          { 
+            id: 'iso13485',
+            name: 'ISO 13485', 
+            fullName: 'ISO 13485 Medical Devices Quality Management Systems',
+            level: 'recommended', 
+            desc: '医疗器械质量管理体系认证', 
+            agency: 'ISO',
+            regulator: '国际标准化组织 (ISO)',
+            law: 'ISO 13485:2016 (国际标准)',
+            text: 'ISO 13485是医疗器械质量管理体系的国际标准，2016年发布最新版本。加拿大Health Canada、欧盟MDR都要求此认证。',
+            scope: '医疗器械制造商及其供应链。',
+            requirements: [
+              '建立符合ISO 13485的质量管理体系',
+              '文件化的质量手册、程序文件、作业指导',
+              '管理评审 (Management Review)',
+              '内审 (Internal Audit)',
+              '设计和开发控制',
+              '采购控制',
+              '生产和服务提供控制',
+              '监视和测量设备控制',
+              '产品监视和测量',
+              '不合格品控制',
+              '纠正和预防措施 (CAPA)',
+              '第三方认证机构现场审核'
+            ],
+            cost: '约 30,000-100,000 元人民币',
+            duration: '6-12 个月',
+            tips: 'ISO 13485是医疗器械全球贸易的"通行证"，亚马逊上许多医疗器械类目要求供应商提供此证书。已建立ISO 9001的企业可在此基础上扩展。',
+            link: 'https://www.iso.org/standard/59752.html'
+          },
+          { 
+            id: 'udi',
+            name: 'UDI标识', 
+            fullName: 'Unique Device Identification',
+            level: 'required', 
+            desc: '医疗器械唯一标识系统', 
+            agency: 'FDA',
+            regulator: '美国食品药品监督管理局 (FDA)',
+            law: '21 CFR Part 830 + FD&C Act Section 520',
+            text: 'FDA UDI系统要求大多数医疗器械必须带有唯一设备标识符，便于追踪和报告。器械标识信息必须提交到FDA的GUDID数据库。',
+            scope: '所有Class I/II/III医疗器械（部分豁免）。',
+            requirements: [
+              'UDI = DI (Device Identifier) + PI (Production Identifier)',
+              'DI: 厂商、商品型号等静态信息',
+              'PI: 生产日期、批次、序列号、有效期等动态信息',
+              'UDI载体：AIDC (条码) + HRI (人可读)',
+              'PI有效期：2022年9月24日起',
+              '在FDA GUDID数据库提交DI信息',
+              'UDI必须贴在产品本体 (label) 和包装上',
+              '部分豁免：低风险器械等'
+            ],
+            cost: '约 5,000-30,000 元人民币',
+            duration: '4-8 周',
+            tips: 'UDI实施需要选UDI发行机构 (Issuing Agency)：GS1、HIBCC、ICCBBA。GS1最常用，需要先申请GS1 GTIN。UDI数据提交免费。',
+            link: 'https://www.fda.gov/medical-devices/unique-device-identification-system-udi-system'
+          }
         ]
       },
       lighting: {
         name: '灯具照明',
         keywords: ['灯','照明','LED','灯泡','台灯','落地灯','吊灯','壁灯','筒灯','射灯','灯带','灯条','路灯','手电','应急灯','智能灯','氛围灯'],
         certs: [
-          { name: 'UL认证', level: 'required', desc: '灯具安全认证，进入美国市场的基本要求', agency: 'UL' },
-          { name: 'Energy Star', level: 'recommended', desc: '能源之星认证，节能灯具的重要标识', agency: 'EPA' },
-          { name: 'DLC认证', level: 'recommended', desc: '设计之光联盟认证，商用LED灯具的重要认证', agency: 'DLC (DesignLights Consortium)' },
-          { name: 'FCC认证', level: 'required', desc: '智能灯具含无线功能需FCC认证', agency: 'FCC' }
+          { 
+            id: 'ul-lighting',
+            name: 'UL认证（灯具）', 
+            fullName: 'Underwriters Laboratories for Lighting',
+            level: 'required', 
+            desc: '灯具安全认证，进入美国市场的基本要求', 
+            agency: 'UL',
+            regulator: 'UL LLC',
+            law: 'UL 1598 (固定式灯具), UL 153 (便携式灯具), UL 1993 (LED灯泡)等',
+            text: 'UL针对不同灯具类型有专门标准。UL 1598是固定式灯具、UL 153是便携式灯具、UL 1993是LED灯泡。美国许多州/市要求灯具产品必须UL认证。',
+            scope: '所有灯具：固定式、便携式、嵌入式、LED灯泡、LED灯管、智能灯具等。',
+            requirements: [
+              '电气安全测试（按具体UL标准）',
+              '机械结构测试',
+              '温升测试',
+              '外壳防护等级 (IP等级，如适用)',
+              '防触电保护',
+              '接地系统（如适用）',
+              '可燃性测试',
+              '铭牌和说明书',
+              'UL跟踪服务 (Follow-Up Service, FUS)'
+            ],
+            cost: '约 30,000-100,000 元人民币',
+            duration: '8-16 周',
+            tips: 'LED灯具是亚马逊高危类目，几乎必须有UL或ETL认证才能销售。UL FUS年度跟踪服务费约 1-5 万。常见UL标准：UL 1598, UL 8750 (LED光源), UL 153。',
+            link: 'https://www.ul.com/lighting'
+          },
+          { 
+            id: 'energy-star-light',
+            name: 'Energy Star（灯具）', 
+            fullName: 'Energy Star Certified Lighting',
+            level: 'recommended', 
+            desc: '能源之星认证，节能灯具的重要标识', 
+            agency: 'EPA',
+            regulator: '美国环保署 (EPA)',
+            law: 'Energy Star Program Requirements for Lamps (Lamps V2.1) and Luminaires (Luminaires V2.1)',
+            text: 'Energy Star对灯具和灯泡有详细的能效要求。认证产品在亚马逊搜索结果中具有竞争优势。',
+            scope: 'LED灯泡、LED灯具、灯管、便携式灯具等。',
+            requirements: [
+              '光效 (lm/W)：按产品类别有最低要求',
+              '显色指数 (CRI) ≥80 (室内) 或 ≥70 (室外)',
+              '色温 (CCT)：符合产品类别要求',
+              '寿命要求：L70 ≥15,000-25,000小时',
+              '功率因数 (PF) ≥0.7或0.9',
+              '调光性能（如有调光功能）',
+              '三年以上保修',
+              'EPA认可的第三方实验室测试'
+            ],
+            cost: '约 8,000-30,000 元人民币',
+            duration: '6-12 周',
+            tips: 'Energy Star灯具在亚马逊有专属标识。Energy Star和DLC可以同时申请。L70寿命测试非常关键，需要LM-80报告（LED封装寿命数据）。',
+            link: 'https://www.energystar.gov/products/lighting_fans'
+          },
+          { 
+            id: 'dlc',
+            name: 'DLC认证', 
+            fullName: 'DesignLights Consortium Qualified Products List',
+            level: 'recommended', 
+            desc: '设计之光联盟认证，商用LED灯具的重要认证', 
+            agency: 'DLC',
+            regulator: 'DesignLights Consortium (DLC)',
+            law: 'DLC Standard V5.1 (SSL Technical Requirements)',
+            text: 'DLC是商用LED照明产品的能效认证，许多公用事业公司提供DLC列名产品的节能补贴。DLC列名产品同时可获得Energy Star等级。',
+            scope: '商用LED灯具：工矿灯、面板灯、路灯、筒灯、灯管、投光灯等。',
+            requirements: [
+              '光效要求：按产品类别不同',
+              'CRI ≥80',
+              'CCT：3000K-5000K范围内',
+              'PF ≥0.9',
+              'THD ≤20%',
+              'LM-79光度测试报告',
+              'LM-80 LED封装寿命数据',
+              'ISTMT (In-Situ Temperature Measurement Test)',
+              '驱动器 (Driver) 寿命：≥50,000小时',
+              '5年以上保修'
+            ],
+            cost: '约 15,000-50,000 元人民币',
+            duration: '8-16 周',
+            tips: 'DLC标准是商用LED进入美国市场的重要门槛。DLC V5.1标准要求更严。DLC Premium比DLC Standard要求更高，可获得更多补贴。',
+            link: 'https://www.designlights.org'
+          },
+          { 
+            id: 'fcc-light',
+            name: 'FCC认证（智能灯具）', 
+            fullName: 'FCC Certification for Smart Lighting',
+            level: 'required', 
+            desc: '智能灯具含无线功能需FCC认证', 
+            agency: 'FCC',
+            regulator: '美国联邦通信委员会 (FCC)',
+            law: '47 CFR Part 15 (Subpart B无意辐射 + Subpart C有意辐射)',
+            text: '任何带蓝牙、WiFi、Zigbee等无线功能的智能灯具必须获得FCC认证。',
+            scope: '智能LED灯泡、智能灯带、智能开关、智能灯具等。',
+            requirements: [
+              '辐射发射测试 (Radiated Emissions)',
+              '传导发射测试 (Conducted Emissions)',
+              '无线模块认证 (RF模块)',
+              '天线测试',
+              'FCC ID标识',
+              '用户手册合规声明',
+              '标签要求'
+            ],
+            cost: '约 5,000-20,000 元人民币',
+            duration: '4-8 周',
+            tips: '智能灯具除了UL + FCC，还可能需要WiFi联盟认证、Bluetooth SIG认证。亚马逊要求所有无线产品都提供FCC ID。',
+            link: 'https://www.fcc.gov/equipment-authorization'
+          }
         ]
       },
       textiles: {
         name: '纺织品/服装',
         keywords: ['服装','衣服','服饰','纺织','面料','T恤','衬衫','裤子','裙子','外套','内衣','袜子','帽子','围巾','手套','家纺','床单','被套','枕套','毛巾','窗帘','地毯'],
         certs: [
-          { name: 'CPSIA合规', level: 'required', desc: '儿童服装必须符合CPSIA要求', agency: 'CPSC' },
-          { name: '纺织品标签', level: 'required', desc: 'FTC要求的纺织品成分标签和护理标签', agency: 'FTC (Federal Trade Commission)' },
-          { name: 'OEKO-TEX', level: 'optional', desc: '纺织品有害物质检测认证', agency: 'OEKO-TEX' },
-          { name: '阻燃标准', level: 'required', desc: '特定纺织品需符合阻燃要求', agency: 'CPSC' }
+          { 
+            id: 'cpsia-textile',
+            name: 'CPSIA合规（童装）', 
+            fullName: 'CPSIA Compliance for Children Textile',
+            level: 'required', 
+            desc: '儿童服装必须符合CPSIA要求', 
+            agency: 'CPSC',
+            regulator: '美国消费品安全委员会 (CPSC)',
+            law: 'CPSIA Public Law 110-314',
+            text: 'CPSIA对儿童服装的铅含量、邻苯二甲酸盐、追踪标签有严格规定。亚马逊儿童服装listing必须提供CPC证书。',
+            scope: '12岁及以下儿童服装和配饰。',
+            requirements: [
+              '基材铅含量：≤300 ppm',
+              '表面涂层铅含量：≤90 ppm',
+              '邻苯二甲酸盐：8种物质 ≤0.1%',
+              '追踪标签 (Tracking Label)',
+              '小部件拉力测试 (如纽扣、拉链)',
+              '绳带安全 (Drawstring Safety)：14岁及以下',
+              'CPC儿童产品证书'
+            ],
+            cost: '约 5,000-20,000 元人民币',
+            duration: '3-6 周',
+            tips: '儿童服装CPSIA检查重点：拉链、纽扣、装饰物脱落风险；颈部和腰部绳带长度（不能超过规定尺寸）；印花涂层的铅和邻苯二甲酸盐。',
+            link: 'https://www.cpsc.gov/Business--Manufacturing/Childrens-Products'
+          },
+          { 
+            id: 'ftc-textile',
+            name: '纺织品标签', 
+            fullName: 'FTC Textile Fiber Products Identification Act',
+            level: 'required', 
+            desc: 'FTC要求的纺织品成分标签和护理标签', 
+            agency: 'FTC',
+            regulator: '美国联邦贸易委员会 (FTC)',
+            law: 'Textile Fiber Products Identification Act 15 U.S.C. § 70 + FTC Care Labeling Rule 16 CFR Part 423',
+            text: '《纺织品纤维产品识别法》要求纺织品必须标注纤维成分。FTC护理标签规则要求护理说明必须永久附在产品上。',
+            scope: '所有纺织品服装、家纺、毛巾、围巾等。',
+            requirements: [
+              '纤维成分标签：按重量从多到少列出',
+              '使用通用纤维名称 (Cotton, Polyester, Wool等)',
+              '装饰部分纤维可单独列出',
+              '护理标签：水洗/干洗、漂白、干燥、熨烫四类',
+              '护理标签必须使用ASTM D5489或ISO 3758标准符号',
+              '护理标签必须永久附在产品上',
+              '原产国 (Country of Origin) 标签',
+              '制造商或进口商信息'
+            ],
+            cost: '约 2,000-5,000 元人民币（标签设计）',
+            duration: '1-3 周',
+            tips: 'FTC对纺织品标签违规处罚严厉。常见错误：护理符号不规范、纤维成分顺序错误、原产国缺失。注意FTC允许的12种护理符号（高低温、熨烫底板等）。',
+            link: 'https://www.ftc.gov/enforcement/rules/rulemaking-regulatory-reform-proceedings/textile-fiber-products-identification-act'
+          },
+          { 
+            id: 'oekotex',
+            name: 'OEKO-TEX', 
+            fullName: 'OEKO-TEX Standard 100',
+            level: 'optional', 
+            desc: '纺织品有害物质检测认证', 
+            agency: 'OEKO-TEX',
+            regulator: 'OEKO-TEX国际协会',
+            law: 'OEKO-TEX Standard 100 (私人标准)',
+            text: 'OEKO-TEX Standard 100是国际公认的纺织品有害物质检测认证，每年更新有害物质清单。获得OEKO-TEX证书的产品可使用"Confidence in Textiles"标签。',
+            scope: '所有纺织品：服装、家纺、纤维、纱线、配件等。',
+            requirements: [
+              '依据OEKO-TEX Standard 100测试',
+              '按产品类别（I-IV类）对应不同要求',
+              'I类（婴儿）：最严格',
+              'II类（直接接触皮肤）',
+              'III类（不直接接触皮肤）',
+              'IV类（装饰材料）',
+              '300+种有害物质测试',
+              '工厂现场审核',
+              '证书有效期1年，需年度更新'
+            ],
+            cost: '约 8,000-30,000 元人民币',
+            duration: '4-12 周',
+            tips: 'OEKO-TEX 100分四类，婴儿产品（I类）要求最严。OEKO-TEX是亚马逊上家纺、童装提升溢价的重要证书。续证需每年复审。',
+            link: 'https://www.oeko-tex.com/en/our-standards/oeko-tex-standard-100'
+          },
+          { 
+            id: 'flammable-textile',
+            name: '阻燃标准', 
+            fullName: 'Flammability Standards for Textiles',
+            level: 'required', 
+            desc: '特定纺织品需符合阻燃要求', 
+            agency: 'CPSC',
+            regulator: '美国消费品安全委员会 (CPSC)',
+            law: '16 CFR Part 1610 (服装纺织品一般阻燃), Part 1611 (乙烯基塑料), Part 1615/1616 (儿童睡衣)',
+            text: 'CPSC对纺织品阻燃性有详细法规要求。儿童睡衣（尺码0-14）有更严格的可燃性标准。',
+            scope: '所有服装、睡衣、某些家纺产品。',
+            requirements: [
+              '16 CFR 1610：服装纺织品一般阻燃',
+              '16 CFR 1615：儿童睡衣（尺码0-6X）',
+              '16 CFR 1616：儿童睡衣（尺码7-14）',
+              '测试方法：垂直燃烧 (Vertical Flammability Test)',
+              '样品：5个样本',
+              '阻燃标签要求（睡衣）',
+              'CPF要求（部分儿童睡衣）'
+            ],
+            cost: '约 5,000-15,000 元人民币',
+            duration: '3-6 周',
+            tips: '儿童睡衣阻燃要求最严，需垂直燃烧测试。普通服装只需水平测试。某些合成纤维材料天然阻燃较好，可减少阻燃剂使用。',
+            link: 'https://www.cpsc.gov/Regulations-Laws--Standards/Voluntary-Standards/Textile-and-Apparel'
+          }
         ]
       },
       automotive: {
         name: '汽车用品',
         keywords: ['汽车','车载','车用','车充','导航','记录仪','胎压','检测','维修','保养','清洁','内饰','外饰','改装','配件','零件','轮胎','机油','滤清器','刹车'],
         certs: [
-          { name: 'DOT认证', level: 'required', desc: '美国交通部认证，汽车零部件必须符合', agency: 'DOT (Department of Transportation)' },
-          { name: 'SAE标准', level: 'required', desc: '汽车工程师学会标准', agency: 'SAE International' },
-          { name: 'EPA认证', level: 'required', desc: '环保署认证，涉及排放的产品需符合', agency: 'EPA' },
-          { name: 'CARB认证', level: 'required', desc: '加州空气资源委员会认证', agency: 'CARB' }
+          { 
+            id: 'dot',
+            name: 'DOT认证', 
+            fullName: 'Department of Transportation Certification',
+            level: 'required', 
+            desc: '美国交通部认证，汽车零部件必须符合', 
+            agency: 'DOT',
+            regulator: '美国交通部 (DOT)',
+            law: '49 CFR Part 571 (FMVSS) + Vehicle Safety Act',
+            text: 'DOT依据《车辆安全法》对机动车辆和零部件实施安全管理。FMVSS (联邦机动车安全标准) 包含70多个具体标准。',
+            scope: '汽车安全相关零部件：轮胎、灯具、玻璃、安全带、刹车片、儿童座椅等。',
+            requirements: [
+              '符合49 CFR Part 571相关FMVSS标准',
+              '自我认证模式（Self-Certification）',
+              'DOT标志：标识在产品上',
+              '保存测试记录供审查',
+              '轮胎：DOT编码（生产日期、批次）',
+              '新车认证：制造商自我声明',
+              '进口商合规：符合FMVSS',
+              '召回责任（NHTSA监管）'
+            ],
+            cost: '约 30,000-200,000 元人民币',
+            duration: '3-12 个月',
+            tips: 'DOT是自我认证制，但NHTSA可对不合规产品进行召回处罚。汽车儿童安全座椅必须有DOT认证，并满足FMVSS 213标准。',
+            link: 'https://www.nhtsa.gov'
+          },
+          { 
+            id: 'sae',
+            name: 'SAE标准', 
+            fullName: 'SAE International Standards',
+            level: 'required', 
+            desc: '汽车工程师学会标准', 
+            agency: 'SAE',
+            regulator: 'SAE International (美国汽车工程师学会)',
+            law: 'SAE Standards (J系列等)',
+            text: 'SAE制定的技术标准是汽车行业的国际通用标准，涵盖材料、零部件、整车性能等。',
+            scope: '汽车零部件、材料、油液、电气系统等。',
+            requirements: [
+              '依据具体SAE标准进行测试',
+              '常用标准：',
+              '  - SAE J1344 (制动液)',
+              '  - SAE J300 (发动机油黏度)',
+              '  - SAE J1128 (低压初级电缆)',
+              '  - SAE J1739 (潜在失效分析)',
+              '产品标识需符合SAE规范',
+              '部分标准是OEM强制要求',
+              '工厂质量体系审查'
+            ],
+            cost: '约 10,000-100,000 元人民币',
+            duration: '3-12 个月',
+            tips: 'SAE标准本身是自愿的，但被OEM广泛采用。汽车配件进入美国市场，OEM客户通常会要求符合SAE标准。SAE标准是工程师的"工具书"。',
+            link: 'https://www.sae.org/standards'
+          },
+          { 
+            id: 'epa-auto',
+            name: 'EPA认证', 
+            fullName: 'EPA Certification for Vehicle and Engine',
+            level: 'required', 
+            desc: '环保署认证，涉及排放的产品需符合', 
+            agency: 'EPA',
+            regulator: '美国环保署 (EPA)',
+            law: 'Clean Air Act 42 U.S.C. § 7401 + 40 CFR Parts 79, 80, 85, 86',
+            text: '《清洁空气法》要求机动车辆和发动机符合EPA排放标准。EPA对新车、进口车、发动机油、燃料添加剂等都有要求。',
+            scope: '机动车辆、发动机、排放相关零部件、燃料/润滑油。',
+            requirements: [
+              '符合EPA排放标准（Tier 3/LEV III）',
+              '新车EPA认证（CO2, NOx, PM等）',
+              'OBD-II (On-Board Diagnostics) 系统',
+              'DEF (柴油机尾气处理液) 认证',
+              '润滑油API认证（如API SN, SN Plus）',
+              'E0-E85乙醇燃料系统兼容',
+              '进口车需符合EPA标准',
+              '测试报告保留至少5年'
+            ],
+            cost: '约 100,000-1,000,000 元人民币',
+            duration: '6-24 个月',
+            tips: 'EPA对发动机润滑油有API等级要求（SN/SN Plus/SP）。柴油机DEF必须有ISO 22241认证。改装车需额外EPA批准。',
+            link: 'https://www.epa.gov/vehicle-and-engine-certification'
+          },
+          { 
+            id: 'carb',
+            name: 'CARB认证', 
+            fullName: 'California Air Resources Board Certification',
+            level: 'required', 
+            desc: '加州空气资源委员会认证', 
+            agency: 'CARB',
+            regulator: '加州空气资源委员会 (CARB)',
+            law: 'California Health and Safety Code Division 26 + 13 CCR',
+            text: 'CARB的排放标准比EPA更严，加州销售的车辆必须额外符合CARB标准。目前有17个州采用CARB标准。',
+            scope: '机动车辆、发动机、售后零部件、消费品中的VOC排放。',
+            requirements: [
+              '符合CARB排放标准（LEV III）',
+              'CARB Executive Order (EO) 认证',
+              '售后零部件 (Aftermarket)：CARB EO',
+              '火花塞、油滤、空气滤清器等',
+              'OBD-II符合CARB',
+              '低排放车辆 (LEV) 标识',
+              '保修和召回程序',
+              '加州销售的所有车辆'
+            ],
+            cost: '约 50,000-500,000 元人民币',
+            duration: '6-18 个月',
+            tips: 'CARB认证是美国汽车产品最严标准之一。亚马逊上许多汽车后市场产品（机油添加剂、进气系统等）需要CARB EO。注意17个采用CARB的州。',
+            link: 'https://ww2.arb.ca.gov'
+          }
         ]
       },
       general: {
         name: '通用日用品',
         keywords: ['家居','日用','生活','收纳','清洁','工具','五金','文具','办公','运动','户外','宠物','礼品','装饰','摆件','钟表','眼镜','箱包','皮具','伞','风扇'],
         certs: [
-          { name: 'CPSC安全标准', level: 'required', desc: '消费品安全委员会通用安全要求', agency: 'CPSC' },
-          { name: 'ASTM标准', level: 'recommended', desc: '美国材料与试验协会相关标准', agency: 'ASTM' },
-          { name: '加州65号提案', level: 'required', desc: '在加州销售需注意有害物质警示', agency: 'California Prop 65' },
-          { name: '包装标签', level: 'required', desc: '产品包装需符合美国标签法规', agency: 'FTC/FDA等' }
+          { 
+            id: 'cpsc-general',
+            name: 'CPSC安全标准', 
+            fullName: 'CPSC Consumer Product Safety Standards',
+            level: 'required', 
+            desc: '消费品安全委员会通用安全要求', 
+            agency: 'CPSC',
+            regulator: '美国消费品安全委员会 (CPSC)',
+            law: 'Consumer Product Safety Act (CPSA) 15 U.S.C. §§ 2051-2089',
+            text: 'CPSA是1972年颁布的联邦法律，授权CPSC对消费品安全进行监管。所有消费品必须符合相关安全标准。',
+            scope: '所有消费品（食品、药品、医疗器械等另有监管的产品除外）。',
+            requirements: [
+              '产品不得存在不合理的安全风险',
+              '符合适用的ASTM/UL/CPSC标准',
+              '儿童产品：遵守CPSIA',
+              '电气产品：遵守UL/FCC等',
+              '禁止使用某些有害物质',
+              '小部件安全（3岁以下）',
+              '警告标签要求',
+              '报告义务：制造商/进口商发现产品有缺陷需报告CPSC',
+              '保存产品安全记录'
+            ],
+            cost: '约 5,000-30,000 元人民币',
+            duration: '4-12 周',
+            tips: 'CPSC对儿童产品监管最严。要求所有消费品需有General Conformity Certificate (GCC) 合格证书。亚马逊对CPSC违规产品可强制下架。',
+            link: 'https://www.cpsc.gov/Business--Manufacturing'
+          },
+          { 
+            id: 'astm-general',
+            name: 'ASTM标准', 
+            fullName: 'ASTM International Standards',
+            level: 'recommended', 
+            desc: '美国材料与试验协会相关标准', 
+            agency: 'ASTM',
+            regulator: 'ASTM International',
+            law: 'ASTM Standards (自愿标准，部分被法规引用)',
+            text: 'ASTM制定超过12,000个标准，涵盖各种产品的材料、测试方法、性能要求。许多ASTM标准被美国法规引用为强制要求。',
+            scope: '几乎所有产品类别。',
+            requirements: [
+              '按适用ASTM标准进行测试',
+              '常用标准：',
+              '  - ASTM F963 (玩具)',
+              '  - ASTM D5489 (纺织品护理)',
+              '  - ASTM D4169 (运输包装测试)',
+              '  - ASTM F2057 (家具稳定性)',
+              '测试报告',
+              '工厂质量控制',
+              '认证产品可标注ASTM符合性'
+            ],
+            cost: '约 5,000-50,000 元人民币',
+            duration: '4-12 周',
+            tips: 'ASTM标准是消费品行业的"圣经"，是质量保障的基础。许多亚马逊类目会推荐或要求ASTM标准。ASTM标准需购买，可在ASTM官网查询。',
+            link: 'https://www.astm.org'
+          },
+          { 
+            id: 'prop65-general',
+            name: '加州65号提案（通用）', 
+            fullName: 'California Proposition 65 (General Products)',
+            level: 'required', 
+            desc: '在加州销售需注意有害物质警示', 
+            agency: 'California OEHHA',
+            regulator: '加州环境健康风险评估办公室 (OEHHA)',
+            law: 'California Health and Safety Code § 25249.5-25249.14',
+            text: 'Prop 65是1986年加州通过的法案，要求含有致癌或生殖毒性化学物质的产品必须向消费者发出警告。',
+            scope: '所有在加州销售的产品。',
+            requirements: [
+              '检测产品中是否含有Prop 65清单化学品',
+              '若含有：必须贴Prop 65警告标签',
+              '2026年起使用新警告用语',
+              '产品标签 + 网站 + 线下陈列',
+              '保留化学品安全数据表 (SDS)',
+              '了解豁免产品（食品、药品等）',
+              '可选择使用"安全港"警告',
+              '产品出口商需确认'
+            ],
+            cost: '约 5,000-30,000 元人民币',
+            duration: '3-8 周',
+            tips: 'Prop 65是消费品诉讼的最大风险源之一。每年都有大量企业因Prop 65违规被诉。常见被警示的物质：铅、镉、邻苯二甲酸盐、甲醛。2026年8月起新警告格式生效。',
+            link: 'https://www.p65warnings.ca.gov'
+          },
+          { 
+            id: 'package-label',
+            name: '包装标签', 
+            fullName: 'FTC Packaging and Labeling Requirements',
+            level: 'required', 
+            desc: '产品包装需符合美国标签法规', 
+            agency: 'FTC',
+            regulator: '美国联邦贸易委员会 (FTC)',
+            law: 'FTC Act + Fair Packaging and Labeling Act (FPLA) 15 U.S.C. § 1451',
+            text: 'FPLA要求消费品必须如实标注产品信息：净含量、制造商信息、原产国、主要特征等。',
+            scope: '大多数消费品（食品、药品等另有规定）。',
+            requirements: [
+              '净含量 (Net Quantity)：使用公制和美制单位',
+              '制造商/分销商/进口商信息',
+              '原产国 (Country of Origin) - 必须明示',
+              '产品名称和功能描述',
+              '成分表（如适用）',
+              '使用说明和警告',
+              '条形码 (UPC)',
+              '包装不得误导消费者',
+              '环保标识（如FSC、可回收）',
+              '多语言标签 (英文为必需)'
+            ],
+            cost: '约 2,000-10,000 元人民币',
+            duration: '1-4 周',
+            tips: '原产国标注是FTC严查项目！必须使用"Product of [Country]"或"Made in [Country]"格式。包装合规是亚马逊品牌备案的基础。',
+            link: 'https://www.ftc.gov/enforcement/rules/rulemaking-regulatory-reform-proceedings/fair-packaging-and-labeling-act'
+          }
         ]
       }
     };
@@ -304,7 +1373,7 @@
 
       for (const cert of result.category.certs) {
         html += `
-          <div class="cert-card ${cert.level}">
+          <div class="cert-card ${cert.level}" onclick="showDetail('${cert.id}')">
             <div class="cert-header">
               <span class="cert-name">${cert.name}</span>
               <span class="cert-level ${cert.level}">${cert.level === 'required' ? '必需' : cert.level === 'recommended' ? '推荐' : '可选'}</span>
@@ -318,6 +1387,78 @@
       html += '</div>';
       container.innerHTML = html;
     }
+
+    function showDetail(certId) {
+      // Find the certification by ID
+      let foundCert = null;
+      for (const cat of Object.values(certDB)) {
+        for (const cert of cat.certs) {
+          if (cert.id === certId) {
+            foundCert = cert;
+            break;
+          }
+        }
+        if (foundCert) break;
+      }
+
+      if (!foundCert) return;
+
+      const levelText = foundCert.level === 'required' ? '必需认证' : 
+                       foundCert.level === 'recommended' ? '推荐认证' : '可选认证';
+      const levelClass = foundCert.level;
+
+      // Set modal content using textContent to avoid HTML injection
+      document.getElementById('modalTitle').textContent = foundCert.name;
+      document.getElementById('modalTitle').innerHTML = 
+        foundCert.name + `<span class="level-tag ${levelClass}">${levelText}</span>`;
+      document.getElementById('modalSubtitle').textContent = foundCert.fullName;
+      document.getElementById('modalRegulator').textContent = foundCert.regulator;
+      document.getElementById('modalLaw').textContent = foundCert.law;
+      document.getElementById('modalCost').textContent = foundCert.cost;
+      document.getElementById('modalDuration').textContent = foundCert.duration;
+      document.getElementById('modalLawText').textContent = foundCert.lawText;
+
+      // Scope
+      const scopeEl = document.getElementById('modalScope');
+      scopeEl.innerHTML = '';
+      const scopeP = document.createElement('div');
+      scopeP.textContent = foundCert.scope;
+      scopeEl.appendChild(scopeP);
+
+      // Requirements
+      const reqEl = document.getElementById('modalRequirements');
+      reqEl.innerHTML = '';
+      const reqList = document.createElement('ul');
+      for (const req of foundCert.requirements) {
+        const li = document.createElement('li');
+        li.textContent = req;
+        reqList.appendChild(li);
+      }
+      reqEl.appendChild(reqList);
+
+      // Tips
+      document.getElementById('modalTips').textContent = foundCert.tips;
+
+      // Link
+      const linkEl = document.getElementById('modalLink');
+      linkEl.href = foundCert.link;
+      linkEl.target = '_blank';
+      linkEl.rel = 'noopener noreferrer';
+
+      // Show modal
+      document.getElementById('modal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
 
     // Enter key support
     document.getElementById('searchInput').addEventListener('keypress', function(e) {
