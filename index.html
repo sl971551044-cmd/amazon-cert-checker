@@ -674,6 +674,35 @@
           }
         ]
       },
+      pesticide: {
+        name: '农药/驱虫产品',
+        keywords: ['驱蚊','驱虫','灭蚊','农药','杀虫','pesticide','insecticide','repellent'],
+        enKeywords: ['pesticide','insect repellent','bug spray','mosquito repellent','驱虫'],
+        certs: [
+          {
+            id: 'epa-pesticide',
+            name: 'EPA农药产品注册',
+            fullName: 'EPA Pesticide Registration (FIFRA)',
+            level: 'required',
+            desc: '在美国销售农药/驱虫产品必须取得EPA注册',
+            agency: 'EPA',
+            regulator: '美国环保署 (EPA)',
+            law: 'Federal Insecticide, Fungicide, and Rodenticide Act (FIFRA)',
+            lawText: 'FIFRA规定所有在美国销售或分销的农药产品必须在EPA注册。驱蚊剂、灭蚊灯、杀虫喷雾等均需EPA注册才能合法销售。',
+            scope: '驱蚊剂、灭蚊灯、杀虫喷雾、驱虫手环、蟑螂药、灭鼠剂等农药/生物农药类产品。',
+            requirements: [
+              'EPA农药注册申请（Active Ingredient申报）',
+              '产品标签须含EPA注册号和使用说明',
+              '遵守FIFRA Section 3/24(b)规定',
+              '境外生产商须指定美国代理人'
+            ],
+            cost: '注册费视产品而定（EPA本身不收费，服务代理费3,000-10,000元）',
+            duration: '6-12个月（FIFRA注册周期较长，建议提前申请）',
+            tips: '驱蚊手环、灭蚊灯等带有驱虫功能的产品99%需要EPA注册。纯精油/植物成分的驱蚊产品也有可能被豁免，但须查EPA豁免清单。务必在上市前完成注册，未注册被查到处罚很重。',
+            link: 'https://www.epa.gov/pesticides'
+          }
+        ]
+      },
       medical: {
         name: '医疗器械/保健',
         keywords: ['医疗','保健','健康','体温计','血压计','血糖仪','按摩','理疗','康复','护具','口罩','消毒','杀菌','检测','测试','诊断','治疗','器械'],
@@ -1065,7 +1094,92 @@
       { patterns: ['furniture','家具','table','desk','柜子'], certIds: ['cpsc-general','package-label'] },
       { patterns: ['smart watch','智能手表','smart band','手环'], certIds: ['fcc','ul'] },
       { patterns: ['drone','无人机','drone'], certIds: ['fcc','ul'] },
-      { patterns: ['medical mask','口罩','face mask'], certIds: ['fda-medical','package-label'] }
+      { patterns: ['medical mask','口罩','face mask'], certIds: ['fda-medical','package-label'] },
+      // ── 40+ 扩充产品映射 ──
+      { patterns: ['nose strip','鼻贴','痘痘贴','acne patch','pore strip','黑头贴'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['baby carrier','婴儿背带','背带','腰凳'], certIds: ['cpc','astm-f963','tracking-label'] },
+      { patterns: ['bicycle','bike','自行车','单车'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['bicycle helmet','自行车头盔','骑行头盔'], certIds: ['cpsc-general','cpc','astm-f963'] },
+      { patterns: ['bicycle pump','打气筒','充气泵'], certIds: ['fcc','cpsc-general'] },
+      { patterns: ['lighter','打火机','zippo'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['knee pad','护膝','knee brace','护具'], certIds: ['cpsc-general','fcc'] },
+      { patterns: ['waist trainer','减肥腰带','收腹带','束腰'], certIds: ['fda-medical','fcc','prop65'] },
+      { patterns: ['sports gear','运动护具','护腕','护肘','护踝'], certIds: ['cpsc-general'] },
+      { patterns: ['stroller','婴儿车','童车','推车'], certIds: ['cpc','astm-f963','tracking-label'] },
+      { patterns: ['crib','婴儿床','儿童床','摇篮'], certIds: ['cpc','astm-f963','tracking-label'] },
+      { patterns: ['diaper bag','妈咪包','尿布包'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['baby high chair','餐椅','儿童餐椅','婴儿餐椅'], certIds: ['cpc','astm-f963'] },
+      { patterns: ['car seat','安全座椅','儿童安全座椅','car safety seat'], certIds: ['cpc','astm-f963','tracking-label'] },
+      { patterns: ['baby monitor','婴儿监护仪','婴儿监控器'], certIds: ['fcc','ul','fda-medical'] },
+      { patterns: ['humidifier','加湿器','超声波加湿器'], certIds: ['fcc','ul','prop65'] },
+      { patterns: ['diffuser','香薰机','精油扩散器','aromatherapy'], certIds: ['fcc','ul','fda-cosmetic'] },
+      { patterns: ['electric kettle','电热水壶','电水壶','热水壶'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['coffee maker','咖啡机','espresso'], certIds: ['fcc','ul','doe','energy-star'] },
+      { patterns: ['blender','搅拌机','破壁机','榨汁机','juicer'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['toaster','烤面包机','吐司炉'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['microwave','微波炉'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['air fryer','空气炸锅','无油炸锅'], certIds: ['fcc','ul','doe','prop65'] },
+      { patterns: ['pressure cooker','高压锅','电压力锅','instant pot'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['rice cooker','电饭煲','电饭锅'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['hair dryer','吹风机','吹风机','hair dryer'], certIds: ['fcc','ul'] },
+      { patterns: ['straightener','直发器','直发板','卷发棒','curling iron'], certIds: ['fcc','ul','prop65'] },
+      { patterns: ['electric shaver','电动剃须刀','剃须刀'], certIds: ['fcc','ul'] },
+      { patterns: ['epilator','脱毛仪','女士脱毛器'], certIds: ['fcc','ul','fda-medical'] },
+      { patterns: ['neck massager','颈椎按摩仪','颈部按摩器'], certIds: ['fda-medical','fcc','ul'] },
+      { patterns: ['eye massager','眼部按摩仪','眼部按摩器'], certIds: ['fda-medical','fcc','ul'] },
+      { patterns: ['foot massager','足部按摩仪','足浴盆','脚部按摩器'], certIds: ['fda-medical','fcc','ul'] },
+      { patterns: ['tens machine','tens unit','经皮神经电刺激','止痛仪'], certIds: ['fda-medical','fcc'] },
+      { patterns: ['blood pressure monitor','血压计','血压仪'], certIds: ['fda-medical','fcc','ul-medical'] },
+      { patterns: ['blood glucose meter','血糖仪','血糖试纸'], certIds: ['fda-medical','fcc','ul-medical'] },
+      { patterns: ['thermometer','体温计','耳温枪','额温枪'], certIds: ['fda-medical','fcc'] },
+      { patterns: ['yoga mat','瑜伽垫','瑜伽垫子'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['resistance band','弹力带','拉力带','阻力带'], certIds: ['cpsc-general'] },
+      { patterns: ['treadmill','跑步机','健身车','椭圆机'], certIds: ['fcc','ul','cpsc-general'] },
+      { patterns: ['fishing gear','钓鱼装备','鱼竿','渔具'], certIds: ['cpsc-general'] },
+      { patterns: ['camping gear','露营装备','帐篷','睡袋'], certIds: ['cpsc-general'] },
+      { patterns: ['hiking backpack','登山包','户外背包','徒步背包'], certIds: ['cpsc-general'] },
+      { patterns: ['umbrella','雨伞','遮阳伞'], certIds: ['cpsc-general'] },
+      { patterns: ['suitcase','行李箱','旅行箱','拉杆箱'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['backpack','背包','学生背包','双肩包'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['handbag','手提包','单肩包','女包'], certIds: ['cpsc-general','package-label'] },
+      { patterns: ['watch','手表','钟表','smart watch'], certIds: ['fcc','cpsc-general'] },
+      { patterns: ['sunglasses','太阳镜','墨镜','眼镜'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['glasses','眼镜','眼镜框','镜片'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['lithium ion battery','锂离子电池','18650电池'], certIds: ['fcc','ul','dot'] },
+      { patterns: ['charger','充电器','充电线','充电头','usb charger'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['cable','数据线','充电线','usb cable','type-c'], certIds: ['fcc'] },
+      { patterns: ['desk lamp','台灯','led台灯','工作灯','task light'], certIds: ['ul-lighting','fcc-light','energy-star'] },
+      { patterns: ['bedside lamp','床头灯','夜灯','bedside light'], certIds: ['ul-lighting','fcc-light'] },
+      { patterns: ['string light','灯串','装饰灯','节日灯','fairy light'], certIds: ['ul-lighting','fcc-light'] },
+      { patterns: ['tape','胶带','绝缘胶带','封箱胶带','masking tape'], certIds: ['cpsc-general'] },
+      { patterns: ['bicycle lock','自行车锁','车锁','u lock'], certIds: ['cpsc-general'] },
+      { patterns: ['pet bed','宠物床','猫窝','狗窝'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['pet toy','宠物玩具','猫玩具','狗玩具'], certIds: ['cpsc-general','astm-f963'] },
+      { patterns: ['pet collar','宠物项圈','狗项圈','猫项圈'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['insect repellent','驱蚊','驱虫','灭蚊灯'], certIds: ['epa-pesticide','fda-cosmetic'] },
+      { patterns: ['sunscreen','防晒','防晒霜','sunblock'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['body lotion','身体乳','润肤乳','沐浴露','body wash'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['lip balm','润唇膏','唇膏','lip care'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['shaving cream','剃须膏','刮胡膏'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['detergent','洗洁精','洗衣液','清洁剂','detergent'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['cleaning cloth','清洁布','抹布','超细纤维布'], certIds: ['cpsc-general'] },
+      { patterns: ['hairbrush','梳子','发梳','hair comb'], certIds: ['cpsc-general','prop65'] },
+      { patterns: ['comb','梳子','发梳'], certIds: ['cpsc-general'] },
+      { patterns: ['toothbrush','牙刷','儿童牙刷'], certIds: ['fda-cosmetic','label-cosmetic'] },
+      { patterns: ['cotton swab','棉签','棉花棒','化妆棉'], certIds: ['fda-cosmetic'] },
+      { patterns: ['tissue','纸巾','面巾纸','湿巾','wet wipe'], certIds: ['cpsc-general'] },
+      { patterns: ['bandage','绷带','创可贴','创口贴','band-aid'], certIds: ['fda-medical'] },
+      { patterns: ['first aid kit','急救包','急救箱'], certIds: ['fda-medical','cpsc-general'] },
+      { patterns: ['flashlight','手电筒','手电','led flashlight'], certIds: ['fcc','ul'] },
+      { patterns: ['electric blanket','电热毯','电毯'], certIds: ['fcc','ul','doe'] },
+      { patterns: ['desk chair','办公椅','电脑椅','gaming chair'], certIds: ['cpsc-general'] },
+      { patterns: ['picture frame','相框','画框','装饰画'], certIds: ['cpsc-general'] },
+      { patterns: ['rug','地毯','地垫','脚垫','门垫'], certIds: ['ftc-textile','flammable-textile'] },
+      { patterns: ['towel','毛巾','浴巾','hand towel'], certIds: ['ftc-textile'] },
+      { patterns: ['pillow','枕头','枕芯','靠垫'], certIds: ['ftc-textile','prop65'] },
+      { patterns: ['curtain','窗帘','浴帘','shower curtain'], certIds: ['ftc-textile','flammable-textile'] },
+      { patterns: ['bicycle tire','自行车轮胎','车胎','bike tire'], certIds: ['dot','cpsc-general'] },
+      { patterns: ['bicycle helmet','骑行头盔'], certIds: ['cpsc-general','cpc','astm-f963'] }
     ];
 
     // ═══════════════════════════════════════════════════════════════
@@ -1105,51 +1219,85 @@
     // 搜索：产品映射表优先 → 分类关键词匹配 → fallback通用
     function searchProducts(query) {
       const q = query.toLowerCase().trim();
+      // 把查询词拆成单词（英文分词），用于模糊匹配
+      const qWords = q.split(/[\s,，、]+/).filter(w => w.length > 1);
       const matchedCerts = new Map(); // certId → cert object
+      const matchedCategories = [];
 
-      // 1. 先查产品映射表（精确匹配产品名）
+      // 1. 查产品映射表（支持：整词包含、单词匹配、倒置匹配）
       for (const entry of productMap) {
+        let hit = false;
         for (const pattern of entry.patterns) {
-          if (q === pattern.toLowerCase() || 
-              q.includes(pattern.toLowerCase()) || 
-              pattern.toLowerCase().includes(q)) {
-            // 命中产品映射表，使用预定义的认证列表
-            for (const certId of entry.certIds) {
-              const cert = findCertById(certId);
-              if (cert) matchedCerts.set(certId, cert);
+          const p = pattern.toLowerCase();
+          // 整词匹配：完全相等 或 query包含pattern 或 pattern包含query
+          if (q === p || q.includes(p) || p.includes(q)) {
+            hit = true; break;
+          }
+          // 英文分词：查询中任意单词与pattern匹配（解决 heating pad 不匹配 pad 的问题）
+          for (const word of qWords) {
+            if (word.length > 2 && (p.includes(word) || word === p)) {
+              hit = true; break;
             }
-            break;
+            // pattern中的单词也可以匹配query
+            const pWords = p.split(/[\s,]+/);
+            for (const pw of pWords) {
+              if (pw.length > 2 && (q.includes(pw) || pw.includes(q))) {
+                hit = true; break;
+              }
+            }
+            if (hit) break;
+          }
+          if (hit) break;
+        }
+        if (hit) {
+          for (const certId of entry.certIds) {
+            const cert = findCertById(certId);
+            if (cert) matchedCerts.set(certId, cert);
           }
         }
       }
 
-      // 2. 如果产品映射表结果不够，再按分类关键词匹配
-      const matchedCategories = [];
+      // 2. 按分类关键词匹配（作为补充，给出相关分类的认证）
       for (const [key, cat] of Object.entries(certDB)) {
         let score = 0;
-        // 中文关键词匹配
+        // 中文关键词匹配（完全包含）
         for (const kw of cat.keywords) {
-          if (q.includes(kw.toLowerCase())) score += kw.length;
+          if (q.includes(kw.toLowerCase())) score += kw.length * 2;
         }
-        // 英文关键词匹配
+        // 英文关键词匹配（支持分词模糊匹配）
         for (const kw of cat.enKeywords || []) {
-          if (q.includes(kw.toLowerCase())) score += kw.length * 1.5; // 英文权重略高
+          const kwLow = kw.toLowerCase();
+          if (q.includes(kwLow)) {
+            score += kwLow.length * 2;
+          } else {
+            // 单词级别的模糊匹配
+            for (const word of qWords) {
+              if (kwLow.includes(word) || word.includes(kwLow)) {
+                score += word.length;
+              }
+            }
+          }
         }
-        // 认证名称本身匹配
+        // 认证名称/ID匹配
         for (const cert of cat.certs) {
-          if (q.includes(cert.name.toLowerCase())) score += 5;
-          if (q.includes(cert.fullName.toLowerCase())) score += 10;
+          if (q.includes(cert.name.toLowerCase())) score += 8;
+          if (cert.id && q.includes(cert.id.toLowerCase())) score += 10;
+          // cert.fullName 英文部分匹配
+          const fnWords = cert.fullName.toLowerCase().split(/[\s,(]/);
+          for (const fw of fnWords) {
+            if (fw.length > 3 && q.includes(fw)) score += 3;
+          }
         }
         if (score > 0) {
           matchedCategories.push({ key, cat, score });
         }
       }
 
-      // 按匹配度排序
+      // 按匹配度排序，取前4个分类
       matchedCategories.sort((a, b) => b.score - a.score);
-      const topMatch = matchedCategories.slice(0, 3); // 显示最多3个分类
+      const topMatch = matchedCategories.slice(0, 4);
 
-      // 从分类匹配中收集认证（去重）
+      // 从相关分类中补充认证（去重，已在productMap中的不重复加）
       for (const { cat } of topMatch) {
         for (const cert of cat.certs) {
           if (!matchedCerts.has(cert.id)) {
@@ -1159,15 +1307,20 @@
       }
 
       // 3. 如果完全没有匹配，用通用分类
-      if (matchedCerts.size === 0 && matchedCategories.length === 0) {
+      if (matchedCerts.size === 0) {
         for (const cert of certDB.general.certs) {
           matchedCerts.set(cert.id, cert);
+        }
+        if (matchedCategories.length === 0) {
+          matchedCategories.push({ key: 'general', cat: certDB.general, score: 0 });
         }
       }
 
       return {
         certs: Array.from(matchedCerts.values()),
-        categories: matchedCategories.length > 0 ? matchedCategories.map(m => ({ key: m.key, name: m.cat.name, score: m.score })) : [{ key: 'general', name: certDB.general.name, score: 0 }],
+        categories: matchedCategories.length > 0
+          ? matchedCategories.map(m => ({ key: m.key, name: m.cat.name, score: m.score }))
+          : [{ key: 'general', name: certDB.general.name, score: 0 }],
         firstCategoryKey: matchedCategories.length > 0 ? matchedCategories[0].key : 'general'
       };
     }
