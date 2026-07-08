@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>亚马逊美国站产品认证查询</title>
+  <title>亚马逊多国产品认证查询</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -12,15 +12,8 @@
       min-height: 100vh;
       padding: 20px;
     }
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-    header {
-      text-align: center;
-      padding: 40px 20px;
-      color: white;
-    }
+    .container { max-width: 960px; margin: 0 auto; }
+    header { text-align: center; padding: 40px 20px; color: white; }
     header h1 { font-size: 2.5rem; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
     header p { font-size: 1.1rem; opacity: 0.9; }
     header p small { display: block; font-size: 0.85rem; opacity: 0.7; margin-top: 4px; }
@@ -31,11 +24,7 @@
       margin-bottom: 20px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     }
-    .input-group {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 15px;
-    }
+    .input-group { display: flex; gap: 12px; margin-bottom: 15px; }
     input[type="text"] {
       flex: 1;
       padding: 16px 24px;
@@ -77,100 +66,138 @@
       display: none;
     }
     .results.show { display: block; }
-    .category-badge {
-      display: inline-block;
-      padding: 8px 16px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 12px;
-    }
-    .category-note {
-      font-size: 0.85rem;
-      color: #888;
-      margin-bottom: 18px;
-      padding: 10px 14px;
-      background: #f8f9fa;
-      border-radius: 10px;
-    }
-    .cert-grid { display: grid; gap: 15px; }
-    .cert-card {
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 20px;
-      transition: all 0.3s;
-      cursor: pointer;
-      position: relative;
-    }
-    .cert-card:hover { 
-      border-color: #667eea; 
-      transform: translateX(5px);
-      box-shadow: 0 4px 12px rgba(102,126,234,0.2);
-    }
-    .cert-card::after {
-      content: '查看详情 →';
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #667eea;
-      font-size: 0.85rem;
-      font-weight: 600;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .cert-card:hover::after { opacity: 1; }
-    .cert-card.required { border-left: 4px solid #e74c3c; }
-    .cert-card.recommended { border-left: 4px solid #f39c12; }
-    .cert-card.conditional { border-left: 4px solid #3498db; }
-    .cert-card.optional { border-left: 4px solid #27ae60; }
-    .cert-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 10px;
-      padding-right: 80px;
-      gap: 8px;
-    }
-    .cert-name { font-size: 1.2rem; font-weight: 700; color: #333; }
-    .cert-level {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-    .cert-level.required { background: #ffebee; color: #c62828; }
-    .cert-level.recommended { background: #fff3e0; color: #e65100; }
-    .cert-level.conditional { background: #e3f2fd; color: #1565c0; }
-    .cert-level.optional { background: #e8f5e9; color: #2e7d32; }
-    .cert-desc { color: #666; line-height: 1.6; margin-bottom: 10px; }
-    .cert-agency { font-size: 0.85rem; color: #999; }
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: #666;
-    }
+    .empty-state { text-align: center; padding: 60px 20px; color: #666; }
     .empty-state .icon { font-size: 4rem; margin-bottom: 20px; }
     .empty-state h3 { font-size: 1.3rem; margin-bottom: 10px; color: #333; }
-    footer {
-      text-align: center;
-      padding: 40px;
-      color: rgba(255,255,255,0.7);
-      font-size: 0.9rem;
+    footer { text-align: center; padding: 40px; color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+
+    /* Country Tabs */
+    .country-tabs { display: flex; gap: 6px; margin: 16px 0 0 0; flex-wrap: wrap; }
+    .country-tab {
+      padding: 8px 16px;
+      border: 2px solid #ddd;
+      border-radius: 24px;
+      background: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: #555;
+      transition: all 0.2s;
+      box-shadow: none;
+      transform: none;
+    }
+    .country-tab:hover { border-color: #1976d2; color: #1976d2; transform: none; }
+    .country-tab.active {
+      background: linear-gradient(135deg, #1976d2, #1565c0);
+      border-color: #1565c0;
+      color: white;
+      box-shadow: 0 2px 8px rgba(25,118,210,0.3);
     }
 
-    /* Modal styles */
-    .modal-overlay {
+    /* Result Header */
+    .result-header {
+      background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+    .result-title { font-size: 20px; font-weight: 700; color: #1a237e; margin-bottom: 6px; }
+    .result-regulations {
+      font-size: 12px;
+      color: #1565c0;
+      background: #e3f2fd;
+      padding: 3px 10px;
+      border-radius: 12px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+    .result-note { font-size: 13px; color: #555; margin-bottom: 8px; }
+    .result-meta { font-size: 13px; color: #777; }
+    .badge-count { background: #1976d2; color: white; border-radius: 10px; padding: 1px 8px; font-weight: 600; }
+    .cat-tag { background: #7b1fa2; color: white; border-radius: 10px; padding: 1px 8px; font-size: 12px; }
+
+    /* Cert Cards */
+    .cert-list { display: flex; flex-direction: column; gap: 12px; }
+    .cert-card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s;
+    }
+    .cert-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .cert-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .cert-name { font-size: 16px; font-weight: 700; color: #1a237e; }
+    .cert-fullname { font-size: 12px; color: #666; margin-bottom: 8px; font-style: italic; }
+    .cert-desc { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 8px; }
+    .cert-meta { font-size: 12px; color: #888; }
+    .cert-meta span { background: #f5f5f5; padding: 1px 6px; border-radius: 4px; color: #333; }
+    .level-required { background: #e8f5e9; color: #2e7d32; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+    .level-warning { background: #fff8e1; color: #f57f17; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+    .level-conditional { background: #e3f2fd; color: #1565c0; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+
+    /* GCC Button */
+    .gcc-btn-wrap { margin-top: 10px; }
+    .gcc-btn {
+      background: linear-gradient(135deg, #ff6f00, #ff8f00);
+      color: white;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(255,111,0,0.3);
+      transition: all 0.2s;
+    }
+    .gcc-btn:hover { background: linear-gradient(135deg, #ff8f00, #ffa000); box-shadow: 0 4px 12px rgba(255,111,0,0.4); transform: translateY(-1px); }
+
+    /* GCC Form */
+    .gcc-form { background: #f8f9fa; border-radius: 10px; padding: 16px; }
+    .gcc-form .form-group { margin-bottom: 12px; }
+    .gcc-form label { display: block; font-size: 13px; font-weight: 600; color: #333; margin-bottom: 4px; }
+    .gcc-form input, .gcc-form textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .gcc-form input:focus, .gcc-form textarea:focus { outline: none; border-color: #1976d2; box-shadow: 0 0 0 2px rgba(25,118,210,0.1); }
+    .gcc-form textarea { resize: vertical; }
+
+    /* Doc Preview */
+    .doc-title { font-size: 20px; font-weight: bold; text-align: center; border-bottom: 2px solid #222; padding-bottom: 10px; margin-bottom: 6px; }
+    .doc-subtitle { text-align: center; color: #555; font-size: 12px; margin-bottom: 24px; }
+    .doc-section { margin-bottom: 16px; }
+    .doc-section-title { font-weight: bold; font-size: 13px; border-bottom: 1px solid #ccc; padding: 5px 8px; background: #f8f8f8; margin-bottom: 8px; }
+    .doc-table { width: 100%; border-collapse: collapse; }
+    .doc-table td { padding: 4px 8px; border: 1px solid #ddd; font-size: 13px; }
+    .doc-table td:first-child { width: 30%; font-weight: bold; background: #fafafa; }
+    .doc-list { padding-left: 20px; }
+    .doc-list li { margin-bottom: 4px; font-size: 13px; }
+    .doc-footer { border-top: 1px solid #ccc; padding-top: 10px; margin-top: 20px; font-size: 11px; color: #999; text-align: center; line-height: 1.8; }
+    .doc-actions { margin: 20px 0; text-align: center; padding: 16px; background: #f5f5f5; border-radius: 8px; }
+    .doc-actions button { margin: 0 6px; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+    .btn-primary { background: linear-gradient(135deg, #1976d2, #1565c0); color: white; font-weight: 600; box-shadow: 0 2px 6px rgba(25,118,210,0.3); }
+    .btn-primary:hover { box-shadow: 0 4px 12px rgba(25,118,210,0.4); transform: translateY(-1px); }
+    .btn-secondary { background: #f5f5f5; color: #333; }
+    .btn-secondary:hover { background: #eeeeee; }
+
+    /* AI Spinner */
+    .ai-spinner { width: 36px; height: 36px; margin: 0 auto; border: 3px solid #e3f2fd; border-top: 3px solid #1976d2; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* GCC Modal (single, correct) */
+    .modal {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0,0,0,0.6);
       z-index: 1000;
       justify-content: center;
@@ -179,221 +206,54 @@
       overflow-y: auto;
       animation: fadeIn 0.3s ease;
     }
-    .modal-overlay.show { display: flex; }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    .modal {
+    .modal.show { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal-content {
       background: white;
       border-radius: 20px;
       max-width: 700px;
       width: 100%;
       margin: 20px auto;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      animation: slideUp 0.3s ease;
       overflow: hidden;
     }
-    @keyframes slideUp {
-      from { transform: translateY(30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
     .modal-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #1976d2, #1565c0);
       color: white;
       padding: 24px 30px;
       position: relative;
     }
+    .modal-title { font-size: 1.4rem; font-weight: 700; padding-right: 40px; }
     .modal-close {
       position: absolute;
-      top: 16px;
-      right: 16px;
+      top: 16px; right: 16px;
       background: rgba(255,255,255,0.2);
       border: none;
       color: white;
       font-size: 1.5rem;
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       border-radius: 50%;
       cursor: pointer;
       line-height: 1;
       padding: 0;
     }
     .modal-close:hover { background: rgba(255,255,255,0.3); }
-    .modal-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
-    .modal-subtitle { font-size: 0.95rem; opacity: 0.9; }
     .modal-body { padding: 30px; }
-    .modal-section { margin-bottom: 24px; }
-    .modal-section:last-child { margin-bottom: 0; }
-    .section-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #667eea;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-content {
-      color: #444;
-      line-height: 1.7;
-      font-size: 0.95rem;
-    }
-    .section-content ul { padding-left: 20px; margin-top: 6px; }
-    .section-content li { margin-bottom: 4px; }
-    .modal-meta {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      padding: 16px;
-      background: #f8f9fa;
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
-    .meta-item { font-size: 0.85rem; }
-    .meta-label { color: #999; margin-bottom: 2px; }
-    .meta-value { color: #333; font-weight: 600; }
-    .modal-link {
-      display: inline-block;
-      padding: 10px 20px;
-      background: #667eea;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-top: 8px;
-      transition: background 0.2s;
-    }
-    .modal-link:hover { background: #5568d3; }
-    .level-tag {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-left: 8px;
-    }
-    .level-tag.required { background: #ffebee; color: #c62828; }
-    .level-tag.recommended { background: #fff3e0; color: #e65100; }
-    .level-tag.conditional { background: #e3f2fd; color: #1565c0; }
-    .level-tag.optional { background: #e8f5e9; color: #2e7d32; }
-
-
-    
-    
-    
-    
-    
-    
-    .hs-btn:hover {
-      transform: translateY(-2px) !important;
-      box-shadow: 0 8px 20px rgba(0,137,123,0.4) !important;
-    }
-    
-    
-    .hs-tag:hover { background: #00897b; color: white; }
-    
-    .hs-result.show { display: block; }
-    
-    
-    
-    
-    
-    
-    .hs-products strong { color: #00695c; }
-    
-    
-    .hs-cert-chip.required { background: #ffebee; color: #c62828; border-color: #ef9a9a; }
-    .hs-cert-chip.recommended { background: #fff3e0; color: #e65100; border-color: #ffcc80; }
-    .hs-cert-chip.conditional { background: #e3f2fd; color: #1565c0; border-color: #90caf9; }
-    .hs-cert-chip.optional { background: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
-    .hs-cert-chip:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
-    
-    .hs-empty .icon { font-size: 2.5rem; margin-bottom: 10px; }
-    
-    @media (max-width: 600px) {
-      
-    }
+    .modal-footer { padding: 0 30px 24px; text-align: right; }
 
     @media (max-width: 600px) {
       header h1 { font-size: 1.8rem; }
       .input-group { flex-direction: column; }
-      .cert-card::after { display: none; }
-      .cert-header { padding-right: 0; }
       .modal-body { padding: 20px; }
-      .modal-meta { grid-template-columns: 1fr; }
     }
   </style>
-<style>
-/* Country Tabs */
-.country-tabs { display:flex; gap:6px; margin:12px 0 0 0; flex-wrap:wrap; }
-.country-tab { padding:8px 16px; border:2px solid #ddd; border-radius:24px; background:white; cursor:pointer; font-size:14px; font-weight:500; color:#555; transition:all 0.2s; }
-.country-tab:hover { border-color:#1976d2; color:#1976d2; }
-.country-tab.active { background:linear-gradient(135deg,#1976d2,#1565c0); border-color:#1565c0; color:white; box-shadow:0 2px 8px rgba(25,118,210,0.3); }
-/* Result Header */
-.result-header { background:linear-gradient(135deg,#e3f2fd,#f3e5f5); border-radius:12px; padding:16px 20px; margin-bottom:16px; }
-.result-title { font-size:20px; font-weight:700; color:#1a237e; margin-bottom:6px; }
-.result-regulations { font-size:12px; color:#1565c0; background:#e3f2fd; padding:3px 10px; border-radius:12px; display:inline-block; margin-bottom:6px; }
-.result-note { font-size:13px; color:#555; margin-bottom:8px; }
-.result-meta { font-size:13px; color:#777; }
-.badge-count { background:#1976d2; color:white; border-radius:10px; padding:1px 8px; font-weight:600; }
-.cat-tag { background:#7b1fa2; color:white; border-radius:10px; padding:1px 8px; font-size:12px; }
-/* Cert Cards */
-.cert-list { display:flex; flex-direction:column; gap:12px; }
-.cert-card { background:white; border:1px solid #e0e0e0; border-radius:12px; padding:16px 20px; box-shadow:0 1px 4px rgba(0,0,0,0.06); transition:box-shadow 0.2s; }
-.cert-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.1); }
-.cert-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
-.cert-name { font-size:16px; font-weight:700; color:#1a237e; }
-.cert-fullname { font-size:12px; color:#666; margin-bottom:8px; font-style:italic; }
-.cert-desc { font-size:13px; color:#444; line-height:1.6; margin-bottom:8px; }
-.cert-meta { font-size:12px; color:#888; }
-.cert-meta span { background:#f5f5f5; padding:1px 6px; border-radius:4px; color:#333; }
-.level-required { background:#e8f5e9; color:#2e7d32; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; }
-.level-warning { background:#fff8e1; color:#f57f17; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; }
-.level-conditional { background:#e3f2fd; color:#1565c0; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; }
-/* GCC Button */
-.gcc-btn-wrap { margin-top:10px; }
-.gcc-btn { background:linear-gradient(135deg,#ff6f00,#ff8f00); color:white; border:none; padding:9px 18px; border-radius:20px; cursor:pointer; font-size:14px; font-weight:600; box-shadow:0 2px 8px rgba(255,111,0,0.3); transition:all 0.2s; }
-.gcc-btn:hover { background:linear-gradient(135deg,#ff8f00,#ffa000); box-shadow:0 4px 12px rgba(255,111,0,0.4); transform:translateY(-1px); }
-/* GCC Form */
-.gcc-form { background:#f8f9fa; border-radius:10px; padding:16px; }
-.gcc-form .form-group { margin-bottom:12px; }
-.gcc-form label { display:block; font-size:13px; font-weight:600; color:#333; margin-bottom:4px; }
-.gcc-form input, .gcc-form textarea { width:100%; box-sizing:border-box; padding:8px 12px; border:1px solid #ddd; border-radius:8px; font-size:13px; font-family:inherit; transition:border-color 0.2s; }
-.gcc-form input:focus, .gcc-form textarea:focus { outline:none; border-color:#1976d2; box-shadow:0 0 0 2px rgba(25,118,210,0.1); }
-.gcc-form textarea { resize:vertical; }
-/* Doc Preview */
-.doc-title { font-size:20px; font-weight:bold; text-align:center; border-bottom:2px solid #222; padding-bottom:10px; margin-bottom:6px; }
-.doc-subtitle { text-align:center; color:#555; font-size:12px; margin-bottom:24px; }
-.doc-section { margin-bottom:16px; }
-.doc-section-title { font-weight:bold; font-size:13px; border-bottom:1px solid #ccc; padding:5px 8px; background:#f8f8f8; margin-bottom:8px; }
-.doc-table { width:100%; border-collapse:collapse; }
-.doc-table td { padding:4px 8px; border:1px solid #ddd; font-size:13px; }
-.doc-table td:first-child { width:30%; font-weight:bold; background:#fafafa; }
-.doc-list { padding-left:20px; }
-.doc-list li { margin-bottom:4px; font-size:13px; }
-.doc-footer { border-top:1px solid #ccc; padding-top:10px; margin-top:20px; font-size:11px; color:#999; text-align:center; line-height:1.8; }
-.doc-actions { margin:20px 0; text-align:center; padding:16px; background:#f5f5f5; border-radius:8px; }
-.doc-actions button { margin:0 6px; padding:8px 16px; border:none; border-radius:6px; cursor:pointer; font-size:14px; }
-.btn-primary { background:linear-gradient(135deg,#1976d2,#1565c0); color:white; font-weight:600; box-shadow:0 2px 6px rgba(25,118,210,0.3); }
-.btn-primary:hover { box-shadow:0 4px 12px rgba(25,118,210,0.4); transform:translateY(-1px); }
-.btn-secondary { background:#f5f5f5; color:#333; }
-.btn-secondary:hover { background:#eeeeee; }
-/* AI Spinner */
-.ai-spinner { width:36px; height:36px; margin:0 auto; border:3px solid #e3f2fd; border-top:3px solid #1976d2; border-radius:50%; animation:spin 0.8s linear infinite; }
-@keyframes spin { to{transform:rotate(360deg);} }
-/* Modal */
-.modal-cert-detail p { margin:6px 0; font-size:14px; }
-
-</style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🔍 亚马逊美国站产品认证查询</h1>
-      <p>输入产品名称（中英文均可），查询出口美国所需认证</p>
-      <p><small>⚠️ 认证是否为强制/必需完全取决于产品具体属性和销售渠道，结果仅供参考</small></p>
+      <h1>🌍 亚马逊多国产品认证查询</h1>
+      <p>输入产品名称（中英文均可），查询出口各国所需认证</p>
+      <p><small>⚠️ 认证是否强制完全取决于产品具体属性和销售渠道，结果仅供参考</small></p>
     </header>
 
     <div class="search-box">
@@ -401,108 +261,48 @@
         <input type="text" id="searchInput" placeholder="输入产品名称，中英文均可，如：heating pad、蓝牙耳机、LED light..." onkeydown="if(event.key==='Enter') search()">
         <button onclick="search()">查询认证</button>
       </div>
-      
-  <div class="country-tabs">
-    <button class="country-tab active" data-country="US" onclick="switchCountry('US')">US</button>
-    <button class="country-tab" data-country="EU" onclick="switchCountry('EU')">EU</button>
-    <button class="country-tab" data-country="UK" onclick="switchCountry('UK')">UK</button>
-    <button class="country-tab" data-country="JP" onclick="switchCountry('JP')">JP</button>
-    <button class="country-tab" data-country="CA" onclick="switchCountry('CA')">CA</button>
-  </div>
-<div class="tags">
+      <div class="tags">
         <span class="tag" onclick="quickSearch('蓝牙耳机')">蓝牙耳机</span>
         <span class="tag" onclick="quickSearch('儿童玩具')">儿童玩具</span>
         <span class="tag" onclick="quickSearch('LED灯')">LED灯</span>
         <span class="tag" onclick="quickSearch('充电宝')">充电宝</span>
         <span class="tag" onclick="quickSearch('heating pad')">heating pad</span>
         <span class="tag" onclick="quickSearch('护肤品')">护肤品</span>
+        <span class="tag" onclick="quickSearch('水枪')">水枪</span>
+        <span class="tag" onclick="quickSearch('宠物玩具')">宠物玩具</span>
+      </div>
+      <div class="country-tabs">
+        <button class="country-tab active" data-country="US" onclick="switchCountry('US')">US 🇺🇸</button>
+        <button class="country-tab" data-country="EU" onclick="switchCountry('EU')">EU 🇪🇺</button>
+        <button class="country-tab" data-country="UK" onclick="switchCountry('UK')">UK 🇬🇧</button>
+        <button class="country-tab" data-country="JP" onclick="switchCountry('JP')">JP 🇯🇵</button>
+        <button class="country-tab" data-country="CA" onclick="switchCountry('CA')">CA 🇨🇦</button>
       </div>
     </div>
 
-    
-    <!-- HS Code 编码查询 -->
-<div class="results" id="results">
-      <!-- Results will be inserted here -->
-    </div>
+    <div class="results" id="results"></div>
 
     <footer>
       <p>数据仅供参考，具体认证要求请以亚马逊官方政策和目标市场法规为准</p>
-      <p style="margin-top:8px">© 2025 亚马逊认证助手</p>
+      <p style="margin-top:8px">© 2025 亚马逊认证助手 · 支持 US / EU / UK / JP / CA</p>
     </footer>
   </div>
 
-  <!-- Modal -->
-  <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
-    <div class="modal">
+  <!-- Single GCC modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
       <div class="modal-header">
+        <div id="modal-title" class="modal-title"></div>
         <button class="modal-close" onclick="closeModal()">×</button>
-        <div class="modal-title" id="modalTitle"></div>
-        <div class="modal-subtitle" id="modalSubtitle"></div>
       </div>
-      <div class="modal-body">
-        <div class="modal-meta">
-          <div class="meta-item">
-            <div class="meta-label">监管机构</div>
-            <div class="meta-value" id="modalRegulator"></div>
-          </div>
-          <div class="meta-item">
-            <div class="meta-label">法律依据</div>
-            <div class="meta-value" id="modalLaw"></div>
-          </div>
-          <div class="meta-item">
-            <div class="meta-label">预估费用</div>
-            <div class="meta-value" id="modalCost"></div>
-          </div>
-          <div class="meta-item">
-            <div class="meta-label">办理周期</div>
-            <div class="meta-value" id="modalDuration"></div>
-          </div>
-        </div>
-
-        <div class="modal-section">
-          <div class="section-title">📜 法规依据</div>
-          <div class="section-content" id="modalLawText"></div>
-        </div>
-
-        <div class="modal-section">
-          <div class="section-title">📋 适用产品范围</div>
-          <div class="section-content" id="modalScope"></div>
-        </div>
-
-        <div class="modal-section">
-          <div class="section-title">✅ 核心要求</div>
-          <div class="section-content" id="modalRequirements"></div>
-        </div>
-
-        <div class="modal-section">
-          <div class="section-title">💡 办理建议</div>
-          <div class="section-content" id="modalTips"></div>
-        </div>
-
-        <div class="modal-section">
-          <a id="modalLink" class="modal-link" href="#" target="_blank">🔗 查看官方信息</a>
-        </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button id="modal-ok-btn" class="btn-secondary" onclick="closeModal()">关闭</button>
       </div>
     </div>
   </div>
 
- <!-- Cert Modal -->
-<div id="modal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div id="modal-title" class="modal-title"></div>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
-    <div class="modal-body"></div>
-    <div class="modal-footer">
-      <button id="modal-ok-btn" class="btn-secondary" onclick="closeModal()">关闭</button>
-    </div>
-  </div>
-</div>
-
-</body>
-</html>
-<script>
+  <script>
 productMap = [
   { patterns: ['水枪',
     '玩具枪',
@@ -2253,8 +2053,7 @@ const enKeywordCertMap = {
       return null;
     }
 
-    // 搜索：产品映射表优先 → 分类关键词匹配 → fallback通用
-
+    // 搜索：产品映射表优先 → 分类关键词匹配 → fallback通用;
 const countryDB = {
   US: {
     name: "美国 Amazon", flag: "🇺🇸",
@@ -2369,8 +2168,6 @@ const countryProductMap = {
   'auto-general':    {US:['fcc'],EU:['ce','eu-authorized'],UK:['ukca','uk-authorized'],JP:['pse-b'],CA:['ised-sdoc']},
   'pet-general':     {US:['cpsia','cpsc'],EU:['ce','gspr','eu-authorized'],UK:['ukca','uk-authorized'],JP:['psc'],CA:['sor-test']},
 };
-
-
 var currentCountry = 'US';
 
 function switchCountry(c) {
@@ -2436,8 +2233,6 @@ function searchProducts(query) {
   for (var id in matchedCerts) certs.push(matchedCerts[id]);
   return { certs: certs, categories: matchedCategories };
 }
-
-
 function escHtml(str) {
   if (!str) return '';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -2490,8 +2285,6 @@ function displayResults(query) {
   html += '</div>';
   container.innerHTML = html;
 }
-
-
 var _gcd = null;
 function openGccModal(certId, certName) {
   _gcd = { certId: certId, certName: certName };
@@ -2727,114 +2520,6 @@ function closeModal() {
   if (modal) modal.classList.remove('show');
   document.body.style.overflow = '';
 }
-
-
-function displayResults(query) {
-      const container = document.getElementById('results');
-      container.classList.add('show');
-
-      const result = searchProducts(query);
-      const certs = result.certs;
-
-      if (certs.length === 0) {
-        container.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><h3>未找到匹配结果</h3><p>试试其他关键词，如：蓝牙耳机、儿童玩具、LED灯</p></div>';
-        return;
-      }
-
-      // 构建分类标签
-      const catHtml = result.categories.map(c => 
-        `<span class="category-badge" style="margin-right: 8px; margin-bottom: 8px; display: inline-block;">${c.name}</span>`
-      ).join('');
-
-      const catNames = result.categories.map(c => c.name).join('、');
-      const noteHtml = `<div class="category-note">匹配分类：${catNames}（共${certs.length}个相关认证）</div>`;
-
-      let gridHtml = '<div class="cert-grid">';
-      for (const cert of certs) {
-        const levelLabel = cert.level === 'required' ? '必需' : 
-                           cert.level === 'conditional' ? '视产品而定' :
-                           cert.level === 'recommended' ? '推荐' : '可选';
-        gridHtml += `
-          <div class="cert-card ${cert.level}" onclick="showDetail('${cert.id}')">
-            <div class="cert-header">
-              <span class="cert-name">${cert.name}</span>
-              <span class="cert-level ${cert.level}">${levelLabel}</span>
-            </div>
-            <div class="cert-desc">${cert.desc}</div>
-            <div class="cert-agency">监管机构: ${cert.agency}</div>
-          </div>
-        `;
-      }
-      gridHtml += '</div>';
-
-      container.innerHTML = catHtml + noteHtml + gridHtml;
-    }
-
-    function showDetail(certId) {
-      const cert = findCertById(certId);
-      if (!cert) return;
-
-      const levelText = cert.level === 'required' ? '必需认证' : 
-                        cert.level === 'conditional' ? '视产品而定' :
-                        cert.level === 'recommended' ? '推荐认证' : '可选认证';
-      const levelClass = cert.level;
-
-      document.getElementById('modalTitle').textContent = cert.name;
-      document.getElementById('modalTitle').innerHTML = 
-        cert.name + `<span class="level-tag ${levelClass}">${levelText}</span>`;
-      document.getElementById('modalSubtitle').textContent = cert.fullName;
-      document.getElementById('modalRegulator').textContent = cert.regulator;
-      document.getElementById('modalLaw').textContent = cert.law;
-      document.getElementById('modalCost').textContent = cert.cost;
-      document.getElementById('modalDuration').textContent = cert.duration;
-      document.getElementById('modalLawText').textContent = cert.lawText;
-
-      const scopeEl = document.getElementById('modalScope');
-      scopeEl.innerHTML = '';
-      const scopeP = document.createElement('div');
-      scopeP.textContent = cert.scope;
-      scopeEl.appendChild(scopeP);
-
-      const reqEl = document.getElementById('modalRequirements');
-      reqEl.innerHTML = '';
-      const reqList = document.createElement('ul');
-      for (const req of cert.requirements) {
-        const li = document.createElement('li');
-        li.textContent = req;
-        reqList.appendChild(li);
-      }
-      reqEl.appendChild(reqList);
-
-      document.getElementById('modalTips').textContent = cert.tips || '';
-
-      const linkEl = document.getElementById('modalLink');
-      if (cert.link) {
-        linkEl.href = cert.link;
-        linkEl.target = '_blank';
-        linkEl.rel = 'noopener noreferrer';
-        linkEl.style.display = 'inline-block';
-      } else {
-        linkEl.style.display = 'none';
-      }
-
-      document.getElementById('modal').classList.add('show');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      document.getElementById('modal').classList.remove('show');
-      document.body.style.overflow = '';
-    }
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeModal();
-    });
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // 格式：hsCode 前缀 | certIds 认证ID列表 | products 示例品名
-    // ═══════════════════════════════════════════════════════════════════════
-
-    // ═══════════════════════════════════════════════════════════════════════
-    // ═══════════════════════════════════════════════════════════════════════
-
-</script>
+  </script>
+</body>
+</html>
